@@ -34,3 +34,7 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Security Warning
+
+**IMPORTANT:** If any secrets (such as database credentials, API keys, or admin passwords) were previously hardcoded in this codebase, those values still exist in the Git history. You MUST rotate and change any previously hardcoded secrets immediately before deploying to production. Do not rely on removing them from the current working tree, as they can still be accessed via past commits.

@@ -39,3 +39,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# uploads (use Cloudinary instead)
+/public/uploads/
+
+# test scripts
+test-cloud.mjs
+test-cloudinary.js
