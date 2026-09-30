@@ -42,15 +42,17 @@ export default function Hero({ settings }: { settings: any }) {
         >
           {hero.showProfileImage && (
             <motion.div variants={itemVariants} className="mb-8 relative group">
-              <div className="absolute -inset-0.5 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full opacity-50 group-hover:opacity-100 transition duration-500 blur-sm"></div>
-              <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-2 border-[#111827] bg-card">
-                <Image
-                  src={hero.profileImage || "/profile/profile.jpg"}
-                  alt={hero.name}
-                  fill
-                  className="object-cover"
-                  priority
-                />
+              <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-full opacity-70 group-hover:opacity-100 transition duration-500 blur-md group-hover:blur-xl"></div>
+              <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-full p-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
+                <div className="relative w-full h-full rounded-full overflow-hidden bg-card">
+                  <Image
+                    src={hero.profileImage || "/profile/profile.jpg"}
+                    alt={hero.name}
+                    fill
+                    className="object-cover group-hover:scale-110 transition-transform duration-500"
+                    priority
+                  />
+                </div>
               </div>
             </motion.div>
           )}
