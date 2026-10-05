@@ -202,19 +202,21 @@ export default function HeroAdmin() {
             </div>
 
             <div className="flex items-start gap-4 p-4 bg-black/20 rounded-lg border border-gray-800">
-              <div className="w-16 h-16 rounded-full overflow-hidden bg-gray-800 shrink-0">
-                {formData.profileImage ? (
-                  /* eslint-disable-next-line @next/next/no-img-element */
-                  <img
-                    src={formData.profileImage}
-                    alt="Profile Preview"
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-xs text-gray-500">
-                    No Img
-                  </div>
-                )}
+              <div className="w-16 h-16 rounded-full p-0.5 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 shrink-0 shadow-lg shadow-indigo-500/20">
+                <div className="w-full h-full rounded-full overflow-hidden bg-gray-800">
+                  {formData.profileImage ? (
+                    /* eslint-disable-next-line @next/next/no-img-element */
+                    <img
+                      src={formData.profileImage}
+                      alt="Profile Preview"
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-xs text-gray-500">
+                      No Img
+                    </div>
+                  )}
+                </div>
               </div>
               <div className="text-sm text-gray-400">
                 Preview of your current profile picture. You can either upload a
