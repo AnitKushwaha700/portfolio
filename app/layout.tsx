@@ -1,13 +1,26 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import InstallPrompt from "@/components/pwa/InstallPrompt";
 
 const inter = Inter({
   subsets: ["latin"],
   display: "swap",
 });
 
+export const viewport: Viewport = {
+  themeColor: "#4f46e5",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+};
+
 export const metadata: Metadata = {
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Anit Kushwaha | Software Developer",
+  },
   title: "Anit Kushwaha | Software Developer",
   description:
     "Software Developer specializing in React.js, Next.js, Node.js, TypeScript, and full-stack web development.",
@@ -54,6 +67,7 @@ export default function RootLayout({
     >
       <body className="flex min-h-dvh flex-col bg-background text-gray-100">
         <main className="flex-1 w-full relative">{children}</main>
+        <InstallPrompt />
       </body>
     </html>
   );
