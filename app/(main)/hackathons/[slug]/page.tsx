@@ -1,47 +1,77 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { notFound, useParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import {
   ArrowLeft,
   CheckCircle2,
-  Loader2,
   ArrowRight,
   Calendar,
   MapPin,
   Trophy,
+  AlertCircle,
+  RefreshCw,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { DetailPageSkeleton } from "@/components/ui/Skeleton";
 
 export default function HackathonDetail() {
   const params = useParams();
   const [hackathon, setHackathon] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchHackathon = async () => {
-      try {
-        const res = await fetch(`/api/hackathon/slug/${params.slug}`);
-        if (!res.ok) {
-          notFound();
-        }
-        const data = await res.json();
-        setHackathon(data.hackathon);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
+  const fetchHackathon = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await fetch(`/api/hackathon/slug/${params.slug}`);
+      if (!res.ok) {
+        notFound();
       }
-    };
-    fetchHackathon();
+      const data = await res.json();
+      setHackathon(data.hackathon);
+    } catch (err: any) {
+      console.error(err);
+      setError("Unable to load hackathon details. Please check your connection.");
+    } finally {
+      setLoading(false);
+    }
   }, [params.slug]);
 
+  useEffect(() => {
+    fetchHackathon();
+  }, [fetchHackathon]);
+
   if (loading) {
+    return <DetailPageSkeleton />;
+  }
+
+  if (error && !hackathon) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <Loader2 className="w-10 h-10 text-indigo-500 animate-spin" />
+      <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4 text-center">
+        <div className="w-12 h-12 rounded-full bg-red-500/10 text-red-400 flex items-center justify-center mb-4 border border-red-500/20">
+          <AlertCircle className="w-6 h-6" />
+        </div>
+        <h2 className="text-xl font-bold text-gray-200 mb-2">Failed to Load Event</h2>
+        <p className="text-sm text-gray-400 mb-6 max-w-sm">{error}</p>
+        <div className="flex gap-3">
+          <button
+            onClick={() => fetchHackathon()}
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-sm font-medium transition-colors cursor-pointer"
+          >
+            <RefreshCw className="w-4 h-4" />
+            Try Again
+          </button>
+          <Link
+            href="/#hackathons"
+            className="px-5 py-2.5 bg-card border border-gray-800 hover:border-gray-700 text-gray-300 hover:text-white rounded-xl text-sm font-medium transition-colors"
+          >
+            Back to Hackathons
+          </Link>
+        </div>
       </div>
     );
   }
