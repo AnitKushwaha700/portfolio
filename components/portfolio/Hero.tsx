@@ -49,6 +49,7 @@ export default function Hero({ settings }: { settings: any }) {
                     src={hero.profileImage || "/profile/profile.jpg"}
                     alt={hero.name}
                     fill
+                    sizes="(max-width: 768px) 128px, 160px"
                     className="object-cover group-hover:scale-110 transition-transform duration-500"
                     priority
                   />

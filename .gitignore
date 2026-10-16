@@ -43,6 +43,10 @@ next-env.d.ts
 # uploads (use Cloudinary instead)
 /public/uploads/
 
+# PWA service worker generated files
+/public/sw*
+/public/swe-worker*
+
 # test scripts
 test-cloud.mjs
 test-cloudinary.js

@@ -10,6 +10,7 @@
     "lint:fix": "eslint --fix",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "security-check": "npm audit",
+    "seed": "tsx scripts/seed.ts",
     "test": "echo \"No tests specified yet\" && exit 0"
   },
   "dependencies": {

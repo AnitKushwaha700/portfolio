@@ -63,6 +63,7 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${inter.className} antialiased dark`}
+      data-scroll-behavior="smooth"
       suppressHydrationWarning
     >
       <body className="flex min-h-dvh flex-col bg-background text-gray-100">
