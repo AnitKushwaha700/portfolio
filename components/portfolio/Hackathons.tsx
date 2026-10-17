@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  Trophy,
   Calendar,
   MapPin,
   ExternalLink,
@@ -39,11 +38,16 @@ export default function Hackathons({
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.6 }}
       >
-        <div className="flex items-center gap-3 mb-12">
-          <div className="inline-flex items-center justify-center p-3 bg-indigo-500/10 rounded-xl text-indigo-400 border border-indigo-500/20">
-            <Trophy className="w-6 h-6" />
-          </div>
-          <h2 className="section-title mb-0!">Hackathons & Events</h2>
+        <div className="text-center space-y-3 mb-12">
+          <h2 className="section-title mb-0 text-center">
+            Hackathons &{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-rose-500 to-amber-500 drop-shadow-[0_0_30px_rgba(239,68,68,0.35)]">
+              Events
+            </span>
+          </h2>
+          <p className="text-sm sm:text-base text-gray-400 max-w-xl mx-auto">
+            Competitive programming hackathons, engineering showcases, and technical competitions.
+          </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">

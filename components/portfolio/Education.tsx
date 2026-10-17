@@ -14,7 +14,17 @@ export default function EducationSection({ education }: { education: any[] }) {
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.6 }}
       >
-        <h2 className="section-title">Education</h2>
+        <div className="text-center space-y-3 mb-12">
+          <h2 className="section-title mb-0 text-center">
+            Academic{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-rose-500 to-amber-500 drop-shadow-[0_0_30px_rgba(239,68,68,0.35)]">
+              Education
+            </span>
+          </h2>
+          <p className="text-sm sm:text-base text-gray-400 max-w-xl mx-auto">
+            My educational background, degree programs, and academic foundation in Computer Science.
+          </p>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {education.map((edu, index) => (

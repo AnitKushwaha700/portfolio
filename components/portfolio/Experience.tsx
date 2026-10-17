@@ -18,7 +18,17 @@ export default function ExperienceSection({
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.6 }}
       >
-        <h2 className="section-title">Professional Experience</h2>
+        <div className="text-center space-y-3 mb-12">
+          <h2 className="section-title mb-0 text-center">
+            Work{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-rose-500 to-amber-500 drop-shadow-[0_0_30px_rgba(239,68,68,0.35)]">
+              Experience
+            </span>
+          </h2>
+          <p className="text-sm sm:text-base text-gray-400 max-w-xl mx-auto">
+            My professional career path, software development internships, and engineering contributions.
+          </p>
+        </div>
 
         <div className="space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-gray-800 before:to-transparent">
           {experiences.map((exp, index) => (
