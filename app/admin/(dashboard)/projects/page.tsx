@@ -315,14 +315,6 @@ export default function ProjectsAdmin() {
     },
   ];
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <Loader2 className="w-8 h-8 text-indigo-500 animate-spin" />
-      </div>
-    );
-  }
-
   return (
     <div className="max-w-6xl mx-auto pb-12">
       <DataTable
@@ -330,6 +322,7 @@ export default function ProjectsAdmin() {
         description="Manage your portfolio projects, their links, and tech stack."
         data={projects}
         columns={columns}
+        loading={loading}
         onAdd={handleAdd}
         onEdit={handleEdit}
         onDelete={handleDelete}

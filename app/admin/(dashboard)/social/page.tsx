@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Loader2, Save, Code, Link2, Mail, Phone } from "lucide-react";
+import { Save, Code, Link2, Mail, Phone } from "lucide-react";
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
 
 interface SocialSettings {
   github: string;
@@ -66,7 +67,7 @@ export default function SocialAdmin() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <Loader2 className="w-8 h-8 text-indigo-500 animate-spin" />
+        <LoadingSpinner size="lg" label="Loading social settings..." labelPosition="bottom" />
       </div>
     );
   }
@@ -165,14 +166,16 @@ export default function SocialAdmin() {
           <button
             type="submit"
             disabled={submitting}
-            className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-colors disabled:opacity-50 flex items-center gap-2 shadow-lg shadow-indigo-500/20"
+            className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-colors disabled:opacity-50 flex items-center gap-2 shadow-lg shadow-indigo-500/20 cursor-pointer"
           >
             {submitting ? (
-              <Loader2 className="w-5 h-5 animate-spin" />
+              <LoadingSpinner size="sm" variant="white" label="Saving..." />
             ) : (
-              <Save className="w-5 h-5" />
+              <>
+                <Save className="w-5 h-5" />
+                <span>Save Social Links</span>
+              </>
             )}
-            Save Social Links
           </button>
         </div>
       </form>

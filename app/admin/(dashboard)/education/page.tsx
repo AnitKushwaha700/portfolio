@@ -184,14 +184,6 @@ export default function EducationAdmin() {
     },
   ];
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <Loader2 className="w-8 h-8 text-indigo-500 animate-spin" />
-      </div>
-    );
-  }
-
   return (
     <div className="max-w-6xl mx-auto pb-12">
       <DataTable
@@ -199,6 +191,7 @@ export default function EducationAdmin() {
         description="Manage your academic background, degrees, and certifications."
         data={education}
         columns={columns}
+        loading={loading}
         onAdd={handleAdd}
         onEdit={handleEdit}
         onDelete={handleDelete}
