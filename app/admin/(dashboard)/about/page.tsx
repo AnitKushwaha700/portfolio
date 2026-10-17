@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Loader2, Save } from "lucide-react";
+import { Save } from "lucide-react";
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
 
 interface AboutSettings {
   content: string;
@@ -63,7 +64,7 @@ export default function AboutAdmin() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <Loader2 className="w-8 h-8 text-indigo-500 animate-spin" />
+        <LoadingSpinner size="lg" label="Loading about details..." labelPosition="bottom" />
       </div>
     );
   }
@@ -114,14 +115,16 @@ export default function AboutAdmin() {
           <button
             type="submit"
             disabled={submitting}
-            className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-colors disabled:opacity-50 flex items-center gap-2 shadow-lg shadow-indigo-500/20"
+            className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-colors disabled:opacity-50 flex items-center gap-2 shadow-lg shadow-indigo-500/20 cursor-pointer"
           >
             {submitting ? (
-              <Loader2 className="w-5 h-5 animate-spin" />
+              <LoadingSpinner size="sm" variant="white" label="Saving..." />
             ) : (
-              <Save className="w-5 h-5" />
+              <>
+                <Save className="w-5 h-5" />
+                <span>Save About Section</span>
+              </>
             )}
-            Save About Section
           </button>
         </div>
       </form>

@@ -1,7 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
+import { Suspense } from "react";
 import "./globals.css";
 import InstallPrompt from "@/components/pwa/InstallPrompt";
+import TopProgressBar from "@/components/ui/TopProgressBar";
+import InitialPageLoader from "@/components/ui/InitialPageLoader";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -67,6 +70,10 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="flex min-h-dvh flex-col bg-background text-gray-100">
+        <Suspense fallback={null}>
+          <TopProgressBar />
+        </Suspense>
+        <InitialPageLoader />
         <main className="flex-1 w-full relative">{children}</main>
         <InstallPrompt />
       </body>
