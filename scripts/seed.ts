@@ -85,7 +85,7 @@ async function seed() {
         role: "Software Developer",
         description:
           "Build full-stack web applications using JavaScript, TypeScript, React.js, Next.js, Node.js and modern backend technologies.",
-        profileImage: "/profile/profile.jpg",
+        profileImage: "/profile/profile-cutout.png",
         resumeUrl: "#",
         showButtons: true,
         showProfileImage: true,

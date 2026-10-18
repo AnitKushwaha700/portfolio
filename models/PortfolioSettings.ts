@@ -25,11 +25,15 @@ export interface IPortfolioSettings extends Document {
   hero: {
     name: string;
     role: string;
+    headline?: string;
     description: string;
     profileImage: string;
     resumeUrl: string;
     showButtons: boolean;
     showProfileImage: boolean;
+    statusText?: string;
+    primaryButtonText?: string;
+    secondaryButtonText?: string;
   };
   about: {
     content: string;
@@ -69,6 +73,10 @@ const PortfolioSettingsSchema: Schema = new Schema(
     hero: {
       name: { type: String, default: "Anit Kushwaha" },
       role: { type: String, default: "Software Developer" },
+      headline: {
+        type: String,
+        default: "",
+      },
       description: {
         type: String,
         default:
@@ -78,6 +86,9 @@ const PortfolioSettingsSchema: Schema = new Schema(
       resumeUrl: { type: String, default: "#" },
       showButtons: { type: Boolean, default: true },
       showProfileImage: { type: Boolean, default: true },
+      statusText: { type: String, default: "Available for Opportunities" },
+      primaryButtonText: { type: String, default: "Explore Projects" },
+      secondaryButtonText: { type: String, default: "Contact Me" },
     },
     about: {
       content: {

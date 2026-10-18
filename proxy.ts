@@ -50,7 +50,11 @@ export async function proxy(request: NextRequest) {
     pathname.startsWith("/api/settings") ||
     pathname.startsWith("/api/upload");
 
-  if (isProtectedApiRoute && request.method !== "GET") {
+  if (
+    isProtectedApiRoute &&
+    request.method !== "GET" &&
+    request.method !== "HEAD"
+  ) {
     if (!sessionCookie) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
