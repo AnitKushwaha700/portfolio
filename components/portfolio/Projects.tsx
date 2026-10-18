@@ -17,7 +17,18 @@ export default function Projects({ projects }: { projects: any[] }) {
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.6 }}
       >
-        <h2 className="section-title">Featured Projects</h2>
+        <div className="text-center space-y-3 mb-12">
+          <h2 className="section-title mb-0 text-center">
+            Featured{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-rose-500 to-amber-500 drop-shadow-[0_0_30px_rgba(239,68,68,0.35)]">
+              Projects
+            </span>
+          </h2>
+          <p className="text-sm sm:text-base text-gray-400 max-w-xl mx-auto">
+            A selection of production-ready full-stack applications, interactive
+            web tools, and real-time systems.
+          </p>
+        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {projects.map((project, index) => (
@@ -27,7 +38,7 @@ export default function Projects({ projects }: { projects: any[] }) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="card group overflow-hidden flex flex-col h-full card-hover"
+              className="card group overflow-hidden flex flex-col h-full card-hover hover:border-red-500/40"
             >
               {project.image && (
                 <div className="relative w-full h-48 sm:h-64 overflow-hidden bg-gray-900 border-b border-gray-800">
@@ -43,7 +54,7 @@ export default function Projects({ projects }: { projects: any[] }) {
 
               <div className="p-6 flex flex-col flex-1">
                 <div className="flex justify-between items-start mb-4">
-                  <h3 className="text-xl font-bold text-gray-100 group-hover:text-indigo-400 transition-colors">
+                  <h3 className="text-xl font-bold text-gray-100 group-hover:text-red-400 transition-colors">
                     {project.title}
                   </h3>
                   <div className="flex gap-3 text-gray-400">

@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  Calendar,
-  MapPin,
-  ExternalLink,
-  ArrowRight,
-} from "lucide-react";
+import { Calendar, MapPin, ExternalLink, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -46,7 +41,8 @@ export default function Hackathons({
             </span>
           </h2>
           <p className="text-sm sm:text-base text-gray-400 max-w-xl mx-auto">
-            Competitive programming hackathons, engineering showcases, and technical competitions.
+            Competitive programming hackathons, engineering showcases, and
+            technical competitions.
           </p>
         </div>
 
