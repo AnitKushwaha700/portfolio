@@ -42,7 +42,10 @@ export default function InstallPrompt() {
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
 
     return () => {
-      window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+      window.removeEventListener(
+        "beforeinstallprompt",
+        handleBeforeInstallPrompt,
+      );
     };
   }, []);
 
@@ -68,7 +71,9 @@ export default function InstallPrompt() {
           <div className="max-w-md mx-auto bg-gray-900/90 backdrop-blur-xl border border-gray-800 rounded-2xl p-4 shadow-2xl shadow-black/50 pointer-events-auto flex items-center justify-between gap-4">
             <div className="flex flex-col">
               <h3 className="text-white font-semibold">Install App</h3>
-              <p className="text-sm text-gray-400">Add to home screen for a better experience</p>
+              <p className="text-sm text-gray-400">
+                Add to home screen for a better experience
+              </p>
             </div>
             <div className="flex items-center gap-3">
               <button
