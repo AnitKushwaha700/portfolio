@@ -57,7 +57,8 @@ export default function Skills({ skills }: { skills: any[] }) {
               </span>
             </h2>
             <p className="text-sm sm:text-base text-gray-400 max-w-xl mx-auto">
-              A comprehensive toolkit of languages, frameworks, libraries, and databases I leverage to build robust software.
+              A comprehensive toolkit of languages, frameworks, libraries, and
+              databases I leverage to build robust software.
             </p>
           </div>
 

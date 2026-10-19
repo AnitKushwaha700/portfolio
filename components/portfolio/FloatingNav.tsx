@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import {
   Home,
   User,
@@ -23,7 +22,12 @@ const navItems: NavItem[] = [
   { id: "hero", label: "Home", href: "#hero", icon: Home },
   { id: "about", label: "About", href: "#about", icon: User },
   { id: "skills", label: "Skills", href: "#skills", icon: Code2 },
-  { id: "experience", label: "Experience", href: "#experience", icon: Briefcase },
+  {
+    id: "experience",
+    label: "Experience",
+    href: "#experience",
+    icon: Briefcase,
+  },
   { id: "projects", label: "Projects", href: "#projects", icon: LayoutGrid },
   { id: "hackathons", label: "Hackathons", href: "#hackathons", icon: Trophy },
   { id: "contact", label: "Contact", href: "#contact", icon: Mail },
@@ -68,7 +72,7 @@ export default function FloatingNav() {
       setActiveSection(id);
       try {
         window.history.pushState(null, "", `#${id}`);
-      } catch (err) {
+      } catch {
         // ignore
       }
     }

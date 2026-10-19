@@ -19,7 +19,7 @@ export default function Footer({ name }: { name?: string }) {
             aria-label="Admin Portal"
             title="Admin"
           >
-            <User className="w-4 h-4" />
+            <User className="w-5 h-5" />
           </Link>
         </div>
       </div>
