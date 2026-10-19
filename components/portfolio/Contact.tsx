@@ -2,7 +2,14 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, Phone, Send, Copy, CheckCircle2, MessageSquare } from "lucide-react";
+import {
+  Mail,
+  Phone,
+  Send,
+  Copy,
+  CheckCircle2,
+  MessageSquare,
+} from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 export default function Contact({ settings }: { settings: any }) {
@@ -35,7 +42,8 @@ export default function Contact({ settings }: { settings: any }) {
             </span>
           </h2>
           <p className="text-sm sm:text-base text-gray-400 max-w-lg mx-auto">
-            Open to software engineering roles, full-stack opportunities, and freelance projects. Let&apos;s build something exceptional together.
+            Open to software engineering roles, full-stack opportunities, and
+            freelance projects. Let&apos;s build something exceptional together.
           </p>
         </div>
 
@@ -52,7 +60,8 @@ export default function Contact({ settings }: { settings: any }) {
             Let&apos;s Start a Conversation
           </h3>
           <p className="text-gray-300 mb-9 max-w-lg text-sm sm:text-base leading-relaxed">
-            Whether you have a job opportunity, a project to discuss, or just want to say hi, my inbox is always open!
+            Whether you have a job opportunity, a project to discuss, or just
+            want to say hi, my inbox is always open!
           </p>
 
           {/* Interactive Contact Action Cards */}
@@ -65,7 +74,9 @@ export default function Contact({ settings }: { settings: any }) {
             >
               <div className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-red-400 group-hover/btn:scale-110 transition-transform" />
-                <span className="text-xs sm:text-sm font-medium truncate">{email}</span>
+                <span className="text-xs sm:text-sm font-medium truncate">
+                  {email}
+                </span>
               </div>
               <div className="shrink-0 text-xs font-semibold px-2.5 py-1 rounded-md bg-white/5 border border-white/10 text-gray-300 flex items-center gap-1.5">
                 {copied ? (

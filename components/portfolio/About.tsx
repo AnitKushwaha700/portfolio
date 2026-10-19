@@ -15,13 +15,15 @@ export default function About({ settings }: { settings: any }) {
       icon: Code2,
       title: "Frontend Engineering",
       desc: "Crafting reactive, pixel-perfect user interfaces with React.js, Next.js, TypeScript, and modern CSS systems.",
-      color: "from-rose-500/20 to-amber-500/10 text-rose-400 border-rose-500/30",
+      color:
+        "from-rose-500/20 to-amber-500/10 text-rose-400 border-rose-500/30",
     },
     {
       icon: Server,
       title: "Scalable Backends",
       desc: "Architecting secure RESTful APIs, authentication workflows, and robust databases with Node.js & MongoDB.",
-      color: "from-indigo-500/20 to-purple-500/10 text-indigo-400 border-indigo-500/30",
+      color:
+        "from-indigo-500/20 to-purple-500/10 text-indigo-400 border-indigo-500/30",
     },
   ];
 
@@ -42,15 +44,16 @@ export default function About({ settings }: { settings: any }) {
             </span>
           </h2>
           <p className="text-sm sm:text-base text-gray-400 max-w-xl mx-auto">
-            Passionate software engineer committed to writing clean, maintainable code and solving real-world challenges.
+            Passionate software engineer committed to writing clean,
+            maintainable code and solving real-world challenges.
           </p>
         </div>
 
         {/* Narrative Bio Card */}
         <div className="card p-8 md:p-10 border border-gray-800/90 bg-[#0d0e19]/80 backdrop-blur-xl shadow-2xl shadow-black/80 rounded-2xl relative overflow-hidden group">
           <div className="absolute top-0 right-0 w-80 h-80 bg-red-600/5 rounded-full blur-3xl pointer-events-none group-hover:bg-red-600/10 transition-colors" />
-          <p className="text-base sm:text-lg text-gray-300 leading-relaxed relative z-10 font-normal">
-            {settings.about.content}
+          <p className="text-base sm:text-lg text-gray-300 leading-relaxed relative z-10 font-normal whitespace-pre-line">
+            {settings?.about?.content || "Passionate software engineer building modern full-stack web applications."}
           </p>
         </div>
 

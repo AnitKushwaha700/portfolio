@@ -57,13 +57,39 @@ export async function POST(request: Request) {
     const uniqueId = `${baseName}_${Date.now()}`;
     const publicId = isRaw ? `${uniqueId}.${extension}` : uniqueId;
 
-    const result = await cloudinary.uploader.upload(fileUri, {
-      folder: "digital_portfolio",
-      resource_type: isRaw ? "raw" : "image",
-      public_id: publicId,
-    });
+    let url = "";
 
-    const url = (result as any).secure_url;
+    try {
+      if (
+        process.env.CLOUDINARY_CLOUD_NAME &&
+        process.env.CLOUDINARY_API_KEY &&
+        process.env.CLOUDINARY_API_SECRET
+      ) {
+        const result = await cloudinary.uploader.upload(fileUri, {
+          folder: "digital_portfolio",
+          resource_type: isRaw ? "raw" : "image",
+          public_id: publicId,
+        });
+        url = (result as any).secure_url;
+      } else {
+        throw new Error("Cloudinary not fully configured");
+      }
+    } catch (cloudErr) {
+      console.warn(
+        "Cloudinary upload failed or unconfigured, falling back to local storage:",
+        cloudErr,
+      );
+      const fs = await import("fs/promises");
+      const path = await import("path");
+      const uploadsDir = path.join(process.cwd(), "public", "uploads");
+      await fs.mkdir(uploadsDir, { recursive: true });
+
+      const safeExt = extension ? `.${extension}` : ".jpg";
+      const localFileName = `${uniqueId}${safeExt}`;
+      const localFilePath = path.join(uploadsDir, localFileName);
+      await fs.writeFile(localFilePath, buffer);
+      url = `/uploads/${localFileName}`;
+    }
 
     return NextResponse.json(
       { url, message: "File uploaded successfully" },
@@ -73,7 +99,7 @@ export async function POST(request: Request) {
     const errorId = crypto.randomUUID();
     console.error(`[${errorId}] Failed to upload file:`, error);
     return NextResponse.json(
-      { error: "Failed to upload file to Cloudinary", errorId },
+      { error: "Failed to upload file", errorId },
       { status: 500 },
     );
   }

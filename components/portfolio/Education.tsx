@@ -22,7 +22,8 @@ export default function EducationSection({ education }: { education: any[] }) {
             </span>
           </h2>
           <p className="text-sm sm:text-base text-gray-400 max-w-xl mx-auto">
-            My educational background, degree programs, and academic foundation in Computer Science.
+            My educational background, degree programs, and academic foundation
+            in Computer Science.
           </p>
         </div>
 

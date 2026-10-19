@@ -4,37 +4,91 @@ import { useState, useEffect } from "react";
 import { notFound, useParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowLeft, CheckCircle2, Loader2, ArrowRight } from "lucide-react";
+import {
+  ArrowLeft,
+  CheckCircle2,
+  ArrowRight,
+  AlertCircle,
+  RefreshCw,
+} from "lucide-react";
 import { FaGithub } from "react-icons/fa";
 import { motion } from "framer-motion";
+import { DetailPageSkeleton } from "@/components/ui/Skeleton";
+import ProjectMetricsChart from "@/components/portfolio/ProjectMetricsChart";
 
 export default function ProjectDetail() {
   const params = useParams();
   const [project, setProject] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [reloadKey, setReloadKey] = useState(0);
 
   useEffect(() => {
-    const fetchProject = async () => {
+    let ignore = false;
+    const loadProject = async () => {
       try {
         const res = await fetch(`/api/projects/${params.slug}`);
         if (!res.ok) {
           notFound();
         }
         const data = await res.json();
-        setProject(data.project);
-      } catch (err) {
+        if (!ignore) {
+          setProject(data.project);
+          setError(null);
+        }
+      } catch (err: any) {
         console.error(err);
+        if (!ignore) {
+          setError(
+            "Unable to load project details. Please check your connection.",
+          );
+        }
       } finally {
-        setLoading(false);
+        if (!ignore) {
+          setLoading(false);
+        }
       }
     };
-    fetchProject();
-  }, [params.slug]);
+
+    loadProject();
+    return () => {
+      ignore = true;
+    };
+  }, [params.slug, reloadKey]);
 
   if (loading) {
+    return <DetailPageSkeleton />;
+  }
+
+  if (error && !project) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <Loader2 className="w-10 h-10 text-indigo-500 animate-spin" />
+      <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4 text-center">
+        <div className="w-12 h-12 rounded-full bg-red-500/10 text-red-400 flex items-center justify-center mb-4 border border-red-500/20">
+          <AlertCircle className="w-6 h-6" />
+        </div>
+        <h2 className="text-xl font-bold text-gray-200 mb-2">
+          Failed to Load Project
+        </h2>
+        <p className="text-sm text-gray-400 mb-6 max-w-sm">{error}</p>
+        <div className="flex gap-3">
+          <button
+            onClick={() => {
+              setLoading(true);
+              setError(null);
+              setReloadKey((k) => k + 1);
+            }}
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-sm font-medium transition-colors cursor-pointer"
+          >
+            <RefreshCw className="w-4 h-4" />
+            Try Again
+          </button>
+          <Link
+            href="/#projects"
+            className="px-5 py-2.5 bg-card border border-gray-800 hover:border-gray-700 text-gray-300 hover:text-white rounded-xl text-sm font-medium transition-colors"
+          >
+            Back to Projects
+          </Link>
+        </div>
       </div>
     );
   }
@@ -42,11 +96,7 @@ export default function ProjectDetail() {
   if (!project) return null;
 
   return (
-    <div className="min-h-screen bg-background pt-24 pb-16 relative overflow-hidden font-sans">
-      {/* Background ambient glowing orbs */}
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full bg-indigo-600/5 blur-[150px] pointer-events-none" />
-      <div className="absolute bottom-[-10%] left-[-10%] w-125 h-125 rounded-full bg-purple-600/5 blur-[150px] pointer-events-none" />
-
+    <div className="min-h-screen bg-transparent pb-16 relative font-sans">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
@@ -118,6 +168,20 @@ export default function ProjectDetail() {
             />
           </motion.div>
         )}
+
+        {/* Interactive Architecture & Explanatory Analytics Graphs */}
+        <motion.div
+          initial={{ opacity: 0, y: 25 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.25 }}
+          className="mb-16"
+        >
+          <ProjectMetricsChart
+            technologies={project.technologies || []}
+            title={project.title}
+            features={project.features || []}
+          />
+        </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16">
           <motion.div

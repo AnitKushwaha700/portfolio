@@ -26,7 +26,8 @@ export default function ExperienceSection({
             </span>
           </h2>
           <p className="text-sm sm:text-base text-gray-400 max-w-xl mx-auto">
-            My professional career path, software development internships, and engineering contributions.
+            My professional career path, software development internships, and
+            engineering contributions.
           </p>
         </div>
 

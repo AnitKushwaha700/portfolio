@@ -2,6 +2,7 @@
 
 import { Edit, Trash2, Plus } from "lucide-react";
 import { motion } from "framer-motion";
+import { Skeleton } from "@/components/ui/Skeleton";
 
 interface Column<T> {
   header: string;
@@ -12,6 +13,7 @@ interface Column<T> {
 interface DataTableProps<T> {
   data: T[];
   columns: Column<T>[];
+  loading?: boolean;
   onEdit?: (item: T) => void;
   onDelete?: (item: T) => void;
   onAdd?: () => void;
@@ -23,6 +25,7 @@ interface DataTableProps<T> {
 export default function DataTable<T extends { _id?: string; id?: string }>({
   data,
   columns,
+  loading = false,
   onEdit,
   onDelete,
   onAdd,
@@ -75,7 +78,25 @@ export default function DataTable<T extends { _id?: string; id?: string }>({
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-800/50">
-              {data.length === 0 ? (
+              {loading ? (
+                Array.from({ length: 4 }).map((_, rIdx) => (
+                  <tr key={rIdx} className="animate-pulse">
+                    {columns.map((col, cIdx) => (
+                      <td key={cIdx} className="px-6 py-4">
+                        <Skeleton className="h-4 w-3/4" rounded="md" />
+                      </td>
+                    ))}
+                    {(onEdit || onDelete) && (
+                      <td className="px-6 py-4 text-right">
+                        <div className="flex justify-end gap-2">
+                          <Skeleton className="w-8 h-8" rounded="md" />
+                          <Skeleton className="w-8 h-8" rounded="md" />
+                        </div>
+                      </td>
+                    )}
+                  </tr>
+                ))
+              ) : data.length === 0 ? (
                 <tr>
                   <td
                     colSpan={columns.length + (onEdit || onDelete ? 1 : 0)}
