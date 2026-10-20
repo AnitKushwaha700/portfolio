@@ -67,7 +67,11 @@ export default function SocialAdmin() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <LoadingSpinner size="lg" label="Loading social settings..." labelPosition="bottom" />
+        <LoadingSpinner
+          size="lg"
+          label="Loading social settings..."
+          labelPosition="bottom"
+        />
       </div>
     );
   }
