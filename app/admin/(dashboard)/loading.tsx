@@ -1,4 +1,4 @@
-import { Skeleton, SkeletonText } from "@/components/ui/Skeleton";
+import { Skeleton } from "@/components/ui/Skeleton";
 
 export default function AdminDashboardLoading() {
   return (
@@ -17,7 +17,10 @@ export default function AdminDashboardLoading() {
         <Skeleton className="h-10 w-full" rounded="lg" />
         <div className="space-y-3 pt-2">
           {Array.from({ length: 5 }).map((_, i) => (
-            <div key={i} className="flex gap-4 items-center py-2 border-b border-gray-800/40">
+            <div
+              key={i}
+              className="flex gap-4 items-center py-2 border-b border-gray-800/40"
+            >
               <Skeleton className="h-5 w-1/4" rounded="md" />
               <Skeleton className="h-5 w-1/3" rounded="md" />
               <Skeleton className="h-5 w-1/5" rounded="md" />

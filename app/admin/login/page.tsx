@@ -183,7 +183,11 @@ function LoginContent() {
               className="w-full py-3.5 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-semibold transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 group/btn mt-8 cursor-pointer shadow-lg shadow-indigo-500/20"
             >
               {loading ? (
-                <LoadingSpinner size="sm" variant="white" label="Authenticating..." />
+                <LoadingSpinner
+                  size="sm"
+                  variant="white"
+                  label="Authenticating..."
+                />
               ) : (
                 <>
                   <span>Sign In</span>
@@ -203,7 +207,11 @@ export default function LoginPage() {
     <Suspense
       fallback={
         <div className="min-h-screen bg-background flex items-center justify-center">
-          <LoadingSpinner size="lg" label="Loading portal..." labelPosition="bottom" />
+          <LoadingSpinner
+            size="lg"
+            label="Loading portal..."
+            labelPosition="bottom"
+          />
         </div>
       }
     >

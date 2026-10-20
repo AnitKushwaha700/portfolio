@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { notFound, useParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -22,28 +22,40 @@ export default function HackathonDetail() {
   const [hackathon, setHackathon] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
-  const fetchHackathon = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const res = await fetch(`/api/hackathon/slug/${params.slug}`);
-      if (!res.ok) {
-        notFound();
-      }
-      const data = await res.json();
-      setHackathon(data.hackathon);
-    } catch (err: any) {
-      console.error(err);
-      setError("Unable to load hackathon details. Please check your connection.");
-    } finally {
-      setLoading(false);
-    }
-  }, [params.slug]);
+  const [reloadKey, setReloadKey] = useState(0);
 
   useEffect(() => {
-    fetchHackathon();
-  }, [fetchHackathon]);
+    let ignore = false;
+    const loadHackathon = async () => {
+      try {
+        const res = await fetch(`/api/hackathon/slug/${params.slug}`);
+        if (!res.ok) {
+          notFound();
+        }
+        const data = await res.json();
+        if (!ignore) {
+          setHackathon(data.hackathon);
+          setError(null);
+        }
+      } catch (err: any) {
+        console.error(err);
+        if (!ignore) {
+          setError(
+            "Unable to load hackathon details. Please check your connection.",
+          );
+        }
+      } finally {
+        if (!ignore) {
+          setLoading(false);
+        }
+      }
+    };
+
+    loadHackathon();
+    return () => {
+      ignore = true;
+    };
+  }, [params.slug, reloadKey]);
 
   if (loading) {
     return <DetailPageSkeleton />;
@@ -55,11 +67,17 @@ export default function HackathonDetail() {
         <div className="w-12 h-12 rounded-full bg-red-500/10 text-red-400 flex items-center justify-center mb-4 border border-red-500/20">
           <AlertCircle className="w-6 h-6" />
         </div>
-        <h2 className="text-xl font-bold text-gray-200 mb-2">Failed to Load Event</h2>
+        <h2 className="text-xl font-bold text-gray-200 mb-2">
+          Failed to Load Event
+        </h2>
         <p className="text-sm text-gray-400 mb-6 max-w-sm">{error}</p>
         <div className="flex gap-3">
           <button
-            onClick={() => fetchHackathon()}
+            onClick={() => {
+              setLoading(true);
+              setError(null);
+              setReloadKey((k) => k + 1);
+            }}
             className="inline-flex items-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-sm font-medium transition-colors cursor-pointer"
           >
             <RefreshCw className="w-4 h-4" />

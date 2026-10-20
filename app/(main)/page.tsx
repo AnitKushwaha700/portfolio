@@ -14,6 +14,7 @@ import Projects from "@/components/portfolio/Projects";
 import EducationSection from "@/components/portfolio/Education";
 import Hackathons from "@/components/portfolio/Hackathons";
 import Contact from "@/components/portfolio/Contact";
+import Home3DExperience from "@/components/portfolio/Home3DExperience";
 
 export default async function Home() {
   await connectToDatabase();
@@ -59,8 +60,16 @@ export default async function Home() {
   const hackathons = JSON.parse(JSON.stringify(rawHackathons));
 
   return (
-    <div className="flex flex-col gap-0 w-full overflow-hidden">
-      {sectionVisibility.hero && <Hero settings={settings} />}
+    <div className="relative flex flex-col gap-0 w-full overflow-x-clip bg-[#07070d]">
+      <Home3DExperience />
+      {sectionVisibility.hero && (
+        <Hero
+          settings={settings}
+          skills={skills}
+          experiences={experiences}
+          projects={projects}
+        />
+      )}
       {sectionVisibility.about && <About settings={settings} />}
       {sectionVisibility.skills && <Skills skills={skills} />}
       {sectionVisibility.experience && (

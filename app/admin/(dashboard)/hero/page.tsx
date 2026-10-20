@@ -1,16 +1,21 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Loader2, Save } from "lucide-react";
+import { Save } from "lucide-react";
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
 
 interface HeroSettings {
   name: string;
   role: string;
+  headline?: string;
   description: string;
   profileImage: string;
   resumeUrl: string;
   showButtons: boolean;
   showProfileImage: boolean;
+  statusText?: string;
+  primaryButtonText?: string;
+  secondaryButtonText?: string;
 }
 
 export default function HeroAdmin() {
@@ -105,7 +110,11 @@ export default function HeroAdmin() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <Loader2 className="w-8 h-8 text-indigo-500 animate-spin" />
+        <LoadingSpinner
+          size="lg"
+          label="Loading hero settings..."
+          labelPosition="bottom"
+        />
       </div>
     );
   }
@@ -158,7 +167,7 @@ export default function HeroAdmin() {
 
             <div className="space-y-1">
               <label className="text-xs font-medium text-gray-400 uppercase">
-                Role / Headline
+                Role / Title
               </label>
               <input
                 required
@@ -167,6 +176,52 @@ export default function HeroAdmin() {
                 onChange={(e) =>
                   setFormData({ ...formData, role: e.target.value })
                 }
+                placeholder="e.g. Full-Stack Software Developer"
+                className="w-full px-4 py-2 bg-black/20 border border-gray-800 rounded-lg text-white focus:border-indigo-500 outline-none"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label className="text-xs font-medium text-gray-400 uppercase">
+                Status Badge Text
+              </label>
+              <input
+                type="text"
+                value={formData.statusText || ""}
+                onChange={(e) =>
+                  setFormData({ ...formData, statusText: e.target.value })
+                }
+                placeholder="e.g. Available for Opportunities"
+                className="w-full px-4 py-2 bg-black/20 border border-gray-800 rounded-lg text-white focus:border-indigo-500 outline-none"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label className="text-xs font-medium text-gray-400 uppercase">
+                Main Headline
+              </label>
+              <input
+                type="text"
+                value={formData.headline || ""}
+                onChange={(e) =>
+                  setFormData({ ...formData, headline: e.target.value })
+                }
+                placeholder="Optional (leave blank or enter custom headline)"
+                className="w-full px-4 py-2 bg-black/20 border border-gray-800 rounded-lg text-white focus:border-indigo-500 outline-none"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label className="text-xs font-medium text-gray-400 uppercase">
+                Resume / CV URL
+              </label>
+              <input
+                type="text"
+                value={formData.resumeUrl || ""}
+                onChange={(e) =>
+                  setFormData({ ...formData, resumeUrl: e.target.value })
+                }
+                placeholder="e.g. /resume.pdf or Google Drive link"
                 className="w-full px-4 py-2 bg-black/20 border border-gray-800 rounded-lg text-white focus:border-indigo-500 outline-none"
               />
             </div>
@@ -177,7 +232,11 @@ export default function HeroAdmin() {
               <label className="text-xs font-medium text-gray-400 uppercase flex justify-between items-center">
                 <span>Profile Picture</span>
                 {uploadingImage && (
-                  <Loader2 className="w-3 h-3 text-indigo-400 animate-spin" />
+                  <LoadingSpinner
+                    size="sm"
+                    variant="primary"
+                    label="Uploading..."
+                  />
                 )}
               </label>
               <div className="flex flex-col gap-2">
@@ -241,6 +300,42 @@ export default function HeroAdmin() {
           />
         </div>
 
+        {/* Action Button Custom Labels */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+          <div className="space-y-1">
+            <label className="text-xs font-medium text-gray-400 uppercase">
+              Primary Button Text
+            </label>
+            <input
+              type="text"
+              value={formData.primaryButtonText || ""}
+              onChange={(e) =>
+                setFormData({ ...formData, primaryButtonText: e.target.value })
+              }
+              placeholder="e.g. Explore Projects"
+              className="w-full px-4 py-2 bg-black/20 border border-gray-800 rounded-lg text-white focus:border-indigo-500 outline-none"
+            />
+          </div>
+
+          <div className="space-y-1">
+            <label className="text-xs font-medium text-gray-400 uppercase">
+              Secondary Button Text
+            </label>
+            <input
+              type="text"
+              value={formData.secondaryButtonText || ""}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  secondaryButtonText: e.target.value,
+                })
+              }
+              placeholder="e.g. Contact Me"
+              className="w-full px-4 py-2 bg-black/20 border border-gray-800 rounded-lg text-white focus:border-indigo-500 outline-none"
+            />
+          </div>
+        </div>
+
         <div className="flex flex-col sm:flex-row gap-6 pt-2 border-t border-gray-800/50 mt-6">
           <div className="flex items-center gap-3">
             <div
@@ -278,14 +373,16 @@ export default function HeroAdmin() {
           <button
             type="submit"
             disabled={submitting}
-            className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-colors disabled:opacity-50 flex items-center gap-2 shadow-lg shadow-indigo-500/20"
+            className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-colors disabled:opacity-50 flex items-center gap-2 shadow-lg shadow-indigo-500/20 cursor-pointer"
           >
             {submitting ? (
-              <Loader2 className="w-5 h-5 animate-spin" />
+              <LoadingSpinner size="sm" variant="white" label="Saving..." />
             ) : (
-              <Save className="w-5 h-5" />
+              <>
+                <Save className="w-5 h-5" />
+                <span>Save Hero Settings</span>
+              </>
             )}
-            Save Hero Settings
           </button>
         </div>
       </form>
