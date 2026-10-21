@@ -1,44 +1,66 @@
+/**
+ * MongoDB connection manager for Next.js.
+ *
+ * Uses a module-level cache to reuse the connection across hot reloads
+ * in development, preventing connection pool exhaustion during API route usage.
+ */
+
 import mongoose from "mongoose";
+import { MONGOOSE_BUFFER_COMMANDS } from "@/constants";
 
 const MONGODB_URI = process.env.MONGODB_URI;
 
 if (!MONGODB_URI) {
   throw new Error(
-    "Please define the MONGODB_URI environment variable inside .env",
+    "[db] Missing MONGODB_URI environment variable. " +
+      "Please define it in your .env file.",
   );
 }
 
-/**
- * Global is used here to maintain a cached connection across hot reloads
- * in development. This prevents connections growing exponentially
- * during API Route usage.
- */
-let cached = (global as any).mongoose;
-
-if (!cached) {
-  cached = (global as any).mongoose = { conn: null, promise: null };
+interface MongooseCache {
+  conn: typeof mongoose | null;
+  promise: Promise<typeof mongoose> | null;
 }
 
-async function connectToDatabase() {
+declare global {
+  var __mongoose: MongooseCache | undefined;
+}
+
+// Use a global variable to cache the connection in development.
+// In production, each serverless invocation gets a fresh module scope,
+// so we still benefit from connection reuse within the same invocation.
+const cached: MongooseCache = globalThis.__mongoose ?? {
+  conn: null,
+  promise: null,
+};
+
+if (!globalThis.__mongoose) {
+  globalThis.__mongoose = cached;
+}
+
+/**
+ * Connects to MongoDB and returns the mongoose instance.
+ * Subsequent calls return the cached connection.
+ */
+async function connectToDatabase(): Promise<typeof mongoose> {
   if (cached.conn) {
     return cached.conn;
   }
 
   if (!cached.promise) {
-    const opts = {
-      bufferCommands: false,
+    const opts: mongoose.ConnectOptions = {
+      bufferCommands: MONGOOSE_BUFFER_COMMANDS,
     };
 
-    cached.promise = mongoose.connect(MONGODB_URI!, opts).then((mongoose) => {
-      return mongoose;
-    });
+    cached.promise = mongoose.connect(MONGODB_URI!, opts);
   }
 
   try {
     cached.conn = await cached.promise;
-  } catch (e) {
+  } catch (error) {
+    // Reset promise so the next call retries the connection
     cached.promise = null;
-    throw e;
+    throw error;
   }
 
   return cached.conn;
