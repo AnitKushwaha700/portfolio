@@ -53,7 +53,8 @@ export default function About({ settings }: { settings: any }) {
         <div className="card p-8 md:p-10 border border-gray-800/90 bg-[#0d0e19]/80 backdrop-blur-xl shadow-2xl shadow-black/80 rounded-2xl relative overflow-hidden group">
           <div className="absolute top-0 right-0 w-80 h-80 bg-red-600/5 rounded-full blur-3xl pointer-events-none group-hover:bg-red-600/10 transition-colors" />
           <p className="text-base sm:text-lg text-gray-300 leading-relaxed relative z-10 font-normal whitespace-pre-line">
-            {settings?.about?.content || "Passionate software engineer building modern full-stack web applications."}
+            {settings?.about?.content ||
+              "Passionate software engineer building modern full-stack web applications."}
           </p>
         </div>
 

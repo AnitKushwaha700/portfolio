@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   Mail,
@@ -11,19 +10,16 @@ import {
   MessageSquare,
 } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
+import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
+import type { ContactProps } from "@/types";
 
-export default function Contact({ settings }: { settings: any }) {
-  const [copied, setCopied] = useState(false);
+export default function Contact({ settings }: ContactProps) {
+  const { copied, copy } = useCopyToClipboard();
+
   const email = settings?.social?.email || "kushwahaanitak@gmail.com";
-  const phone = settings?.social?.phone || "+91 8989791426";
+  const phone = settings?.social?.phone || "";
   const github = settings?.social?.github;
   const linkedin = settings?.social?.linkedin;
-
-  const handleCopyEmail = () => {
-    navigator.clipboard.writeText(email);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2200);
-  };
 
   return (
     <section id="contact" className="section-container relative z-10 py-24">
@@ -68,9 +64,10 @@ export default function Contact({ settings }: { settings: any }) {
           <div className="flex flex-col sm:flex-row gap-4 mb-8 w-full max-w-xl justify-center">
             {/* Copy Email Button */}
             <button
-              onClick={handleCopyEmail}
+              onClick={() => copy(email)}
               className="flex-1 flex items-center justify-between gap-3 px-5 py-4 rounded-xl bg-[#141624]/90 hover:bg-[#191b2e] border border-gray-800 hover:border-red-500/50 text-gray-200 transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer group/btn"
               title="Click to copy email address"
+              aria-label={`Copy email address: ${email}`}
             >
               <div className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-red-400 group-hover/btn:scale-110 transition-transform" />
@@ -93,11 +90,12 @@ export default function Contact({ settings }: { settings: any }) {
               </div>
             </button>
 
-            {/* Direct Phone Call */}
+            {/* Direct Phone Call — only show if phone is available */}
             {phone && (
               <a
                 href={`tel:${phone}`}
                 className="flex items-center justify-center gap-3 px-5 py-4 rounded-xl bg-[#141624]/90 hover:bg-[#191b2e] border border-gray-800 hover:border-indigo-500/50 text-gray-200 transition-all hover:scale-[1.02] active:scale-[0.98]"
+                aria-label={`Call phone number: ${phone}`}
               >
                 <Phone className="w-5 h-5 text-indigo-400" />
                 <span className="text-xs sm:text-sm font-medium">{phone}</span>
@@ -110,6 +108,7 @@ export default function Contact({ settings }: { settings: any }) {
             <a
               href={`mailto:${email}`}
               className="inline-flex items-center gap-2.5 bg-red-600 hover:bg-red-500 text-white px-8 py-3.5 rounded-full font-medium transition-all duration-300 shadow-xl shadow-red-600/30 hover:scale-105 active:scale-95"
+              aria-label="Send email"
             >
               <Send className="w-4 h-4" />
               <span>Say Hello Directly</span>

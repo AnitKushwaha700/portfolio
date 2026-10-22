@@ -1,106 +1,106 @@
-import { NextResponse } from "next/server";
-import { v2 as cloudinary } from "cloudinary";
+/**
+ * POST /api/upload
+ * Uploads a file to Cloudinary (preferred) or local storage (fallback).
+ *
+ * Protected: requires a valid admin session (enforced by middleware).
+ * Accepts: multipart/form-data with a "file" field.
+ *
+ * Privacy: Uploaded files are stored under the "digital_portfolio" folder
+ * in Cloudinary. Do NOT upload files containing sensitive/personal data.
+ */
 
+import { v2 as cloudinary } from "cloudinary";
+import {
+  CLOUDINARY_FOLDER,
+  MAX_FILE_SIZE_BYTES,
+  RAW_FILE_EXTENSIONS,
+} from "@/constants";
+import { getFileExtension } from "@/utils";
+import {
+  apiBadRequest,
+  apiCreated,
+  apiInternalError,
+} from "@/lib/api-response";
+
+// Configure Cloudinary once at module load.
+// Credentials are validated by lib/env.ts at startup.
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// File extensions that should be uploaded as "raw" (served as-is, no processing)
-const RAW_EXTENSIONS = new Set([
-  "pdf",
-  "doc",
-  "docx",
-  "txt",
-  "csv",
-  "xls",
-  "xlsx",
-  "ppt",
-  "pptx",
-  "zip",
-]);
-
-function getExtension(filename: string): string {
-  return (filename.split(".").pop() || "").toLowerCase();
-}
-
-export async function POST(request: Request) {
+export async function POST(request: Request): Promise<Response> {
   try {
-    const data = await request.formData();
-    const file: File | null = data.get("file") as unknown as File;
+    const formData = await request.formData();
+    const file = formData.get("file");
 
-    if (!file) {
-      return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
+    if (!(file instanceof File)) {
+      return apiBadRequest("A 'file' field is required in the form data.");
     }
 
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-    const base64Data = buffer.toString("base64");
+    if (file.size === 0) {
+      return apiBadRequest("Uploaded file is empty.");
+    }
+
+    if (file.size > MAX_FILE_SIZE_BYTES) {
+      return apiBadRequest(
+        `File size exceeds the maximum allowed size of ${MAX_FILE_SIZE_BYTES / 1024 / 1024} MB.`,
+      );
+    }
 
     const originalName = file.name || "upload";
-    const extension = getExtension(originalName);
+    const extension = getFileExtension(originalName);
     const baseName = originalName
       .replace(/\.[^/.]+$/, "")
       .replace(/[^a-zA-Z0-9]/g, "_");
 
-    // Determine if this is a document/file (raw) or an image
-    const isRaw = RAW_EXTENSIONS.has(extension);
-
-    // Build the correct MIME type for the data URI
+    const isRaw = RAW_FILE_EXTENSIONS.has(extension);
     const mimeType =
       file.type || (isRaw ? "application/octet-stream" : "image/jpeg");
-    const fileUri = `data:${mimeType};base64,${base64Data}`;
 
-    // For raw files: include extension in public_id so download URL has it
-    // For images: Cloudinary auto-detects format
+    const bytes = await file.arrayBuffer();
+    const buffer = Buffer.from(bytes);
+    const fileUri = `data:${mimeType};base64,${buffer.toString("base64")}`;
+
     const uniqueId = `${baseName}_${Date.now()}`;
+    // For raw files, include the extension in public_id so the download URL has it
     const publicId = isRaw ? `${uniqueId}.${extension}` : uniqueId;
 
-    let url = "";
+    let url: string;
 
     try {
-      if (
-        process.env.CLOUDINARY_CLOUD_NAME &&
-        process.env.CLOUDINARY_API_KEY &&
-        process.env.CLOUDINARY_API_SECRET
-      ) {
-        const result = await cloudinary.uploader.upload(fileUri, {
-          folder: "digital_portfolio",
-          resource_type: isRaw ? "raw" : "image",
-          public_id: publicId,
-        });
-        url = (result as any).secure_url;
-      } else {
-        throw new Error("Cloudinary not fully configured");
-      }
+      const result = await cloudinary.uploader.upload(fileUri, {
+        folder: CLOUDINARY_FOLDER,
+        resource_type: isRaw ? "raw" : "image",
+        public_id: publicId,
+      });
+      url = result.secure_url;
     } catch (cloudErr) {
+      // In development, fall back to local disk storage if Cloudinary is unavailable
+      if (process.env.NODE_ENV === "production") {
+        throw cloudErr; // Never silently fall back in production
+      }
+
       console.warn(
-        "Cloudinary upload failed or unconfigured, falling back to local storage:",
+        "[upload] Cloudinary unavailable, using local fallback:",
         cloudErr,
       );
+
       const fs = await import("fs/promises");
       const path = await import("path");
       const uploadsDir = path.join(process.cwd(), "public", "uploads");
       await fs.mkdir(uploadsDir, { recursive: true });
 
-      const safeExt = extension ? `.${extension}` : ".jpg";
-      const localFileName = `${uniqueId}${safeExt}`;
-      const localFilePath = path.join(uploadsDir, localFileName);
-      await fs.writeFile(localFilePath, buffer);
+      const localFileName = `${uniqueId}${extension ? `.${extension}` : ".bin"}`;
+      await fs.writeFile(path.join(uploadsDir, localFileName), buffer);
       url = `/uploads/${localFileName}`;
     }
 
-    return NextResponse.json(
-      { url, message: "File uploaded successfully" },
-      { status: 201 },
-    );
-  } catch (error: any) {
+    return apiCreated({ url, message: "File uploaded successfully" });
+  } catch (error) {
     const errorId = crypto.randomUUID();
     console.error(`[${errorId}] Failed to upload file:`, error);
-    return NextResponse.json(
-      { error: "Failed to upload file", errorId },
-      { status: 500 },
-    );
+    return apiInternalError(errorId, "Failed to upload file.");
   }
 }
