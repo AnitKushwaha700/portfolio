@@ -75,7 +75,7 @@ function LoginContent() {
         {/* Branding header */}
         <div className="text-center mb-8">
           <h1 className="text-2xl font-bold tracking-tighter text-white inline-block">
-            Anit Kushwaha<span className="text-indigo-500">.</span>
+            Admin Login
           </h1>
         </div>
 

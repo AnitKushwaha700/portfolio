@@ -88,7 +88,7 @@ export default function ImageUploadModal({
         }
 
         const uploadData = await uploadRes.json();
-        finalImageUrl = uploadData.url;
+        finalImageUrl = uploadData.url || uploadData.data?.url;
       } else if (customUrl.trim()) {
         finalImageUrl = customUrl.trim();
       }
@@ -99,7 +99,7 @@ export default function ImageUploadModal({
       let heroData = {};
       if (settingsRes.ok) {
         const data = await settingsRes.json();
-        heroData = data.settings?.hero || {};
+        heroData = data?.settings?.hero ?? data?.hero ?? data?.data?.hero ?? {};
       }
 
       const updateRes = await fetch("/api/settings", {
