@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import DataTable from "@/components/admin/DataTable";
 import Modal from "@/components/admin/Modal";
+import ToggleSwitch from "@/components/ui/ToggleSwitch";
 import { Loader2 } from "lucide-react";
 
 interface Hackathon {
@@ -110,7 +111,10 @@ export default function HackathonAdmin() {
       const res = await fetch("/api/hackathon");
       if (res.ok) {
         const data = await res.json();
-        setHackathons(data.hackathons);
+        const list = data?.hackathons ?? data?.data?.hackathons ?? data?.data;
+        if (Array.isArray(list)) {
+          setHackathons(list);
+        }
       }
     } catch (err) {
       console.error("Failed to fetch hackathons", err);
@@ -174,6 +178,29 @@ export default function HackathonAdmin() {
     });
     setError("");
     setIsModalOpen(true);
+  };
+
+  const handleToggleVisible = async (hack: Hackathon) => {
+    const nextVal = !hack.visible;
+    setHackathons((prev) =>
+      prev.map((h) => (h._id === hack._id ? { ...h, visible: nextVal } : h)),
+    );
+    try {
+      const res = await fetch(`/api/hackathon/${hack._id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ visible: nextVal }),
+      });
+      if (!res.ok) {
+        throw new Error("Failed to update hackathon status");
+      }
+    } catch (err) {
+      console.error(err);
+      setHackathons((prev) =>
+        prev.map((h) => (h._id === hack._id ? { ...h, visible: !nextVal } : h)),
+      );
+      alert("Failed to update hackathon status.");
+    }
   };
 
   const handleDelete = async (hack: Hackathon) => {
@@ -285,13 +312,15 @@ export default function HackathonAdmin() {
       ),
     },
     {
-      header: "Visibility",
+      header: "Status",
       accessor: (hack: Hackathon) => (
-        <span
-          className={`px-2 py-1 text-xs rounded-full ${hack.visible ? "bg-green-500/10 text-green-400" : "bg-gray-800 text-gray-400"}`}
-        >
-          {hack.visible ? "Visible" : "Hidden"}
-        </span>
+        <ToggleSwitch
+          checked={hack.visible}
+          onChange={() => handleToggleVisible(hack)}
+          size="sm"
+          activeLabel="Active"
+          inactiveLabel="Hidden"
+        />
       ),
     },
   ];
@@ -594,19 +623,24 @@ export default function HackathonAdmin() {
             </div>
           </div>
 
-          <div className="flex items-center gap-2 pt-2">
-            <input
-              type="checkbox"
-              id="visible"
+          <div className="flex items-center justify-between p-3 bg-black/20 border border-gray-800 rounded-xl">
+            <div>
+              <div className="text-sm font-medium text-gray-200">
+                Active Status
+              </div>
+              <div className="text-xs text-gray-500">
+                Show this hackathon on your portfolio
+              </div>
+            </div>
+            <ToggleSwitch
               checked={formData.visible}
-              onChange={(e) =>
-                setFormData({ ...formData, visible: e.target.checked })
+              onChange={(checked) =>
+                setFormData({ ...formData, visible: checked })
               }
-              className="rounded bg-black/20 border-gray-800 text-indigo-500 focus:ring-indigo-500"
+              size="sm"
+              activeLabel="Active"
+              inactiveLabel="Hidden"
             />
-            <label htmlFor="visible" className="text-sm text-gray-300">
-              Visible on portfolio
-            </label>
           </div>
 
           <div className="pt-4 flex justify-end gap-3">

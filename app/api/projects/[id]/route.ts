@@ -1,100 +1,124 @@
-import { NextResponse } from "next/server";
+/**
+ * GET    /api/projects/[id]  — Fetch a single project by ID or slug
+ * PUT    /api/projects/[id]  — Update a project by ID (protected)
+ * DELETE /api/projects/[id]  — Delete a project by ID (protected)
+ */
+
 import mongoose from "mongoose";
 import connectToDatabase from "@/lib/db";
 import { Project } from "@/models/Project";
+import {
+  apiSuccess,
+  apiBadRequest,
+  apiNotFound,
+  apiInternalError,
+} from "@/lib/api-response";
+
+type RouteContext = { params: Promise<{ id: string }> };
 
 export async function GET(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> },
-) {
+  _request: Request,
+  { params }: RouteContext,
+): Promise<Response> {
   const { id } = await params;
+
+  if (!id?.trim()) {
+    return apiBadRequest("Project ID or slug is required.");
+  }
+
   try {
     await connectToDatabase();
 
     const isObjectId = mongoose.Types.ObjectId.isValid(id);
-    let project = await Project.findOne({
+    const query = {
       $or: [{ slug: id }, ...(isObjectId ? [{ _id: id }] : [])],
-      visible: true,
-    }).lean();
+    };
 
-    // If not found with visible: true, fallback to general match
+    // Prefer visible projects; fall back to any match (for admin preview)
+    let project = await Project.findOne({ ...query, visible: true }).lean();
     if (!project) {
-      project = await Project.findOne({
-        $or: [{ slug: id }, ...(isObjectId ? [{ _id: id }] : [])],
-      }).lean();
+      project = await Project.findOne(query).lean();
     }
 
     if (!project) {
-      return NextResponse.json({ error: "Project not found" }, { status: 404 });
+      return apiNotFound("Project not found.");
     }
 
-    return NextResponse.json({ project }, { status: 200 });
+    return apiSuccess({ project });
   } catch (error) {
     const errorId = crypto.randomUUID();
-    console.error(`[${errorId}] Failed to fetch project ${id}:`, error);
-    return NextResponse.json(
-      { error: "Failed to fetch project", errorId },
-      { status: 500 },
-    );
+    console.error(`[${errorId}] Failed to fetch project "${id}":`, error);
+    return apiInternalError(errorId, "Failed to fetch project.");
   }
 }
 
 export async function PUT(
   request: Request,
-  { params }: { params: Promise<{ id: string }> },
-) {
+  { params }: RouteContext,
+): Promise<Response> {
   const { id } = await params;
+
+  if (!id?.trim() || !mongoose.Types.ObjectId.isValid(id)) {
+    return apiBadRequest("A valid project ID is required.");
+  }
+
   try {
     await connectToDatabase();
 
-    const data = await request.json();
-
-    const project = await Project.findByIdAndUpdate(id, data, {
-      new: true,
-      runValidators: true,
-    });
-
-    if (!project) {
-      return NextResponse.json({ error: "Project not found" }, { status: 404 });
+    let body: unknown;
+    try {
+      body = await request.json();
+    } catch {
+      return apiBadRequest("Invalid JSON in request body.");
     }
 
-    return NextResponse.json(
-      { project, message: "Project updated successfully" },
-      { status: 200 },
-    );
-  } catch (error: any) {
-    console.error(`Failed to update project ${id}:`, error);
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 },
-    );
+    if (typeof body !== "object" || body === null) {
+      return apiBadRequest("Request body must be a JSON object.");
+    }
+
+    const updated = await Project.findByIdAndUpdate(id, body, {
+      new: true,
+      runValidators: true,
+    }).lean();
+
+    if (!updated) {
+      return apiNotFound("Project not found.");
+    }
+
+    return apiSuccess({
+      project: updated,
+      message: "Project updated successfully",
+    });
+  } catch (error) {
+    const errorId = crypto.randomUUID();
+    console.error(`[${errorId}] Failed to update project "${id}":`, error);
+    return apiInternalError(errorId, "Failed to update project.");
   }
 }
 
 export async function DELETE(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> },
-) {
+  _request: Request,
+  { params }: RouteContext,
+): Promise<Response> {
   const { id } = await params;
+
+  if (!id?.trim() || !mongoose.Types.ObjectId.isValid(id)) {
+    return apiBadRequest("A valid project ID is required.");
+  }
+
   try {
     await connectToDatabase();
 
-    const project = await Project.findByIdAndDelete(id);
+    const deleted = await Project.findByIdAndDelete(id).lean();
 
-    if (!project) {
-      return NextResponse.json({ error: "Project not found" }, { status: 404 });
+    if (!deleted) {
+      return apiNotFound("Project not found.");
     }
 
-    return NextResponse.json(
-      { message: "Project deleted successfully" },
-      { status: 200 },
-    );
+    return apiSuccess({ message: "Project deleted successfully." });
   } catch (error) {
     const errorId = crypto.randomUUID();
-    console.error(`[${errorId}] Failed to delete project ${id}:`, error);
-    return NextResponse.json(
-      { error: "Failed to delete project", errorId },
-      { status: 500 },
-    );
+    console.error(`[${errorId}] Failed to delete project "${id}":`, error);
+    return apiInternalError(errorId, "Failed to delete project.");
   }
 }

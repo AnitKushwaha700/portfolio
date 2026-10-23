@@ -1,51 +1,74 @@
-import { NextResponse } from "next/server";
+/**
+ * GET  /api/skills   — List all skills
+ * POST /api/skills   — Create a new skill (protected)
+ */
+
 import connectToDatabase from "@/lib/db";
 import { Skill } from "@/models/Skill";
+import { SKILL_CATEGORIES } from "@/constants";
+import {
+  apiSuccess,
+  apiCreated,
+  apiBadRequest,
+  apiInternalError,
+} from "@/lib/api-response";
 
-export async function GET() {
+export async function GET(): Promise<Response> {
   try {
     await connectToDatabase();
-
-    // Fetch all skills, sorted by category and then by proficiency
-    const skills = await Skill.find({}).sort({ category: 1, proficiency: -1 });
-
-    return NextResponse.json({ skills }, { status: 200 });
+    const skills = await Skill.find({}).sort({ category: 1, order: 1 }).lean();
+    return apiSuccess({ skills });
   } catch (error) {
     const errorId = crypto.randomUUID();
     console.error(`[${errorId}] Failed to fetch skills:`, error);
-    return NextResponse.json(
-      { error: "Failed to fetch skills", errorId },
-      { status: 500 },
-    );
+    return apiInternalError(errorId, "Failed to fetch skills.");
   }
 }
 
-export async function POST(request: Request) {
+export async function POST(request: Request): Promise<Response> {
   try {
     await connectToDatabase();
 
-    const data = await request.json();
+    let body: unknown;
+    try {
+      body = await request.json();
+    } catch {
+      return apiBadRequest("Invalid JSON in request body.");
+    }
 
-    if (!data.name || !data.category) {
-      return NextResponse.json(
-        { error: "Name and category are required" },
-        { status: 400 },
+    if (typeof body !== "object" || body === null) {
+      return apiBadRequest("Request body must be a JSON object.");
+    }
+
+    const data = body as Record<string, unknown>;
+
+    if (!data.name || typeof data.name !== "string" || !data.name.trim()) {
+      return apiBadRequest(
+        "Field 'name' is required and must be a non-empty string.",
+      );
+    }
+    if (!data.category || typeof data.category !== "string") {
+      return apiBadRequest("Field 'category' is required.");
+    }
+    if (!(SKILL_CATEGORIES as readonly string[]).includes(data.category)) {
+      return apiBadRequest(
+        `Invalid category. Must be one of: ${SKILL_CATEGORIES.join(", ")}.`,
       );
     }
 
-    const skill = new Skill(data);
-    await skill.save();
+    const skill = new Skill({
+      ...data,
+      name: (data.name as string).trim(),
+    });
 
-    return NextResponse.json(
-      { skill, message: "Skill added successfully" },
-      { status: 201 },
-    );
-  } catch (error: any) {
+    await skill.save();
+    return apiCreated({
+      skill: skill.toObject(),
+      message: "Skill added successfully",
+    });
+  } catch (error) {
     const errorId = crypto.randomUUID();
-    console.error(`[${errorId}] Failed to add skill:`, error);
-    return NextResponse.json(
-      { error: "Failed to add skill", errorId },
-      { status: 500 },
-    );
+    console.error(`[${errorId}] Failed to create skill:`, error);
+    return apiInternalError(errorId, "Failed to create skill.");
   }
 }

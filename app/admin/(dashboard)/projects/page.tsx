@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react";
 import DataTable from "@/components/admin/DataTable";
 import Modal from "@/components/admin/Modal";
-import { ExternalLink, Code, Loader2 } from "lucide-react";
+import ToggleSwitch from "@/components/ui/ToggleSwitch";
+import { Loader2 } from "lucide-react";
 
 interface Project {
   _id: string;
@@ -25,6 +26,7 @@ interface Project {
     learning?: string;
   };
   featured: boolean;
+  visible?: boolean;
 }
 
 export default function ProjectsAdmin() {
@@ -51,6 +53,7 @@ export default function ProjectsAdmin() {
     challenges: "",
     learning: "",
     featured: false,
+    visible: true,
   });
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
@@ -108,7 +111,10 @@ export default function ProjectsAdmin() {
       const res = await fetch("/api/projects");
       if (res.ok) {
         const data = await res.json();
-        setProjects(data.projects);
+        const list = data?.projects ?? data?.data?.projects ?? data?.data;
+        if (Array.isArray(list)) {
+          setProjects(list);
+        }
       }
     } catch (err) {
       console.error("Failed to fetch projects", err);
@@ -141,6 +147,7 @@ export default function ProjectsAdmin() {
       challenges: "",
       learning: "",
       featured: false,
+      visible: true,
     });
     setError("");
     setIsModalOpen(true);
@@ -165,9 +172,62 @@ export default function ProjectsAdmin() {
       challenges: project.content?.challenges || "",
       learning: project.content?.learning || "",
       featured: project.featured,
+      visible: project.visible !== false,
     });
     setError("");
     setIsModalOpen(true);
+  };
+
+  const handleToggleVisible = async (project: Project) => {
+    const nextVal = project.visible === false ? true : false;
+    setProjects((prev) =>
+      prev.map((p) => (p._id === project._id ? { ...p, visible: nextVal } : p)),
+    );
+    try {
+      const res = await fetch(`/api/projects/${project._id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ visible: nextVal }),
+      });
+      if (!res.ok) {
+        throw new Error("Failed to update status");
+      }
+    } catch (err) {
+      console.error(err);
+      setProjects((prev) =>
+        prev.map((p) =>
+          p._id === project._id ? { ...p, visible: !nextVal } : p,
+        ),
+      );
+      alert("Failed to update project status.");
+    }
+  };
+
+  const handleToggleFeatured = async (project: Project) => {
+    const nextVal = !project.featured;
+    setProjects((prev) =>
+      prev.map((p) =>
+        p._id === project._id ? { ...p, featured: nextVal } : p,
+      ),
+    );
+    try {
+      const res = await fetch(`/api/projects/${project._id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ featured: nextVal }),
+      });
+      if (!res.ok) {
+        throw new Error("Failed to update featured status");
+      }
+    } catch (err) {
+      console.error(err);
+      setProjects((prev) =>
+        prev.map((p) =>
+          p._id === project._id ? { ...p, featured: !nextVal } : p,
+        ),
+      );
+      alert("Failed to update featured status.");
+    }
   };
 
   const handleDelete = async (project: Project) => {
@@ -287,30 +347,27 @@ export default function ProjectsAdmin() {
       },
     },
     {
-      header: "Links",
+      header: "Status",
       accessor: (project: Project) => (
-        <div className="flex items-center gap-2">
-          {project.githubUrl && (
-            <a
-              href={project.githubUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="text-gray-400 hover:text-white"
-            >
-              <Code className="w-4 h-4" />
-            </a>
-          )}
-          {project.liveUrl && (
-            <a
-              href={project.liveUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="text-gray-400 hover:text-white"
-            >
-              <ExternalLink className="w-4 h-4" />
-            </a>
-          )}
-        </div>
+        <ToggleSwitch
+          checked={project.visible !== false}
+          onChange={() => handleToggleVisible(project)}
+          size="sm"
+          activeLabel="Active"
+          inactiveLabel="Hidden"
+        />
+      ),
+    },
+    {
+      header: "Featured",
+      accessor: (project: Project) => (
+        <ToggleSwitch
+          checked={!!project.featured}
+          onChange={() => handleToggleFeatured(project)}
+          size="sm"
+          activeLabel="Yes"
+          inactiveLabel="No"
+        />
       ),
     },
   ];
@@ -593,19 +650,45 @@ export default function ProjectsAdmin() {
             </div>
           </div>
 
-          <div className="flex items-center gap-2 pt-2">
-            <input
-              type="checkbox"
-              id="featured"
-              checked={formData.featured}
-              onChange={(e) =>
-                setFormData({ ...formData, featured: e.target.checked })
-              }
-              className="rounded bg-black/20 border-gray-800 text-indigo-500 focus:ring-indigo-500"
-            />
-            <label htmlFor="featured" className="text-sm text-gray-300">
-              Feature this project on the homepage
-            </label>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 bg-black/20 border border-gray-800 rounded-xl">
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="text-sm font-medium text-gray-200">
+                  Active Status
+                </div>
+                <div className="text-xs text-gray-500">
+                  Show this project on public portfolio
+                </div>
+              </div>
+              <ToggleSwitch
+                checked={formData.visible}
+                onChange={(checked) =>
+                  setFormData({ ...formData, visible: checked })
+                }
+                size="sm"
+                activeLabel="Active"
+                inactiveLabel="Hidden"
+              />
+            </div>
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="text-sm font-medium text-gray-200">
+                  Featured
+                </div>
+                <div className="text-xs text-gray-500">
+                  Highlight on homepage
+                </div>
+              </div>
+              <ToggleSwitch
+                checked={formData.featured}
+                onChange={(checked) =>
+                  setFormData({ ...formData, featured: checked })
+                }
+                size="sm"
+                activeLabel="Featured"
+                inactiveLabel="Standard"
+              />
+            </div>
           </div>
 
           <div className="pt-4 flex justify-end gap-3">

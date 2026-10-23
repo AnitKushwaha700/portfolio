@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Save } from "lucide-react";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
+import ToggleSwitch from "@/components/ui/ToggleSwitch";
 
 interface GeneralSettings {
   sectionVisibility: {
@@ -35,10 +36,13 @@ export default function SettingsAdmin() {
         const res = await fetch("/api/settings");
         if (res.ok) {
           const data = await res.json();
-          setFormData({
-            sectionVisibility: data.settings.sectionVisibility,
-            seo: data.settings.seo,
-          });
+          const settingsObj = data?.settings ?? data?.data?.settings ?? data;
+          if (settingsObj?.sectionVisibility && settingsObj?.seo) {
+            setFormData({
+              sectionVisibility: settingsObj.sectionVisibility,
+              seo: settingsObj.seo,
+            });
+          }
         }
       } catch (err) {
         console.error("Failed to fetch settings", err);
@@ -192,18 +196,17 @@ export default function SettingsAdmin() {
                 <span className="text-sm font-medium text-gray-300 capitalize">
                   {key}
                 </span>
-                <div
-                  className={`w-10 h-6 rounded-full p-1 cursor-pointer transition-colors ${value ? "bg-indigo-600" : "bg-gray-700"}`}
-                  onClick={() =>
+                <ToggleSwitch
+                  checked={value}
+                  onChange={() =>
                     handleToggle(
                       key as keyof GeneralSettings["sectionVisibility"],
                     )
                   }
-                >
-                  <div
-                    className={`w-4 h-4 bg-white rounded-full transition-transform ${value ? "translate-x-4" : "translate-x-0"}`}
-                  />
-                </div>
+                  size="sm"
+                  activeLabel="Visible"
+                  inactiveLabel="Hidden"
+                />
               </div>
             ))}
           </div>
