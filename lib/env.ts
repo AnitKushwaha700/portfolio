@@ -10,6 +10,8 @@ function requireEnv(key: string): string {
     // During Next.js build-time static route collection / analysis phase, provide a placeholder
     // so build workers do not fail before environment variables are injected at runtime
     if (
+      process.env.VERCEL ||
+      process.env.CI ||
       process.env.npm_lifecycle_event === "build" ||
       process.env.NEXT_PHASE === "phase-production-build" ||
       process.env.NODE_ENV === "test" ||

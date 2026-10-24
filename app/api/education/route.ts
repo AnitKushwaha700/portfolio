@@ -14,6 +14,8 @@ import {
   apiInternalError,
 } from "@/lib/api-response";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(): Promise<Response> {
   try {
     await connectToDatabase();

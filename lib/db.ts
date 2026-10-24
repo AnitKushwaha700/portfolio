@@ -8,17 +8,6 @@
 import mongoose from "mongoose";
 import { MONGOOSE_BUFFER_COMMANDS } from "@/constants";
 
-const rawUri = process.env.MONGODB_URI;
-
-if (!rawUri) {
-  throw new Error(
-    "[db] Missing MONGODB_URI environment variable. " +
-      "Please define it in your .env file.",
-  );
-}
-
-const MONGODB_URI: string = rawUri;
-
 interface MongooseCache {
   conn: typeof mongoose | null;
   promise: Promise<typeof mongoose> | null;
@@ -48,6 +37,17 @@ async function connectToDatabase(): Promise<typeof mongoose> {
   if (cached.conn) {
     return cached.conn;
   }
+
+  const rawUri = process.env.MONGODB_URI;
+
+  if (!rawUri) {
+    throw new Error(
+      "[db] Missing MONGODB_URI environment variable. " +
+        "Please define it in your hosting provider's Environment Variables (e.g. Vercel Project Settings) or .env file.",
+    );
+  }
+
+  const MONGODB_URI: string = rawUri;
 
   if (!cached.promise) {
     const isProduction = process.env.NODE_ENV === "production";

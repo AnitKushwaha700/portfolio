@@ -49,6 +49,8 @@ cloudinary.config({
   api_secret: env.CLOUDINARY_API_SECRET,
 });
 
+export const dynamic = "force-dynamic";
+
 export async function POST(request: Request): Promise<Response> {
   // Defense-in-depth: independently verify admin session inside route handler
   const auth = await requireAdminSession();

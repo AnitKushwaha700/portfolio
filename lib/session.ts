@@ -14,6 +14,8 @@ function getSecretKey(): Uint8Array {
     // During Next.js static build analysis or test runs, provide a safe fallback placeholder
     // so module evaluation does not crash the bundler before env vars are available.
     if (
+      process.env.VERCEL ||
+      process.env.CI ||
       process.env.npm_lifecycle_event === "build" ||
       process.env.NEXT_PHASE === "phase-production-build" ||
       process.env.NODE_ENV === "test" ||

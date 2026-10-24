@@ -22,6 +22,8 @@ function maskPhone(phone: string): string {
   return "*".repeat(phone.length - 4) + phone.slice(-4);
 }
 
+export const dynamic = "force-dynamic";
+
 export async function GET(): Promise<Response> {
   try {
     await connectToDatabase();
