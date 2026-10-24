@@ -5,6 +5,8 @@
 
 import connectToDatabase from "@/lib/db";
 import { Project } from "@/models/Project";
+import { getSession } from "@/lib/auth";
+import { requireAdminSession } from "@/lib/auth-guard";
 import {
   apiSuccess,
   apiCreated,
@@ -15,7 +17,12 @@ import {
 export async function GET(): Promise<Response> {
   try {
     await connectToDatabase();
-    const projects = await Project.find({})
+    const session = await getSession();
+    const isAdmin = !!session?.email;
+    const filter = isAdmin ? {} : { visible: true };
+
+    const projects = await Project.find(filter)
+      .select("-__v")
       .sort({ order: 1, createdAt: -1 })
       .lean();
     return apiSuccess({ projects });
@@ -27,6 +34,9 @@ export async function GET(): Promise<Response> {
 }
 
 export async function POST(request: Request): Promise<Response> {
+  const auth = await requireAdminSession();
+  if (!auth.authorized) return auth.response;
+
   try {
     await connectToDatabase();
 

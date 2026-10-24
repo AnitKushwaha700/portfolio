@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { DetailPageSkeleton } from "@/components/ui/Skeleton";
-import { formatImageUrl, isExternalUrl } from "@/utils";
+import { formatImageUrl, isExternalUrl, sanitizeUrl } from "@/utils";
 
 export default function HackathonDetail() {
   const params = useParams();
@@ -156,7 +156,7 @@ export default function HackathonDetail() {
             )}
             {hackathon.link && (
               <a
-                href={hackathon.link}
+                href={sanitizeUrl(hackathon.link)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 px-6 py-2 rounded-full bg-indigo-600 hover:bg-indigo-500 text-white transition-all shadow-lg shadow-indigo-500/25 group ml-auto"
