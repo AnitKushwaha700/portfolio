@@ -1,7 +1,12 @@
-import { logout } from "@/lib/auth";
-import { NextResponse } from "next/server";
+/**
+ * POST /api/auth/logout
+ * Destroys the session cookie and redirects to the login page.
+ */
 
-export async function POST() {
+import { logout } from "@/lib/auth";
+import { apiSuccess } from "@/lib/api-response";
+
+export async function POST(): Promise<Response> {
   await logout();
-  return NextResponse.json({ success: true });
+  return apiSuccess({ success: true });
 }

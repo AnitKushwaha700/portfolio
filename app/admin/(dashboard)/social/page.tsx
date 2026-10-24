@@ -24,7 +24,11 @@ export default function SocialAdmin() {
         const res = await fetch("/api/settings");
         if (res.ok) {
           const data = await res.json();
-          setFormData(data.settings.social);
+          const socialSettings =
+            data?.settings?.social ?? data?.social ?? data?.data?.social;
+          if (socialSettings) {
+            setFormData(socialSettings);
+          }
         }
       } catch (err) {
         console.error("Failed to fetch settings", err);

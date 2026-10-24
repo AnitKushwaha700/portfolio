@@ -1,45 +1,79 @@
-import { NextResponse } from "next/server";
+/**
+ * GET  /api/education   — List all education records
+ * POST /api/education   — Create an education record (protected)
+ */
+
 import connectToDatabase from "@/lib/db";
 import { Education } from "@/models/Education";
+import {
+  apiSuccess,
+  apiCreated,
+  apiBadRequest,
+  apiInternalError,
+} from "@/lib/api-response";
 
-export async function GET() {
+export async function GET(): Promise<Response> {
   try {
     await connectToDatabase();
-    const education = await Education.find({}).sort({
-      order: 1,
-      startDate: -1,
-    });
-    return NextResponse.json({ education }, { status: 200 });
-  } catch {
-    return NextResponse.json(
-      { error: "Failed to fetch education" },
-      { status: 500 },
-    );
+    const education = await Education.find({}).sort({ order: 1 }).lean();
+    return apiSuccess({ education });
+  } catch (error) {
+    const errorId = crypto.randomUUID();
+    console.error(`[${errorId}] Failed to fetch education:`, error);
+    return apiInternalError(errorId, "Failed to fetch education.");
   }
 }
 
-export async function POST(request: Request) {
+export async function POST(request: Request): Promise<Response> {
   try {
     await connectToDatabase();
-    const data = await request.json();
 
-    if (!data.institution || !data.degree || !data.score) {
-      return NextResponse.json(
-        { error: "Institution, degree, and score are required" },
-        { status: 400 },
-      );
+    let body: unknown;
+    try {
+      body = await request.json();
+    } catch {
+      return apiBadRequest("Invalid JSON in request body.");
     }
 
-    const education = new Education(data);
+    if (typeof body !== "object" || body === null) {
+      return apiBadRequest("Request body must be a JSON object.");
+    }
+
+    const data = body as Record<string, unknown>;
+
+    if (
+      !data.institution ||
+      typeof data.institution !== "string" ||
+      !data.institution.trim()
+    ) {
+      return apiBadRequest("Field 'institution' is required.");
+    }
+    if (
+      !data.degree ||
+      typeof data.degree !== "string" ||
+      !data.degree.trim()
+    ) {
+      return apiBadRequest("Field 'degree' is required.");
+    }
+    if (!data.score || typeof data.score !== "string" || !data.score.trim()) {
+      return apiBadRequest("Field 'score' is required.");
+    }
+
+    const education = new Education({
+      ...data,
+      institution: (data.institution as string).trim(),
+      degree: (data.degree as string).trim(),
+      score: (data.score as string).trim(),
+    });
+
     await education.save();
-    return NextResponse.json(
-      { education, message: "Education added successfully" },
-      { status: 201 },
-    );
-  } catch {
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 },
-    );
+    return apiCreated({
+      education: education.toObject(),
+      message: "Education record added successfully",
+    });
+  } catch (error) {
+    const errorId = crypto.randomUUID();
+    console.error(`[${errorId}] Failed to create education record:`, error);
+    return apiInternalError(errorId, "Failed to create education record.");
   }
 }
