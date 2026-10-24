@@ -1,8 +1,7 @@
 "use client";
 
-import { Calendar, MapPin, ExternalLink, ArrowRight } from "lucide-react";
+import { Calendar, MapPin, ExternalLink, ArrowRight, Trophy, Award } from "lucide-react";
 import { motion } from "framer-motion";
-import Image from "next/image";
 import Link from "next/link";
 
 interface HackathonItem {
@@ -13,7 +12,7 @@ interface HackathonItem {
   description: string;
   location: string;
   link: string;
-  image: string;
+  image?: string;
   certificateUrl?: string;
   slug: string;
 }
@@ -47,96 +46,105 @@ export default function Hackathons({
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {hackathons.map((hackathon, index) => (
-            <motion.div
-              key={hackathon._id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="card group overflow-hidden flex flex-col h-full card-hover"
-            >
-              {hackathon.image && (
-                <div className="relative w-full h-48 sm:h-64 overflow-hidden bg-gray-900 border-b border-gray-800">
-                  <Image
-                    src={hackathon.image}
-                    alt={hackathon.title}
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 50vw"
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                </div>
-              )}
+          {hackathons.map((hackathon, index) => {
+            const certUrl =
+              hackathon.certificateUrl ||
+              (hackathon.image &&
+              (hackathon.image.includes("drive.google.com") ||
+                hackathon.image.endsWith(".pdf") ||
+                hackathon.image.includes("certificate"))
+                ? hackathon.image
+                : undefined);
 
-              <div className="p-6 flex flex-col flex-1">
-                <div className="flex justify-between items-start mb-4">
-                  <div>
-                    <h3 className="text-xl font-bold text-gray-100 group-hover:text-indigo-400 transition-colors">
-                      {hackathon.title}
-                    </h3>
-                    <h4 className="text-sm font-medium text-indigo-400 mt-1">
-                      {hackathon.organization}
-                    </h4>
+            return (
+              <motion.div
+                key={hackathon._id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="card group overflow-hidden flex flex-col justify-between p-6 sm:p-7 card-hover border border-gray-800/90 hover:border-indigo-500/40 bg-[#0d0e19]/80 backdrop-blur-xl relative"
+              >
+                {/* Subtle ambient glow */}
+                <div className="absolute top-0 right-0 w-48 h-48 bg-indigo-600/5 rounded-full blur-3xl pointer-events-none group-hover:bg-indigo-600/10 transition-colors" />
+
+                <div>
+                  <div className="flex justify-between items-start mb-4 gap-3">
+                    <div className="flex items-start gap-3.5">
+                      <div className="p-3 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 group-hover:scale-110 group-hover:border-indigo-500/40 transition-all flex-shrink-0 mt-0.5">
+                        <Trophy className="w-5 h-5 text-indigo-400" />
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-bold text-gray-100 group-hover:text-indigo-400 transition-colors tracking-tight">
+                          {hackathon.title}
+                        </h3>
+                        <h4 className="text-sm font-medium text-indigo-400/90 mt-1">
+                          {hackathon.organization}
+                        </h4>
+                      </div>
+                    </div>
+                    {hackathon.link && (
+                      <a
+                        href={hackathon.link}
+                        target="_blank"
+                        rel="noreferrer"
+                        aria-label="External link"
+                        className="p-2 rounded-lg bg-gray-800/60 hover:bg-gray-800 text-gray-400 hover:text-white transition-colors shrink-0 border border-gray-700/40"
+                      >
+                        <ExternalLink className="w-4 h-4" />
+                      </a>
+                    )}
                   </div>
-                  {hackathon.link && (
-                    <a
-                      href={hackathon.link}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-gray-400 hover:text-white transition-colors shrink-0 ml-2 mt-1"
-                    >
-                      <ExternalLink className="w-5 h-5" />
-                    </a>
-                  )}
+
+                  <p className="text-gray-400 text-sm mb-6 leading-relaxed line-clamp-3">
+                    {hackathon.description}
+                  </p>
+
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {hackathon.date && (
+                      <div className="flex items-center px-2.5 py-1 bg-indigo-500/10 text-indigo-300 text-xs font-medium rounded-lg border border-indigo-500/20">
+                        <Calendar className="w-3.5 h-3.5 mr-1.5 opacity-70" />
+                        {hackathon.date}
+                      </div>
+                    )}
+                    {hackathon.location && (
+                      <div className="flex items-center px-2.5 py-1 bg-indigo-500/10 text-indigo-300 text-xs font-medium rounded-lg border border-indigo-500/20">
+                        <MapPin className="w-3.5 h-3.5 mr-1.5 opacity-70" />
+                        {hackathon.location}
+                      </div>
+                    )}
+                  </div>
                 </div>
 
-                <p className="text-gray-400 text-sm mb-6 line-clamp-3">
-                  {hackathon.description}
-                </p>
-
-                <div className="flex flex-wrap gap-2 mb-6">
-                  {hackathon.date && (
-                    <div className="flex items-center px-2.5 py-1 bg-indigo-500/10 text-indigo-300 text-xs font-medium rounded border border-indigo-500/20">
-                      <Calendar className="w-3.5 h-3.5 mr-1.5 opacity-70" />
-                      {hackathon.date}
-                    </div>
-                  )}
-                  {hackathon.location && (
-                    <div className="flex items-center px-2.5 py-1 bg-indigo-500/10 text-indigo-300 text-xs font-medium rounded border border-indigo-500/20">
-                      <MapPin className="w-3.5 h-3.5 mr-1.5 opacity-70" />
-                      {hackathon.location}
-                    </div>
-                  )}
-                </div>
-
-                <div className="mt-auto pt-4 border-t border-gray-800 flex justify-between items-center">
+                <div className="pt-4 border-t border-gray-800/80 flex flex-wrap justify-between items-center gap-3">
                   {hackathon.slug ? (
                     <Link
                       href={`/hackathons/${hackathon.slug}`}
-                      className="inline-flex items-center text-sm font-medium text-indigo-400 hover:text-indigo-300 transition-colors group/link"
+                      className="inline-flex items-center text-sm font-semibold text-indigo-400 hover:text-indigo-300 transition-colors group/link"
                     >
-                      View Details
-                      <ArrowRight className="w-4 h-4 ml-1 group-hover/link:translate-x-1 transition-transform" />
+                      <span>View Details</span>
+                      <ArrowRight className="w-4 h-4 ml-1.5 group-hover/link:translate-x-1 transition-transform" />
                     </Link>
                   ) : (
-                    <div></div>
+                    <div />
                   )}
 
-                  {hackathon.certificateUrl && (
+                  {certUrl && (
                     <a
-                      href={hackathon.certificateUrl}
+                      href={certUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-gray-400 hover:text-white text-xs font-medium transition-colors flex items-center gap-1"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-300 hover:text-white border border-indigo-500/20 text-xs font-medium transition-colors"
                     >
-                      View Certificate
-                      <ExternalLink className="w-3 h-3" />
+                      <Award className="w-3.5 h-3.5 text-indigo-400" />
+                      <span>View Certificate</span>
+                      <ExternalLink className="w-3 h-3 text-indigo-400/80 ml-0.5" />
                     </a>
                   )}
                 </div>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            );
+          })}
         </div>
       </motion.div>
     </section>

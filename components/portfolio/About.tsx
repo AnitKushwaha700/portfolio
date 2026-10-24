@@ -16,14 +16,14 @@ export default function About({ settings }: { settings: any }) {
       title: "Frontend Engineering",
       desc: "Crafting reactive, pixel-perfect user interfaces with React.js, Next.js, TypeScript, and modern CSS systems.",
       color:
-        "from-rose-500/20 to-amber-500/10 text-rose-400 border-rose-500/30",
+        "from-red-500/20 to-rose-500/10 text-red-400 border-red-500/30",
     },
     {
       icon: Server,
       title: "Scalable Backends",
       desc: "Architecting secure RESTful APIs, authentication workflows, and robust databases with Node.js & MongoDB.",
       color:
-        "from-indigo-500/20 to-purple-500/10 text-indigo-400 border-indigo-500/30",
+        "from-red-500/20 to-rose-500/10 text-red-400 border-red-500/30",
     },
   ];
 

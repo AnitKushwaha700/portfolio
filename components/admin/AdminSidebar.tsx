@@ -16,12 +16,14 @@ import {
   Settings,
   Menu,
   X,
+  FileText,
 } from "lucide-react";
 
 const navItems = [
   { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
   { name: "Hero Settings", href: "/admin/hero", icon: User },
   { name: "About", href: "/admin/about", icon: User },
+  { name: "Resume", href: "/admin/resume", icon: FileText },
   { name: "Skills", href: "/admin/skills", icon: Code2 },
   { name: "Experience", href: "/admin/experience", icon: Briefcase },
   { name: "Projects", href: "/admin/projects", icon: FolderGit2 },

@@ -71,3 +71,32 @@ export function formatDate(dateStr: string): string {
   if (isNaN(date.getTime())) return dateStr;
   return date.toLocaleDateString("en-US", { year: "numeric", month: "long" });
 }
+
+/**
+ * Normalizes image URLs:
+ * - Converts Google Drive sharing links (drive.google.com/file/d/ID/view... or open?id=ID)
+ *   to direct image endpoints (https://lh3.googleusercontent.com/d/ID).
+ * - Preserves other URLs as-is.
+ */
+export function formatImageUrl(url: string | undefined | null): string {
+  if (!url) return "";
+  const trimmed = url.trim();
+
+  // Match Google Drive file ID
+  const gDriveMatch = trimmed.match(
+    /(?:drive\.google\.com\/(?:file\/d\/|open\?id=)|docs\.google\.com\/file\/d\/)([a-zA-Z0-9_-]+)/,
+  );
+  if (gDriveMatch && gDriveMatch[1]) {
+    return `https://lh3.googleusercontent.com/d/${gDriveMatch[1]}`;
+  }
+
+  return trimmed;
+}
+
+/**
+ * Checks whether an image URL points to an external HTTP(S) location.
+ */
+export function isExternalUrl(url: string | undefined | null): boolean {
+  if (!url) return false;
+  return url.startsWith("http://") || url.startsWith("https://");
+}

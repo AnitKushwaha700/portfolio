@@ -15,6 +15,7 @@ import { FaGithub } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { DetailPageSkeleton } from "@/components/ui/Skeleton";
 import ProjectMetricsChart from "@/components/portfolio/ProjectMetricsChart";
+import { formatImageUrl, isExternalUrl } from "@/utils";
 
 export default function ProjectDetail() {
   const params = useParams();
@@ -22,6 +23,7 @@ export default function ProjectDetail() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [reloadKey, setReloadKey] = useState(0);
+  const [imageFailed, setImageFailed] = useState(false);
 
   useEffect(() => {
     let ignore = false;
@@ -151,7 +153,7 @@ export default function ProjectDetail() {
           </div>
         </motion.div>
 
-        {project.image && (
+        {project.image && !imageFailed && (
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -160,9 +162,11 @@ export default function ProjectDetail() {
           >
             <div className="absolute inset-0 bg-gradient-to-t from-[#0B0F19] to-transparent z-10 opacity-30" />
             <Image
-              src={project.image}
+              src={formatImageUrl(project.image)}
               alt={project.title}
               fill
+              unoptimized={isExternalUrl(formatImageUrl(project.image))}
+              onError={() => setImageFailed(true)}
               className="object-cover group-hover:scale-105 transition-transform duration-700"
               priority
             />

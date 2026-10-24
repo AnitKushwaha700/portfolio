@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ExternalLink, ArrowRight } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
 import Image from "next/image";
+import { formatImageUrl, isExternalUrl } from "@/utils";
 
 export default function Projects({ projects }: { projects: any[] }) {
   if (!projects || projects.length === 0) return null;
@@ -31,26 +32,31 @@ export default function Projects({ projects }: { projects: any[] }) {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {projects.map((project, index) => (
-            <motion.div
-              key={project._id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="card group overflow-hidden flex flex-col h-full card-hover hover:border-red-500/40"
-            >
-              {project.image && (
-                <div className="relative w-full h-48 sm:h-64 overflow-hidden bg-gray-900 border-b border-gray-800">
-                  <Image
-                    src={project.image}
-                    alt={project.title}
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 50vw"
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                </div>
-              )}
+          {projects.map((project, index) => {
+            const formattedSrc = formatImageUrl(project.image);
+            const isExternal = isExternalUrl(formattedSrc);
+
+            return (
+              <motion.div
+                key={project._id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="card group overflow-hidden flex flex-col h-full card-hover hover:border-red-500/40"
+              >
+                {formattedSrc && (
+                  <div className="relative w-full h-48 sm:h-64 overflow-hidden bg-gray-900 border-b border-gray-800">
+                    <Image
+                      src={formattedSrc}
+                      alt={project.title}
+                      fill
+                      unoptimized={isExternal}
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
+                )}
 
               <div className="p-6 flex flex-col flex-1">
                 <div className="flex justify-between items-start mb-4">
@@ -105,7 +111,8 @@ export default function Projects({ projects }: { projects: any[] }) {
                 </div>
               </div>
             </motion.div>
-          ))}
+          );
+        })}
         </div>
       </motion.div>
     </section>
