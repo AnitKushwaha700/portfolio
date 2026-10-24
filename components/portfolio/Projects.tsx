@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ExternalLink, ArrowRight } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
 import Image from "next/image";
-import { formatImageUrl, isExternalUrl } from "@/utils";
+import { formatImageUrl, isExternalUrl, sanitizeUrl } from "@/utils";
 
 export default function Projects({ projects }: { projects: any[] }) {
   if (!projects || projects.length === 0) return null;
@@ -66,8 +66,9 @@ export default function Projects({ projects }: { projects: any[] }) {
                   <div className="flex gap-3 text-gray-400">
                     {project.githubUrl && (
                       <Link
-                        href={project.githubUrl}
+                        href={sanitizeUrl(project.githubUrl)}
                         target="_blank"
+                        rel="noopener noreferrer"
                         className="hover:text-white transition-colors"
                       >
                         <FaGithub className="w-5 h-5" />
@@ -75,8 +76,9 @@ export default function Projects({ projects }: { projects: any[] }) {
                     )}
                     {project.liveUrl && (
                       <Link
-                        href={project.liveUrl}
+                        href={sanitizeUrl(project.liveUrl)}
                         target="_blank"
+                        rel="noopener noreferrer"
                         className="hover:text-white transition-colors"
                       >
                         <ExternalLink className="w-5 h-5" />

@@ -34,10 +34,25 @@ const ENV_RULES: EnvRule[] = [
     key: "MONGODB_URI",
     required: true,
     description: "MongoDB connection string",
-    validate: (v) =>
-      v.startsWith("mongodb://") || v.startsWith("mongodb+srv://")
-        ? null
-        : "Must start with mongodb:// or mongodb+srv://",
+    validate: (v) => {
+      if (!v.startsWith("mongodb://") && !v.startsWith("mongodb+srv://")) {
+        return "Must start with mongodb:// or mongodb+srv://";
+      }
+      if (/:\/\/(root:root|admin:admin|test:test|mongodb:mongodb)@/i.test(v)) {
+        return "Default database credentials detected! Use a secure unique username and password.";
+      }
+      if (
+        process.env.NODE_ENV === "production" &&
+        !v.includes("localhost") &&
+        !v.includes("127.0.0.1") &&
+        !v.startsWith("mongodb+srv://") &&
+        !v.includes("tls=true") &&
+        !v.includes("ssl=true")
+      ) {
+        return "Production remote MongoDB connection must use TLS/SSL (mongodb+srv:// or ?tls=true)";
+      }
+      return null;
+    },
   },
   {
     key: "AUTH_SECRET",

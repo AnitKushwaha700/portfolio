@@ -3,6 +3,7 @@
 import { Calendar, MapPin, ExternalLink, ArrowRight, Trophy, Award } from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { sanitizeUrl } from "@/utils";
 
 interface HackathonItem {
   _id: string;
@@ -85,7 +86,7 @@ export default function Hackathons({
                     </div>
                     {hackathon.link && (
                       <a
-                        href={hackathon.link}
+                        href={sanitizeUrl(hackathon.link)}
                         target="_blank"
                         rel="noreferrer"
                         aria-label="External link"
@@ -131,7 +132,7 @@ export default function Hackathons({
 
                   {certUrl && (
                     <a
-                      href={certUrl}
+                      href={sanitizeUrl(certUrl)}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-300 hover:text-white border border-indigo-500/20 text-xs font-medium transition-colors"

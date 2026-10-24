@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, Mail } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
+import { sanitizeUrl } from "@/utils";
 
 interface HeroProps {
   settings: {
@@ -206,7 +207,7 @@ export default function Hero({ settings }: HeroProps) {
                   <div className="flex items-center gap-2 pl-1">
                     {social.github && (
                       <a
-                        href={social.github}
+                        href={sanitizeUrl(social.github)}
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label="GitHub Profile"
@@ -217,7 +218,7 @@ export default function Hero({ settings }: HeroProps) {
                     )}
                     {social.linkedin && (
                       <a
-                        href={social.linkedin}
+                        href={sanitizeUrl(social.linkedin)}
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label="LinkedIn Profile"

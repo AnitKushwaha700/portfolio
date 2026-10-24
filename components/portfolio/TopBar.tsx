@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
 import { FileText } from "lucide-react";
+import { sanitizeUrl } from "@/utils";
 
 interface TopBarProps {
   name?: string;
@@ -16,13 +17,14 @@ interface TopBarProps {
 
 export default function TopBar({ name, resumeUrl, social }: TopBarProps) {
   const brandName = name || "ANIT KUSHWAHA";
-  const github = social?.github || "https://github.com/AnitKushwaha700";
-  const linkedin =
+  const github = sanitizeUrl(social?.github || "https://github.com/AnitKushwaha700");
+  const linkedin = sanitizeUrl(
     social?.linkedin ||
-    "https://www.linkedin.com/in/l-anit-kushwaha-l-7651462bb";
+      "https://www.linkedin.com/in/l-anit-kushwaha-l-7651462bb",
+  );
   const email = social?.email || "kushwahaanitak@gmail.com";
-  const effectiveResumeUrl =
-    resumeUrl && resumeUrl !== "#" ? resumeUrl : "#contact";
+  const rawResumeUrl = resumeUrl && resumeUrl !== "#" ? resumeUrl : "#contact";
+  const effectiveResumeUrl = sanitizeUrl(rawResumeUrl);
 
   return (
     <header className="fixed top-0 left-0 right-0 z-40 px-6 sm:px-10 lg:px-14 py-6 flex items-center justify-between pointer-events-none">
