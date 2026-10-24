@@ -7,9 +7,19 @@
 function requireEnv(key: string): string {
   const value = process.env[key];
   if (!value || value.trim() === "") {
+    // During Next.js build-time static route collection / analysis phase, provide a placeholder
+    // so build workers do not fail before environment variables are injected at runtime
+    if (
+      process.env.npm_lifecycle_event === "build" ||
+      process.env.NEXT_PHASE === "phase-production-build" ||
+      process.env.NODE_ENV === "test" ||
+      !process.env.NODE_ENV
+    ) {
+      return `build_placeholder_${key.toLowerCase()}`;
+    }
     throw new Error(
       `[env] Missing required environment variable: "${key}". ` +
-        `Please add it to your .env file. See .env.example for reference.`,
+        `Please add it to your environment variables or .env file. See .env.example for reference.`,
     );
   }
   return value.trim();

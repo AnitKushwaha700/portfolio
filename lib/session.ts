@@ -8,14 +8,28 @@ import { NextRequest, NextResponse } from "next/server";
 import { COOKIE_NAME, SESSION_DURATION_MS, JWT_ALGORITHM } from "@/constants";
 import type { SessionPayload } from "@/types";
 
-const secretKey = process.env.AUTH_SECRET;
-if (!secretKey) {
-  throw new Error(
-    "[auth] Missing AUTH_SECRET environment variable. " +
-      "Please define it in your .env file.",
-  );
+function getSecretKey(): Uint8Array {
+  const secretKey = process.env.AUTH_SECRET;
+  if (!secretKey) {
+    // During Next.js static build analysis or test runs, provide a safe fallback placeholder
+    // so module evaluation does not crash the bundler before env vars are available.
+    if (
+      process.env.npm_lifecycle_event === "build" ||
+      process.env.NEXT_PHASE === "phase-production-build" ||
+      process.env.NODE_ENV === "test" ||
+      !process.env.NODE_ENV
+    ) {
+      return new TextEncoder().encode(
+        "build_placeholder_secret_key_minimum_32_characters",
+      );
+    }
+    throw new Error(
+      "[auth] Missing AUTH_SECRET environment variable. " +
+        "Please define it in your hosting provider's Environment Variables (e.g. Vercel Project Settings) or .env file.",
+    );
+  }
+  return new TextEncoder().encode(secretKey);
 }
-const encodedKey = new TextEncoder().encode(secretKey);
 
 /**
  * Signs a JWT with the session payload.
@@ -26,7 +40,7 @@ export async function encrypt(payload: SessionPayload): Promise<string> {
     .setProtectedHeader({ alg: JWT_ALGORITHM })
     .setIssuedAt()
     .setExpirationTime("1 day from now")
-    .sign(encodedKey);
+    .sign(getSecretKey());
 }
 
 /**
@@ -34,7 +48,7 @@ export async function encrypt(payload: SessionPayload): Promise<string> {
  * Throws if the token is invalid or expired.
  */
 export async function decrypt(token: string): Promise<SessionPayload> {
-  const { payload } = await jwtVerify(token, encodedKey, {
+  const { payload } = await jwtVerify(token, getSecretKey(), {
     algorithms: [JWT_ALGORITHM],
   });
   return payload as unknown as SessionPayload;

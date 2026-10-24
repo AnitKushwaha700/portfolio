@@ -6,6 +6,8 @@
 import { logout } from "@/lib/auth";
 import { apiSuccess } from "@/lib/api-response";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(): Promise<Response> {
   await logout();
   return apiSuccess({ success: true });
