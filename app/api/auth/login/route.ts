@@ -82,16 +82,7 @@ export async function POST(request: Request): Promise<Response> {
     const db = await import("@/lib/db");
     await db.default();
 
-    let user = await AdminUser.findOne({ email: normalizedEmail });
-
-    // Fallback: If only one admin account exists and email doesn't match,
-    // still try the single admin (handles minor email variations in dev).
-    if (!user) {
-      const adminCount = await AdminUser.countDocuments();
-      if (adminCount === 1) {
-        user = await AdminUser.findOne();
-      }
-    }
+    const user = await AdminUser.findOne({ email: normalizedEmail });
 
     if (user) {
       const isMatch = await bcrypt.compare(
@@ -105,20 +96,26 @@ export async function POST(request: Request): Promise<Response> {
       }
     }
 
-    // ── Env-Var Fallback ───────────────────────────────────────────────────
+    // ── Env-Var Fallback (Strict exact match only) ──────────────────────────
     const envHash = process.env.ADMIN_PASSWORD_HASH;
-    const envEmail = process.env.ADMIN_EMAIL?.toLowerCase();
+    const envEmail = process.env.ADMIN_EMAIL?.trim().toLowerCase();
 
-    if (
-      envHash &&
-      (normalizedEmail === envEmail || normalizedEmail.includes("admin"))
-    ) {
+    if (envHash && envEmail && normalizedEmail === envEmail) {
       const isMatch = await bcrypt.compare(normalizedPassword, envHash);
       if (isMatch) {
         console.log("[AUTH] Login success via env hash: [REDACTED]");
-        await login(process.env.ADMIN_EMAIL ?? normalizedEmail);
+        await login(envEmail);
         return apiSuccess({ success: true });
       }
+    }
+
+    // ── Timing Attack Mitigation ───────────────────────────────────────────
+    // If no user matched, perform a dummy comparison to equalize execution time
+    // and prevent user enumeration via response latency analysis.
+    if (!user && (!envHash || !envEmail || normalizedEmail !== envEmail)) {
+      const DUMMY_HASH =
+        "$2b$10$w4q7FjY6zE1eR9V8zP3A0u2F0v3l5h6j7k8l9m0n1o2p3q4r5s6t";
+      await bcrypt.compare(normalizedPassword, DUMMY_HASH).catch(() => false);
     }
 
     console.warn("[AUTH] Invalid credentials attempt: [REDACTED]");

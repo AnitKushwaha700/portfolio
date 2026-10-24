@@ -5,6 +5,8 @@
 
 import connectToDatabase from "@/lib/db";
 import { Education } from "@/models/Education";
+import { getSession } from "@/lib/auth";
+import { requireAdminSession } from "@/lib/auth-guard";
 import {
   apiSuccess,
   apiCreated,
@@ -15,7 +17,14 @@ import {
 export async function GET(): Promise<Response> {
   try {
     await connectToDatabase();
-    const education = await Education.find({}).sort({ order: 1 }).lean();
+    const session = await getSession();
+    const isAdmin = !!session?.email;
+    const filter = isAdmin ? {} : { visible: true };
+
+    const education = await Education.find(filter)
+      .select("-__v")
+      .sort({ order: 1 })
+      .lean();
     return apiSuccess({ education });
   } catch (error) {
     const errorId = crypto.randomUUID();
@@ -25,6 +34,9 @@ export async function GET(): Promise<Response> {
 }
 
 export async function POST(request: Request): Promise<Response> {
+  const auth = await requireAdminSession();
+  if (!auth.authorized) return auth.response;
+
   try {
     await connectToDatabase();
 

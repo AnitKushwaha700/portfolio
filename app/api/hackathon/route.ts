@@ -6,6 +6,8 @@
 import connectToDatabase from "@/lib/db";
 import { Hackathon } from "@/models/Hackathon";
 import { slugify } from "@/utils";
+import { getSession } from "@/lib/auth";
+import { requireAdminSession } from "@/lib/auth-guard";
 import {
   apiSuccess,
   apiCreated,
@@ -16,7 +18,14 @@ import {
 export async function GET(): Promise<Response> {
   try {
     await connectToDatabase();
-    const hackathons = await Hackathon.find({}).sort({ date: -1 }).lean();
+    const session = await getSession();
+    const isAdmin = !!session?.email;
+    const filter = isAdmin ? {} : { visible: true };
+
+    const hackathons = await Hackathon.find(filter)
+      .select("-__v")
+      .sort({ date: -1 })
+      .lean();
     return apiSuccess({ hackathons });
   } catch (error) {
     const errorId = crypto.randomUUID();
@@ -26,6 +35,9 @@ export async function GET(): Promise<Response> {
 }
 
 export async function POST(request: Request): Promise<Response> {
+  const auth = await requireAdminSession();
+  if (!auth.authorized) return auth.response;
+
   try {
     await connectToDatabase();
 

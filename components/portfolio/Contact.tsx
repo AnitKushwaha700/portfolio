@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
+import { sanitizeUrl } from "@/utils";
 import type { ContactProps } from "@/types";
 
 export default function Contact({ settings }: ContactProps) {
@@ -18,8 +19,8 @@ export default function Contact({ settings }: ContactProps) {
 
   const email = settings?.social?.email || "kushwahaanitak@gmail.com";
   const phone = settings?.social?.phone || "";
-  const github = settings?.social?.github;
-  const linkedin = settings?.social?.linkedin;
+  const github = settings?.social?.github ? sanitizeUrl(settings.social.github) : "";
+  const linkedin = settings?.social?.linkedin ? sanitizeUrl(settings.social.linkedin) : "";
 
   return (
     <section id="contact" className="section-container relative z-10 py-24">
