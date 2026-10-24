@@ -1,8 +1,10 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Save } from "lucide-react";
+import Link from "next/link";
+import { Save, FileUp, ExternalLink } from "lucide-react";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
+import ToggleSwitch from "@/components/ui/ToggleSwitch";
 
 interface HeroSettings {
   name: string;
@@ -26,8 +28,43 @@ export default function HeroAdmin() {
   const [success, setSuccess] = useState("");
 
   const [uploadingImage, setUploadingImage] = useState(false);
+  const [uploadingResume, setUploadingResume] = useState(false);
 
   const imageInputRef = useRef<HTMLInputElement>(null);
+  const resumeInputRef = useRef<HTMLInputElement>(null);
+
+  const handleResumeUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !formData) return;
+
+    setUploadingResume(true);
+    setError("");
+
+    const uploadData = new FormData();
+    uploadData.append("file", file);
+
+    try {
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: uploadData,
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "Failed to upload resume file");
+      }
+
+      const data = await res.json();
+      setFormData({ ...formData, resumeUrl: data.url });
+      setSuccess("Resume uploaded successfully! (Remember to click Save Changes)");
+      setTimeout(() => setSuccess(""), 4000);
+    } catch (err: any) {
+      setError(err.message || "Failed to upload resume");
+    } finally {
+      setUploadingResume(false);
+      if (resumeInputRef.current) resumeInputRef.current.value = "";
+    }
+  };
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -67,7 +104,11 @@ export default function HeroAdmin() {
         const res = await fetch("/api/settings");
         if (res.ok) {
           const data = await res.json();
-          setFormData(data.settings.hero);
+          const heroSettings =
+            data?.settings?.hero ?? data?.hero ?? data?.data?.hero;
+          if (heroSettings) {
+            setFormData(heroSettings);
+          }
         }
       } catch (err) {
         console.error("Failed to fetch settings", err);
@@ -211,19 +252,57 @@ export default function HeroAdmin() {
               />
             </div>
 
-            <div className="space-y-1">
-              <label className="text-xs font-medium text-gray-400 uppercase">
-                Resume / CV URL
+            <div className="space-y-1.5">
+              <label className="text-xs font-medium text-gray-400 uppercase flex justify-between items-center">
+                <span>Resume / CV URL</span>
+                {uploadingResume && (
+                  <LoadingSpinner
+                    size="sm"
+                    variant="primary"
+                    label="Uploading..."
+                  />
+                )}
               </label>
-              <input
-                type="text"
-                value={formData.resumeUrl || ""}
-                onChange={(e) =>
-                  setFormData({ ...formData, resumeUrl: e.target.value })
-                }
-                placeholder="e.g. /resume.pdf or Google Drive link"
-                className="w-full px-4 py-2 bg-black/20 border border-gray-800 rounded-lg text-white focus:border-indigo-500 outline-none"
-              />
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={formData.resumeUrl || ""}
+                  onChange={(e) =>
+                    setFormData({ ...formData, resumeUrl: e.target.value })
+                  }
+                  placeholder="e.g. /resume.pdf or Google Drive link"
+                  className="flex-1 px-4 py-2 bg-black/20 border border-gray-800 rounded-lg text-white focus:border-indigo-500 outline-none"
+                />
+                <input
+                  type="file"
+                  ref={resumeInputRef}
+                  onChange={handleResumeUpload}
+                  accept=".pdf,.doc,.docx"
+                  className="hidden"
+                />
+                <button
+                  type="button"
+                  onClick={() => resumeInputRef.current?.click()}
+                  disabled={uploadingResume}
+                  className="px-3 py-2 bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs font-medium rounded-lg border border-gray-700 flex items-center gap-1.5 cursor-pointer disabled:opacity-50 transition-colors whitespace-nowrap"
+                  title="Upload Resume File (PDF)"
+                >
+                  <FileUp className="w-4 h-4 text-indigo-400" />
+                  <span>Upload PDF</span>
+                </button>
+              </div>
+              <div className="flex items-center justify-between text-[11px] pt-0.5">
+                <span className="text-gray-500">
+                  Accepts PDF, DOC, DOCX up to 10MB.
+                </span>
+                <Link
+                  href="/admin/resume"
+                  className="text-indigo-400 hover:text-indigo-300 inline-flex items-center gap-1 transition-colors"
+                >
+                  <span>Open Dedicated Resume Center</span>
+                  <ExternalLink className="w-3 h-3" />
+                </Link>
+              </div>
             </div>
           </div>
 
@@ -336,36 +415,48 @@ export default function HeroAdmin() {
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-6 pt-2 border-t border-gray-800/50 mt-6">
-          <div className="flex items-center gap-3">
-            <div
-              className={`w-10 h-6 rounded-full p-1 cursor-pointer transition-colors ${formData.showProfileImage ? "bg-indigo-600" : "bg-gray-700"}`}
-              onClick={() =>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 bg-black/20 border border-gray-800 rounded-xl mt-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="text-sm font-medium text-gray-200">
+                Show Profile Image
+              </div>
+              <div className="text-xs text-gray-500">
+                Display avatar on hero section
+              </div>
+            </div>
+            <ToggleSwitch
+              checked={formData.showProfileImage}
+              onChange={(checked) =>
                 setFormData({
                   ...formData,
-                  showProfileImage: !formData.showProfileImage,
+                  showProfileImage: checked,
                 })
               }
-            >
-              <div
-                className={`w-4 h-4 bg-white rounded-full transition-transform ${formData.showProfileImage ? "translate-x-4" : "translate-x-0"}`}
-              />
-            </div>
-            <span className="text-sm text-gray-300">Show Profile Image</span>
+              size="sm"
+              activeLabel="Visible"
+              inactiveLabel="Hidden"
+            />
           </div>
 
-          <div className="flex items-center gap-3">
-            <div
-              className={`w-10 h-6 rounded-full p-1 cursor-pointer transition-colors ${formData.showButtons ? "bg-indigo-600" : "bg-gray-700"}`}
-              onClick={() =>
-                setFormData({ ...formData, showButtons: !formData.showButtons })
-              }
-            >
-              <div
-                className={`w-4 h-4 bg-white rounded-full transition-transform ${formData.showButtons ? "translate-x-4" : "translate-x-0"}`}
-              />
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="text-sm font-medium text-gray-200">
+                Show Action Buttons
+              </div>
+              <div className="text-xs text-gray-500">
+                Display resume & contact buttons
+              </div>
             </div>
-            <span className="text-sm text-gray-300">Show Action Buttons</span>
+            <ToggleSwitch
+              checked={formData.showButtons}
+              onChange={(checked) =>
+                setFormData({ ...formData, showButtons: checked })
+              }
+              size="sm"
+              activeLabel="Visible"
+              inactiveLabel="Hidden"
+            />
           </div>
         </div>
 

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import DataTable from "@/components/admin/DataTable";
 import Modal from "@/components/admin/Modal";
+import ToggleSwitch from "@/components/ui/ToggleSwitch";
 import { Loader2 } from "lucide-react";
 
 interface Experience {
@@ -14,6 +15,7 @@ interface Experience {
   endDate: string;
   current: boolean;
   responsibilities: string[];
+  visible?: boolean;
 }
 
 export default function ExperienceAdmin() {
@@ -31,6 +33,7 @@ export default function ExperienceAdmin() {
     endDate: "",
     current: false,
     responsibilities: "",
+    visible: true,
   });
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
@@ -41,7 +44,10 @@ export default function ExperienceAdmin() {
       const res = await fetch("/api/experience");
       if (res.ok) {
         const data = await res.json();
-        setExperience(data.experience);
+        const list = data?.experience ?? data?.data?.experience ?? data?.data;
+        if (Array.isArray(list)) {
+          setExperience(list);
+        }
       }
     } catch (err) {
       console.error("Failed to fetch experience", err);
@@ -65,6 +71,7 @@ export default function ExperienceAdmin() {
       endDate: "",
       current: false,
       responsibilities: "",
+      visible: true,
     });
     setError("");
     setIsModalOpen(true);
@@ -84,9 +91,33 @@ export default function ExperienceAdmin() {
         : "",
       current: exp.current || false,
       responsibilities: (exp.responsibilities || []).join("\n"),
+      visible: exp.visible !== false,
     });
     setError("");
     setIsModalOpen(true);
+  };
+
+  const handleToggleVisible = async (exp: Experience) => {
+    const nextVal = exp.visible === false ? true : false;
+    setExperience((prev) =>
+      prev.map((e) => (e._id === exp._id ? { ...e, visible: nextVal } : e)),
+    );
+    try {
+      const res = await fetch(`/api/experience/${exp._id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ visible: nextVal }),
+      });
+      if (!res.ok) {
+        throw new Error("Failed to update experience status");
+      }
+    } catch (err) {
+      console.error(err);
+      setExperience((prev) =>
+        prev.map((e) => (e._id === exp._id ? { ...e, visible: !nextVal } : e)),
+      );
+      alert("Failed to update experience status.");
+    }
   };
 
   const handleDelete = async (exp: Experience) => {
@@ -185,15 +216,16 @@ export default function ExperienceAdmin() {
       ),
     },
     {
-      header: "Highlights",
-      accessor: (exp: Experience) => {
-        const descLength = exp.responsibilities?.length || 0;
-        return (
-          <div className="text-sm text-gray-400">
-            {descLength} bullet point{descLength !== 1 && "s"}
-          </div>
-        );
-      },
+      header: "Status",
+      accessor: (exp: Experience) => (
+        <ToggleSwitch
+          checked={exp.visible !== false}
+          onChange={() => handleToggleVisible(exp)}
+          size="sm"
+          activeLabel="Active"
+          inactiveLabel="Hidden"
+        />
+      ),
     },
   ];
 
@@ -303,19 +335,24 @@ export default function ExperienceAdmin() {
             </div>
           </div>
 
-          <div className="flex items-center gap-2 pt-1 pb-2">
-            <input
-              type="checkbox"
-              id="current"
-              checked={formData.current}
-              onChange={(e) =>
-                setFormData({ ...formData, current: e.target.checked })
+          <div className="flex items-center justify-between p-3 bg-black/20 border border-gray-800 rounded-xl">
+            <div>
+              <div className="text-sm font-medium text-gray-200">
+                Active Status
+              </div>
+              <div className="text-xs text-gray-500">
+                Show this role on your portfolio
+              </div>
+            </div>
+            <ToggleSwitch
+              checked={formData.visible}
+              onChange={(checked) =>
+                setFormData({ ...formData, visible: checked })
               }
-              className="rounded bg-black/20 border-gray-800 text-indigo-500 focus:ring-indigo-500"
+              size="sm"
+              activeLabel="Active"
+              inactiveLabel="Hidden"
             />
-            <label htmlFor="current" className="text-sm text-gray-300">
-              I currently work here
-            </label>
           </div>
 
           <div className="space-y-1">

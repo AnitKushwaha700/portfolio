@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import DataTable from "@/components/admin/DataTable";
 import Modal from "@/components/admin/Modal";
+import ToggleSwitch from "@/components/ui/ToggleSwitch";
 import { Loader2 } from "lucide-react";
 
 interface Skill {
@@ -11,6 +12,7 @@ interface Skill {
   icon: string;
   category: "Frontend" | "Backend" | "Database" | "DevOps" | "Tools" | "Other";
   proficiency: number;
+  visible?: boolean;
 }
 
 export default function SkillsAdmin() {
@@ -25,6 +27,7 @@ export default function SkillsAdmin() {
     icon: "",
     category: "Frontend",
     proficiency: 80,
+    visible: true,
   });
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
@@ -35,7 +38,10 @@ export default function SkillsAdmin() {
       const res = await fetch("/api/skills");
       if (res.ok) {
         const data = await res.json();
-        setSkills(data.skills);
+        const list = data?.skills ?? data?.data?.skills ?? data?.data;
+        if (Array.isArray(list)) {
+          setSkills(list);
+        }
       }
     } catch (err) {
       console.error("Failed to fetch skills", err);
@@ -51,7 +57,13 @@ export default function SkillsAdmin() {
 
   const handleAdd = () => {
     setEditingSkill(null);
-    setFormData({ name: "", icon: "", category: "Frontend", proficiency: 80 });
+    setFormData({
+      name: "",
+      icon: "",
+      category: "Frontend",
+      proficiency: 80,
+      visible: true,
+    });
     setError("");
     setIsModalOpen(true);
   };
@@ -63,9 +75,35 @@ export default function SkillsAdmin() {
       icon: skill.icon || "",
       category: skill.category,
       proficiency: skill.proficiency || 80,
+      visible: skill.visible !== false,
     });
     setError("");
     setIsModalOpen(true);
+  };
+
+  const handleToggleVisible = async (skill: Skill) => {
+    const nextVal = skill.visible === false ? true : false;
+    setSkills((prev) =>
+      prev.map((s) => (s._id === skill._id ? { ...s, visible: nextVal } : s)),
+    );
+    try {
+      const res = await fetch(`/api/skills/${skill._id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ visible: nextVal }),
+      });
+      if (!res.ok) {
+        throw new Error("Failed to update skill status");
+      }
+    } catch (err) {
+      console.error(err);
+      setSkills((prev) =>
+        prev.map((s) =>
+          s._id === skill._id ? { ...s, visible: !nextVal } : s,
+        ),
+      );
+      alert("Failed to update skill status.");
+    }
   };
 
   const handleDelete = async (skill: Skill) => {
@@ -147,18 +185,15 @@ export default function SkillsAdmin() {
       ),
     },
     {
-      header: "Icon",
+      header: "Status",
       accessor: (skill: Skill) => (
-        <div
-          className="text-gray-400 text-sm truncate max-w-[150px]"
-          title={skill.icon}
-        >
-          {skill.icon ? (
-            skill.icon
-          ) : (
-            <span className="italic text-gray-600">None</span>
-          )}
-        </div>
+        <ToggleSwitch
+          checked={skill.visible !== false}
+          onChange={() => handleToggleVisible(skill)}
+          size="sm"
+          activeLabel="Active"
+          inactiveLabel="Hidden"
+        />
       ),
     },
   ];
@@ -246,18 +281,23 @@ export default function SkillsAdmin() {
             />
           </div>
 
-          <div className="space-y-1">
-            <label className="text-xs font-medium text-gray-400 uppercase">
-              Icon SVG or URL (Optional)
-            </label>
-            <input
-              type="text"
-              placeholder="<svg>...</svg> or URL"
-              value={formData.icon}
-              onChange={(e) =>
-                setFormData({ ...formData, icon: e.target.value })
+          <div className="flex items-center justify-between p-3 bg-black/20 border border-gray-800 rounded-xl">
+            <div>
+              <div className="text-sm font-medium text-gray-200">
+                Active Status
+              </div>
+              <div className="text-xs text-gray-500">
+                Show this skill on your portfolio
+              </div>
+            </div>
+            <ToggleSwitch
+              checked={formData.visible}
+              onChange={(checked) =>
+                setFormData({ ...formData, visible: checked })
               }
-              className="w-full px-3 py-2 bg-black/20 border border-gray-800 rounded-lg text-white focus:border-indigo-500 outline-none font-mono text-sm"
+              size="sm"
+              activeLabel="Active"
+              inactiveLabel="Hidden"
             />
           </div>
 

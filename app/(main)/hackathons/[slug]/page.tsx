@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { DetailPageSkeleton } from "@/components/ui/Skeleton";
+import { formatImageUrl, isExternalUrl } from "@/utils";
 
 export default function HackathonDetail() {
   const params = useParams();
@@ -23,6 +24,7 @@ export default function HackathonDetail() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [reloadKey, setReloadKey] = useState(0);
+  const [imageFailed, setImageFailed] = useState(false);
 
   useEffect(() => {
     let ignore = false;
@@ -168,7 +170,7 @@ export default function HackathonDetail() {
           </div>
         </motion.div>
 
-        {hackathon.image && (
+        {hackathon.image && !imageFailed && (
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -177,9 +179,11 @@ export default function HackathonDetail() {
           >
             <div className="absolute inset-0 bg-gradient-to-t from-[#0B0F19] to-transparent z-10 opacity-30" />
             <Image
-              src={hackathon.image}
+              src={formatImageUrl(hackathon.image)}
               alt={hackathon.title}
               fill
+              unoptimized={isExternalUrl(formatImageUrl(hackathon.image))}
+              onError={() => setImageFailed(true)}
               className="object-cover group-hover:scale-105 transition-transform duration-700"
               priority
             />

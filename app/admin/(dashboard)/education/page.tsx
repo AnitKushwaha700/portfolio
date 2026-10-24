@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import DataTable from "@/components/admin/DataTable";
 import Modal from "@/components/admin/Modal";
+import ToggleSwitch from "@/components/ui/ToggleSwitch";
 import { Loader2 } from "lucide-react";
 
 interface Education {
@@ -44,7 +45,10 @@ export default function EducationAdmin() {
       const res = await fetch("/api/education");
       if (res.ok) {
         const data = await res.json();
-        setEducation(data.education);
+        const list = data?.education ?? data?.data?.education ?? data?.data;
+        if (Array.isArray(list)) {
+          setEducation(list);
+        }
       }
     } catch (err) {
       console.error("Failed to fetch education", err);
@@ -90,6 +94,29 @@ export default function EducationAdmin() {
     });
     setError("");
     setIsModalOpen(true);
+  };
+
+  const handleToggleVisible = async (edu: Education) => {
+    const nextVal = !edu.visible;
+    setEducation((prev) =>
+      prev.map((e) => (e._id === edu._id ? { ...e, visible: nextVal } : e)),
+    );
+    try {
+      const res = await fetch(`/api/education/${edu._id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ visible: nextVal }),
+      });
+      if (!res.ok) {
+        throw new Error("Failed to update education status");
+      }
+    } catch (err) {
+      console.error(err);
+      setEducation((prev) =>
+        prev.map((e) => (e._id === edu._id ? { ...e, visible: !nextVal } : e)),
+      );
+      alert("Failed to update education status.");
+    }
   };
 
   const handleDelete = async (edu: Education) => {
@@ -173,13 +200,15 @@ export default function EducationAdmin() {
       ),
     },
     {
-      header: "Visibility",
+      header: "Status",
       accessor: (edu: Education) => (
-        <span
-          className={`px-2 py-1 text-xs rounded-full ${edu.visible ? "bg-green-500/10 text-green-400" : "bg-gray-800 text-gray-400"}`}
-        >
-          {edu.visible ? "Visible" : "Hidden"}
-        </span>
+        <ToggleSwitch
+          checked={edu.visible}
+          onChange={() => handleToggleVisible(edu)}
+          size="sm"
+          activeLabel="Active"
+          inactiveLabel="Hidden"
+        />
       ),
     },
   ];
@@ -337,19 +366,24 @@ export default function EducationAdmin() {
             />
           </div>
 
-          <div className="flex items-center gap-2 pt-2">
-            <input
-              type="checkbox"
-              id="visible"
+          <div className="flex items-center justify-between p-3 bg-black/20 border border-gray-800 rounded-xl">
+            <div>
+              <div className="text-sm font-medium text-gray-200">
+                Active Status
+              </div>
+              <div className="text-xs text-gray-500">
+                Show this education record on your portfolio
+              </div>
+            </div>
+            <ToggleSwitch
               checked={formData.visible}
-              onChange={(e) =>
-                setFormData({ ...formData, visible: e.target.checked })
+              onChange={(checked) =>
+                setFormData({ ...formData, visible: checked })
               }
-              className="rounded bg-black/20 border-gray-800 text-indigo-500 focus:ring-indigo-500"
+              size="sm"
+              activeLabel="Active"
+              inactiveLabel="Hidden"
             />
-            <label htmlFor="visible" className="text-sm text-gray-300">
-              Visible on portfolio
-            </label>
           </div>
 
           <div className="pt-4 flex justify-end gap-3">

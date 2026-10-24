@@ -37,7 +37,11 @@ export default function AboutAdmin() {
           if (res.ok) {
             const data = await res.json();
             setFormData({
-              content: data?.settings?.about?.content ?? "",
+              content:
+                data?.settings?.about?.content ??
+                data?.about?.content ??
+                data?.data?.about?.content ??
+                "",
             });
           } else {
             const data = await res.json().catch(() => ({}));
@@ -130,7 +134,8 @@ export default function AboutAdmin() {
             About Me Settings
           </h1>
           <p className="text-sm text-gray-400 mt-1">
-            Manage your narrative bio and background story displayed on the About section.
+            Manage your narrative bio and background story displayed on the
+            About section.
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -199,7 +204,9 @@ export default function AboutAdmin() {
             </span>
           </div>
           <p className="text-xs text-gray-400">
-            Write your background story, core values, passion for tech, and engineering journey. Multiple paragraphs are preserved with line breaks.
+            Write your background story, core values, passion for tech, and
+            engineering journey. Multiple paragraphs are preserved with line
+            breaks.
           </p>
           <textarea
             required
@@ -213,7 +220,8 @@ export default function AboutAdmin() {
 
         <div className="pt-2 flex items-center justify-between border-t border-gray-800/80">
           <p className="text-xs text-gray-400">
-            Changes will be reflected across your live portfolio immediately upon saving.
+            Changes will be reflected across your live portfolio immediately
+            upon saving.
           </p>
           <button
             type="submit"
@@ -249,7 +257,8 @@ export default function AboutAdmin() {
             <p className="text-base sm:text-lg text-gray-300 leading-relaxed relative z-10 font-normal whitespace-pre-line">
               {formData.content.trim() || (
                 <span className="text-gray-400 italic">
-                  Your bio narrative will appear here once you enter content above...
+                  Your bio narrative will appear here once you enter content
+                  above...
                 </span>
               )}
             </p>
