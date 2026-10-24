@@ -14,6 +14,7 @@ import {
   apiInternalError,
 } from "@/lib/api-response";
 import { getSession } from "@/lib/auth";
+import { requireAdminSession } from "@/lib/auth-guard";
 
 /** Mask all but the last 4 digits of a phone number for public display. */
 function maskPhone(phone: string): string {
@@ -26,12 +27,12 @@ export async function GET(): Promise<Response> {
     await connectToDatabase();
 
     // Always work with plain objects (not Mongoose documents) for type safety
-    let doc = await PortfolioSettings.findOne().lean<Record<string, unknown>>();
+    let doc = await PortfolioSettings.findOne().select("-__v").lean<Record<string, unknown>>();
 
     if (!doc) {
       // Bootstrap: create default settings on first run, then fetch as lean
       await PortfolioSettings.create({});
-      doc = await PortfolioSettings.findOne().lean<Record<string, unknown>>();
+      doc = await PortfolioSettings.findOne().select("-__v").lean<Record<string, unknown>>();
     }
 
     if (!doc) {
@@ -66,6 +67,9 @@ export async function GET(): Promise<Response> {
 }
 
 export async function PUT(request: Request): Promise<Response> {
+  const auth = await requireAdminSession();
+  if (!auth.authorized) return auth.response;
+
   try {
     await connectToDatabase();
 

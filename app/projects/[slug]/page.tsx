@@ -15,7 +15,7 @@ import { FaGithub } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { DetailPageSkeleton } from "@/components/ui/Skeleton";
 import ProjectMetricsChart from "@/components/portfolio/ProjectMetricsChart";
-import { formatImageUrl, isExternalUrl } from "@/utils";
+import { formatImageUrl, isExternalUrl, sanitizeUrl } from "@/utils";
 
 export default function ProjectDetail() {
   const params = useParams();
@@ -130,7 +130,7 @@ export default function ProjectDetail() {
           <div className="flex flex-wrap gap-4">
             {project.githubUrl && (
               <a
-                href={project.githubUrl}
+                href={sanitizeUrl(project.githubUrl)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 px-6 py-3 rounded-full bg-card border border-gray-800 text-gray-300 hover:text-white hover:border-gray-600 hover:bg-gray-800 transition-all shadow-lg"
@@ -141,7 +141,7 @@ export default function ProjectDetail() {
             )}
             {project.liveUrl && (
               <a
-                href={project.liveUrl}
+                href={sanitizeUrl(project.liveUrl)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 px-6 py-3 rounded-full bg-indigo-600 hover:bg-indigo-500 text-white transition-all shadow-lg shadow-indigo-500/25 group"

@@ -14,23 +14,58 @@ import {
   CLOUDINARY_FOLDER,
   MAX_FILE_SIZE_BYTES,
   RAW_FILE_EXTENSIONS,
+  ALLOWED_FILE_EXTENSIONS,
 } from "@/constants";
 import { getFileExtension } from "@/utils";
 import {
   apiBadRequest,
   apiCreated,
   apiInternalError,
+  apiTooManyRequests,
 } from "@/lib/api-response";
+import { env } from "@/lib/env";
+import { requireAdminSession } from "@/lib/auth-guard";
 
-// Configure Cloudinary once at module load.
-// Credentials are validated by lib/env.ts at startup.
+// Rate limiting: max 10 uploads per IP per minute to prevent storage-fill attacks
+const uploadRateLimitStore = new Map<string, number[]>();
+const UPLOAD_RATE_LIMIT_WINDOW_MS = 60_000;
+const UPLOAD_RATE_LIMIT_MAX = 10;
+
+function isUploadRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const windowStart = now - UPLOAD_RATE_LIMIT_WINDOW_MS;
+  const attempts = (uploadRateLimitStore.get(ip) ?? []).filter((t) => t >= windowStart);
+  if (attempts.length >= UPLOAD_RATE_LIMIT_MAX) {
+    return true;
+  }
+  uploadRateLimitStore.set(ip, [...attempts, now]);
+  return false;
+}
+
+// Configure Cloudinary once at module load using validated env variables.
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
+  cloud_name: env.CLOUDINARY_CLOUD_NAME,
+  api_key: env.CLOUDINARY_API_KEY,
+  api_secret: env.CLOUDINARY_API_SECRET,
 });
 
 export async function POST(request: Request): Promise<Response> {
+  // Defense-in-depth: independently verify admin session inside route handler
+  const auth = await requireAdminSession();
+  if (!auth.authorized) {
+    return auth.response;
+  }
+
+  // Rate limiting per IP to prevent storage-fill denial of service
+  const ip =
+    request.headers.get("x-forwarded-for")?.split(",")[0].trim() ?? "unknown";
+  if (isUploadRateLimited(ip)) {
+    return apiTooManyRequests(
+      "Upload limit reached. Please wait a minute before uploading more files.",
+      60,
+    );
+  }
+
   try {
     const formData = await request.formData();
     const file = formData.get("file");
@@ -51,6 +86,13 @@ export async function POST(request: Request): Promise<Response> {
 
     const originalName = file.name || "upload";
     const extension = getFileExtension(originalName);
+
+    // Enforce strict file extension whitelist to prevent stored XSS and executable files
+    if (!extension || !ALLOWED_FILE_EXTENSIONS.has(extension)) {
+      return apiBadRequest(
+        `File extension "${extension ? `.${extension}` : "unknown"}" is not permitted. Only safe image formats (jpg, png, webp, gif, avif) and documents (pdf, doc, docx) are allowed.`,
+      );
+    }
     const baseName = originalName
       .replace(/\.[^/.]+$/, "")
       .replace(/[^a-zA-Z0-9]/g, "_");

@@ -7,6 +7,7 @@ import mongoose from "mongoose";
 import connectToDatabase from "@/lib/db";
 import { Skill } from "@/models/Skill";
 import { SKILL_CATEGORIES } from "@/constants";
+import { requireAdminSession } from "@/lib/auth-guard";
 import {
   apiSuccess,
   apiBadRequest,
@@ -20,6 +21,9 @@ export async function PUT(
   request: Request,
   { params }: RouteContext,
 ): Promise<Response> {
+  const auth = await requireAdminSession();
+  if (!auth.authorized) return auth.response;
+
   const { id } = await params;
 
   if (!id?.trim() || !mongoose.Types.ObjectId.isValid(id)) {
@@ -76,6 +80,9 @@ export async function DELETE(
   _request: Request,
   { params }: RouteContext,
 ): Promise<Response> {
+  const auth = await requireAdminSession();
+  if (!auth.authorized) return auth.response;
+
   const { id } = await params;
 
   if (!id?.trim() || !mongoose.Types.ObjectId.isValid(id)) {

@@ -6,6 +6,8 @@
 import connectToDatabase from "@/lib/db";
 import { Skill } from "@/models/Skill";
 import { SKILL_CATEGORIES } from "@/constants";
+import { getSession } from "@/lib/auth";
+import { requireAdminSession } from "@/lib/auth-guard";
 import {
   apiSuccess,
   apiCreated,
@@ -16,7 +18,14 @@ import {
 export async function GET(): Promise<Response> {
   try {
     await connectToDatabase();
-    const skills = await Skill.find({}).sort({ category: 1, order: 1 }).lean();
+    const session = await getSession();
+    const isAdmin = !!session?.email;
+    const filter = isAdmin ? {} : { visible: true };
+
+    const skills = await Skill.find(filter)
+      .select("-__v")
+      .sort({ category: 1, order: 1 })
+      .lean();
     return apiSuccess({ skills });
   } catch (error) {
     const errorId = crypto.randomUUID();
@@ -26,6 +35,9 @@ export async function GET(): Promise<Response> {
 }
 
 export async function POST(request: Request): Promise<Response> {
+  const auth = await requireAdminSession();
+  if (!auth.authorized) return auth.response;
+
   try {
     await connectToDatabase();
 

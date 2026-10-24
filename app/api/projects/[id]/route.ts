@@ -7,6 +7,8 @@
 import mongoose from "mongoose";
 import connectToDatabase from "@/lib/db";
 import { Project } from "@/models/Project";
+import { getSession } from "@/lib/auth";
+import { requireAdminSession } from "@/lib/auth-guard";
 import {
   apiSuccess,
   apiBadRequest,
@@ -34,10 +36,16 @@ export async function GET(
       $or: [{ slug: id }, ...(isObjectId ? [{ _id: id }] : [])],
     };
 
-    // Prefer visible projects; fall back to any match (for admin preview)
-    let project = await Project.findOne({ ...query, visible: true }).lean();
-    if (!project) {
-      project = await Project.findOne(query).lean();
+    const session = await getSession();
+    const isAdmin = !!session?.email;
+
+    // Public users only see visible projects; admins can preview hidden ones
+    let project = await Project.findOne({ ...query, visible: true })
+      .select("-__v")
+      .lean();
+
+    if (!project && isAdmin) {
+      project = await Project.findOne(query).select("-__v").lean();
     }
 
     if (!project) {
@@ -56,6 +64,9 @@ export async function PUT(
   request: Request,
   { params }: RouteContext,
 ): Promise<Response> {
+  const auth = await requireAdminSession();
+  if (!auth.authorized) return auth.response;
+
   const { id } = await params;
 
   if (!id?.trim() || !mongoose.Types.ObjectId.isValid(id)) {
@@ -100,6 +111,9 @@ export async function DELETE(
   _request: Request,
   { params }: RouteContext,
 ): Promise<Response> {
+  const auth = await requireAdminSession();
+  if (!auth.authorized) return auth.response;
+
   const { id } = await params;
 
   if (!id?.trim() || !mongoose.Types.ObjectId.isValid(id)) {

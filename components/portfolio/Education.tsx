@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { GraduationCap, Calendar, MapPin, Award } from "lucide-react";
+import { sanitizeUrl } from "@/utils";
 
 export default function EducationSection({ education }: { education: any[] }) {
   if (!education || education.length === 0) return null;
@@ -77,7 +78,7 @@ export default function EducationSection({ education }: { education: any[] }) {
                 {edu.certificateUrl && (
                   <div className="flex items-center gap-2 mt-2 pt-2 border-t border-gray-800/50">
                     <a
-                      href={edu.certificateUrl}
+                      href={sanitizeUrl(edu.certificateUrl)}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-indigo-400 hover:text-indigo-300 text-xs font-medium transition-colors flex items-center gap-1"
