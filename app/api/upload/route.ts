@@ -64,37 +64,52 @@ export async function POST(request: Request): Promise<Response> {
     const fileUri = `data:${mimeType};base64,${buffer.toString("base64")}`;
 
     const uniqueId = `${baseName}_${Date.now()}`;
-    // For raw files, include the extension in public_id so the download URL has it
-    const publicId = isRaw ? `${uniqueId}.${extension}` : uniqueId;
+    const localFileName = `${uniqueId}${extension ? `.${extension}` : ".bin"}`;
 
-    let url: string;
+    // Always create a local disk copy for raw documents (PDF, DOCX) or local fallback
+    const fs = await import("fs/promises");
+    const path = await import("path");
+    const uploadsDir = path.join(process.cwd(), "public", "uploads");
+    await fs.mkdir(uploadsDir, { recursive: true });
+    await fs.writeFile(path.join(uploadsDir, localFileName), buffer);
+
+    // Default to local URL
+    let url = `/uploads/${localFileName}`;
 
     try {
+      const publicId = isRaw ? `${uniqueId}.${extension}` : uniqueId;
       const result = await cloudinary.uploader.upload(fileUri, {
         folder: CLOUDINARY_FOLDER,
         resource_type: isRaw ? "raw" : "image",
         public_id: publicId,
       });
-      url = result.secure_url;
-    } catch (cloudErr) {
-      // In development, fall back to local disk storage if Cloudinary is unavailable
-      if (process.env.NODE_ENV === "production") {
-        throw cloudErr; // Never silently fall back in production
-      }
 
+      if (isRaw) {
+        // Cloudinary accounts by default restrict PDF/raw file delivery with HTTP 401.
+        // Perform a quick verification check on the uploaded URL.
+        try {
+          const check = await fetch(result.secure_url, { method: "HEAD" });
+          if (check.status === 200) {
+            url = result.secure_url;
+          } else {
+            console.warn(
+              `[upload] Cloudinary raw file delivery returned ${check.status} (PDF delivery restriction). Using local URL /uploads/${localFileName} for flawless access.`
+            );
+          }
+        } catch {
+          // Keep local url
+        }
+      } else {
+        url = result.secure_url;
+      }
+    } catch (cloudErr) {
+      if (process.env.NODE_ENV === "production" && !isRaw) {
+        throw cloudErr;
+      }
       console.warn(
-        "[upload] Cloudinary unavailable, using local fallback:",
+        "[upload] Cloudinary unavailable, using local file:",
         cloudErr,
       );
-
-      const fs = await import("fs/promises");
-      const path = await import("path");
-      const uploadsDir = path.join(process.cwd(), "public", "uploads");
-      await fs.mkdir(uploadsDir, { recursive: true });
-
-      const localFileName = `${uniqueId}${extension ? `.${extension}` : ".bin"}`;
-      await fs.writeFile(path.join(uploadsDir, localFileName), buffer);
-      url = `/uploads/${localFileName}`;
     }
 
     return apiCreated({ url, message: "File uploaded successfully" });

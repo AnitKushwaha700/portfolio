@@ -40,7 +40,7 @@ export async function PUT(
     }
 
     const updated = await Hackathon.findByIdAndUpdate(id, body, {
-      new: true,
+      returnDocument: "after",
       runValidators: true,
     }).lean();
 

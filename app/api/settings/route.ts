@@ -88,10 +88,36 @@ export async function PUT(request: Request): Promise<Response> {
       const created = await PortfolioSettings.create(body);
       updated = created.toObject() as unknown as Record<string, unknown>;
     } else {
+      const bodyObj = body as Record<string, any>;
+      const updateData: Record<string, any> = { ...bodyObj };
+
+      const existingObj = (
+        typeof existing.toObject === "function" ? existing.toObject() : existing
+      ) as Record<string, any>;
+
+      if (bodyObj.hero && existingObj.hero) {
+        updateData.hero = { ...existingObj.hero, ...bodyObj.hero };
+      }
+      if (bodyObj.social && existingObj.social) {
+        updateData.social = { ...existingObj.social, ...bodyObj.social };
+      }
+      if (bodyObj.seo && existingObj.seo) {
+        updateData.seo = { ...existingObj.seo, ...bodyObj.seo };
+      }
+      if (bodyObj.about && existingObj.about) {
+        updateData.about = { ...existingObj.about, ...bodyObj.about };
+      }
+      if (bodyObj.sectionVisibility && existingObj.sectionVisibility) {
+        updateData.sectionVisibility = {
+          ...existingObj.sectionVisibility,
+          ...bodyObj.sectionVisibility,
+        };
+      }
+
       const result = await PortfolioSettings.findByIdAndUpdate(
         existing._id,
-        body,
-        { new: true, runValidators: true },
+        updateData,
+        { returnDocument: "after", runValidators: true },
       ).lean();
 
       if (!result) {

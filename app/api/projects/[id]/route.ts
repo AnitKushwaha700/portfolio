@@ -77,7 +77,7 @@ export async function PUT(
     }
 
     const updated = await Project.findByIdAndUpdate(id, body, {
-      new: true,
+      returnDocument: "after",
       runValidators: true,
     }).lean();
 
