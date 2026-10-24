@@ -15,16 +15,31 @@ import {
   ExternalLink,
 } from "lucide-react";
 
-export default async function AdminDashboard() {
-  await connectToDatabase();
+export const dynamic = "force-dynamic";
 
-  const [projectsCount, experienceCount, skillsCount, settings] =
-    await Promise.all([
+export default async function AdminDashboard() {
+  let projectsCount = 0;
+  let experienceCount = 0;
+  let skillsCount = 0;
+  let settings: any = null;
+
+  try {
+    await connectToDatabase();
+
+    const [pCount, eCount, sCount, sDoc] = await Promise.all([
       Project.countDocuments(),
       Experience.countDocuments(),
       Skill.countDocuments(),
       PortfolioSettings.findOne().lean<any>(),
     ]);
+
+    projectsCount = pCount;
+    experienceCount = eCount;
+    skillsCount = sCount;
+    settings = sDoc;
+  } catch (error) {
+    console.warn("[ADMIN_DASHBOARD] Could not fetch dashboard metrics:", error);
+  }
 
   const hasResume =
     settings?.hero?.resumeUrl &&

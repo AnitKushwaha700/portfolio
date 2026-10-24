@@ -8,6 +8,8 @@
 import mongoose from "mongoose";
 import { MONGOOSE_BUFFER_COMMANDS } from "@/constants";
 
+import dns from "node:dns";
+
 interface MongooseCache {
   conn: typeof mongoose | null;
   promise: Promise<typeof mongoose> | null;
@@ -15,6 +17,25 @@ interface MongooseCache {
 
 declare global {
   var __mongoose: MongooseCache | undefined;
+}
+
+/**
+ * Automatically sanitizes MongoDB connection URIs:
+ * 1. Safely percent-encodes special characters in passwords (such as '@' in 'Anikett@7869').
+ * 2. Ensures a database name and standard options (?retryWrites=true&w=majority) are present if missing.
+ */
+function sanitizeMongoUri(uri: string): string {
+  const match = uri.match(/^(mongodb(?:\+srv)?:\/\/)([^:]+):(.*)@([^/]+)(\/.*)?$/);
+  if (match) {
+    const [, proto, user, pass, host, rest] = match;
+    const encodedPass = encodeURIComponent(decodeURIComponent(pass));
+    const dbPath =
+      !rest || rest === "/" || rest.trim() === ""
+        ? "/portfolio?retryWrites=true&w=majority"
+        : rest;
+    return `${proto}${user}:${encodedPass}@${host}${dbPath}`;
+  }
+  return uri;
 }
 
 // Use a global variable to cache the connection in development.
@@ -47,7 +68,16 @@ async function connectToDatabase(): Promise<typeof mongoose> {
     );
   }
 
-  const MONGODB_URI: string = rawUri;
+  // Ensure SRV DNS resolution succeeds on Windows/local networks
+  if (rawUri.includes("+srv") && typeof dns.setServers === "function") {
+    try {
+      dns.setServers(["8.8.8.8", "1.1.1.1"]);
+    } catch {
+      // Ignore if not supported in environment
+    }
+  }
+
+  const MONGODB_URI = sanitizeMongoUri(rawUri.trim());
 
   if (!cached.promise) {
     const isProduction = process.env.NODE_ENV === "production";
