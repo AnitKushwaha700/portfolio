@@ -41,18 +41,26 @@ export const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024;
 /** Cloudinary folder for portfolio assets */
 export const CLOUDINARY_FOLDER = "digital_portfolio" as const;
 
+/** Strictly allowed file extensions for uploads (prevents Stored XSS and malicious scripts) */
+export const ALLOWED_FILE_EXTENSIONS = new Set([
+  // Safe Images
+  "jpg",
+  "jpeg",
+  "png",
+  "webp",
+  "gif",
+  "avif",
+  // Safe Documents (Resume / Certifications)
+  "pdf",
+  "doc",
+  "docx",
+]);
+
 /** File extensions that must be uploaded as raw (not image-processed) */
 export const RAW_FILE_EXTENSIONS = new Set([
   "pdf",
   "doc",
   "docx",
-  "txt",
-  "csv",
-  "xls",
-  "xlsx",
-  "ppt",
-  "pptx",
-  "zip",
 ]);
 
 // ─── Skill Categories ─────────────────────────────────────────────────────────

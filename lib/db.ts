@@ -8,14 +8,16 @@
 import mongoose from "mongoose";
 import { MONGOOSE_BUFFER_COMMANDS } from "@/constants";
 
-const MONGODB_URI = process.env.MONGODB_URI;
+const rawUri = process.env.MONGODB_URI;
 
-if (!MONGODB_URI) {
+if (!rawUri) {
   throw new Error(
     "[db] Missing MONGODB_URI environment variable. " +
       "Please define it in your .env file.",
   );
 }
+
+const MONGODB_URI: string = rawUri;
 
 interface MongooseCache {
   conn: typeof mongoose | null;
@@ -48,8 +50,19 @@ async function connectToDatabase(): Promise<typeof mongoose> {
   }
 
   if (!cached.promise) {
+    const isProduction = process.env.NODE_ENV === "production";
+    const isLocal =
+      MONGODB_URI.includes("localhost") || MONGODB_URI.includes("127.0.0.1");
+
+    if (isProduction && isLocal) {
+      console.warn(
+        "⚠️  [SECURITY NOTICE] Production runtime is configured with a local MongoDB URI. Use a secured TLS cluster (e.g., MongoDB Atlas) for live deployments.",
+      );
+    }
+
     const opts: mongoose.ConnectOptions = {
       bufferCommands: MONGOOSE_BUFFER_COMMANDS,
+      ...(isProduction && !isLocal ? { tls: true } : {}),
     };
 
     cached.promise = mongoose.connect(MONGODB_URI!, opts);

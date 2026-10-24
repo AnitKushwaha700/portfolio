@@ -100,3 +100,29 @@ export function isExternalUrl(url: string | undefined | null): boolean {
   if (!url) return false;
   return url.startsWith("http://") || url.startsWith("https://");
 }
+
+/**
+ * Validates and sanitizes URLs before rendering into href attributes.
+ * Prevents DOM-based and Stored XSS via javascript: or data: schemes.
+ * Only allows safe protocols: http:, https:, mailto:, tel:, anchor (#), or relative paths.
+ */
+export function sanitizeUrl(url: string | undefined | null): string {
+  if (!url) return "#";
+  const trimmed = url.trim();
+  if (trimmed === "#" || trimmed.startsWith("/")) return trimmed;
+
+  try {
+    const parsed = new URL(trimmed);
+    if (["http:", "https:", "mailto:", "tel:"].includes(parsed.protocol)) {
+      return trimmed;
+    }
+    return "#";
+  } catch {
+    // If not a valid absolute URL, check if it's a relative path
+    if (trimmed.startsWith("/") || trimmed.startsWith("#")) {
+      return trimmed;
+    }
+    return "#";
+  }
+}
+

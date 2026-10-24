@@ -60,8 +60,19 @@ export function apiNotFound(
 
 export function apiTooManyRequests(
   message = "Too many requests. Please try again later.",
+  retryAfterSeconds = 60,
 ): NextResponse<{ error: string }> {
-  return NextResponse.json({ error: message }, { status: 429 });
+  return NextResponse.json(
+    { error: message },
+    {
+      status: 429,
+      headers: {
+        "Retry-After": String(retryAfterSeconds),
+        "X-RateLimit-Limit": "5",
+        "X-RateLimit-Remaining": "0",
+      },
+    },
+  );
 }
 
 export function apiInternalError(
