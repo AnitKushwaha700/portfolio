@@ -34,7 +34,9 @@ declare global {
  * 2. Ensures a database name and standard options (?retryWrites=true&w=majority) are present if missing.
  */
 function sanitizeMongoUri(uri: string): string {
-  const match = uri.match(/^(mongodb(?:\+srv)?:\/\/)([^:]+):(.*)@([^/]+)(\/.*)?$/);
+  const match = uri.match(
+    /^(mongodb(?:\+srv)?:\/\/)([^:]+):(.*)@([^/]+)(\/.*)?$/,
+  );
   if (match) {
     const [, proto, user, pass, host, rest] = match;
     const encodedPass = encodeURIComponent(decodeURIComponent(pass));

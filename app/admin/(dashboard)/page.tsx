@@ -53,14 +53,17 @@ export default async function AdminDashboard() {
           Dashboard Overview
         </h1>
         <p className="text-sm text-gray-400 mt-1">
-          Welcome back! Here is a summary of your portfolio data and quick management tools.
+          Welcome back! Here is a summary of your portfolio data and quick
+          management tools.
         </p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         <div className="bg-card p-6 rounded-2xl border border-gray-800 shadow-lg">
           <div className="flex items-center justify-between text-gray-400">
-            <span className="text-xs uppercase font-semibold">Total Projects</span>
+            <span className="text-xs uppercase font-semibold">
+              Total Projects
+            </span>
             <FolderGit2 className="w-4 h-4 text-indigo-400" />
           </div>
           <p className="text-3xl font-bold text-gray-100 mt-2">
@@ -80,7 +83,9 @@ export default async function AdminDashboard() {
 
         <div className="bg-card p-6 rounded-2xl border border-gray-800 shadow-lg">
           <div className="flex items-center justify-between text-gray-400">
-            <span className="text-xs uppercase font-semibold">Skills Listed</span>
+            <span className="text-xs uppercase font-semibold">
+              Skills Listed
+            </span>
             <span className="text-xs px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
               Active
             </span>
@@ -92,7 +97,9 @@ export default async function AdminDashboard() {
         <div className="bg-card p-6 rounded-2xl border border-gray-800 shadow-lg flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between text-gray-400">
-              <span className="text-xs uppercase font-semibold">Resume Status</span>
+              <span className="text-xs uppercase font-semibold">
+                Resume Status
+              </span>
               <FileText className="w-4 h-4 text-indigo-400" />
             </div>
             <div className="flex items-center gap-2 mt-2.5">

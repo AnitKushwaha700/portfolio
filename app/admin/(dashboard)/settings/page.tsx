@@ -148,7 +148,8 @@ export default function SettingsAdmin() {
           General Settings
         </h1>
         <p className="text-sm text-gray-400 mt-1">
-          Manage SEO details, visibility of portfolio sections, and personal data privacy.
+          Manage SEO details, visibility of portfolio sections, and personal
+          data privacy.
         </p>
       </div>
 
@@ -271,9 +272,10 @@ export default function SettingsAdmin() {
           </h2>
         </div>
         <p className="text-sm text-gray-400 leading-relaxed">
-          In compliance with user privacy standards (Bearer / GDPR Right to be Forgotten),
-          you can permanently delete your admin credentials, invalidate all sessions, and
-          anonymize all personal data stored in this portfolio.
+          In compliance with user privacy standards (Bearer / GDPR Right to be
+          Forgotten), you can permanently delete your admin credentials,
+          invalidate all sessions, and anonymize all personal data stored in
+          this portfolio.
         </p>
 
         <div className="pt-2 flex items-center justify-between border-t border-gray-800">
@@ -282,7 +284,8 @@ export default function SettingsAdmin() {
               Delete Admin Account & Personal Data
             </p>
             <p className="text-xs text-gray-500">
-              Permanently removes credentials and anonymizes personal contact details.
+              Permanently removes credentials and anonymizes personal contact
+              details.
             </p>
           </div>
           <button
@@ -312,14 +315,20 @@ export default function SettingsAdmin() {
             </div>
 
             <p className="text-sm text-gray-300 leading-relaxed">
-              This action is <strong className="text-red-400">permanent and irreversible</strong>.
-              Your admin user document will be removed, current session cookies destroyed, and
-              all personal info in portfolio settings will be anonymized.
+              This action is{" "}
+              <strong className="text-red-400">
+                permanent and irreversible
+              </strong>
+              . Your admin user document will be removed, current session
+              cookies destroyed, and all personal info in portfolio settings
+              will be anonymized.
             </p>
 
             <div className="space-y-2">
               <label className="text-xs text-gray-400 block">
-                Type <span className="font-mono text-red-400 font-bold">DELETE</span> to confirm:
+                Type{" "}
+                <span className="font-mono text-red-400 font-bold">DELETE</span>{" "}
+                to confirm:
               </label>
               <input
                 type="text"
@@ -347,12 +356,19 @@ export default function SettingsAdmin() {
               </button>
               <button
                 type="button"
-                disabled={deletingAccount || confirmInput.trim().toUpperCase() !== "DELETE"}
+                disabled={
+                  deletingAccount ||
+                  confirmInput.trim().toUpperCase() !== "DELETE"
+                }
                 onClick={handleDeleteAccount}
                 className="px-4 py-2 bg-red-600 hover:bg-red-700 disabled:opacity-50 text-white text-sm font-medium rounded-lg transition-colors flex items-center gap-2 cursor-pointer"
               >
                 {deletingAccount ? (
-                  <LoadingSpinner size="sm" variant="white" label="Deleting..." />
+                  <LoadingSpinner
+                    size="sm"
+                    variant="white"
+                    label="Deleting..."
+                  />
                 ) : (
                   <>
                     <Trash2 className="w-4 h-4" />
@@ -367,4 +383,3 @@ export default function SettingsAdmin() {
     </div>
   );
 }
-

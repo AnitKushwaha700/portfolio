@@ -19,8 +19,12 @@ export default function Contact({ settings }: ContactProps) {
 
   const email = settings?.social?.email || "kushwahaanitak@gmail.com";
   const phone = settings?.social?.phone || "";
-  const github = settings?.social?.github ? sanitizeUrl(settings.social.github) : "";
-  const linkedin = settings?.social?.linkedin ? sanitizeUrl(settings.social.linkedin) : "";
+  const github = settings?.social?.github
+    ? sanitizeUrl(settings.social.github)
+    : "";
+  const linkedin = settings?.social?.linkedin
+    ? sanitizeUrl(settings.social.linkedin)
+    : "";
 
   return (
     <section id="contact" className="section-container relative z-10 py-24">

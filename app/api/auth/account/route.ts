@@ -51,7 +51,8 @@ export async function DELETE(): Promise<Response> {
 
     return apiSuccess({
       success: true,
-      message: "Admin account and personal data deleted/anonymized successfully.",
+      message:
+        "Admin account and personal data deleted/anonymized successfully.",
     });
   } catch (error) {
     const errorId = crypto.randomUUID();
@@ -59,4 +60,3 @@ export async function DELETE(): Promise<Response> {
     return apiInternalError(errorId, "Failed to delete account.");
   }
 }
-

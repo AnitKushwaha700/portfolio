@@ -1,6 +1,13 @@
 "use client";
 
-import { Calendar, MapPin, ExternalLink, ArrowRight, Trophy, Award } from "lucide-react";
+import {
+  Calendar,
+  MapPin,
+  ExternalLink,
+  ArrowRight,
+  Trophy,
+  Award,
+} from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { sanitizeUrl } from "@/utils";

@@ -9,9 +9,10 @@ Status: **All Identified Vulnerabilities Patched & Verified**
 
 ## Executive Summary
 
-A comprehensive threat actor simulation and source code vulnerability audit was conducted across all API routes, authentication mechanisms, middleware layers, and client-facing components. 
+A comprehensive threat actor simulation and source code vulnerability audit was conducted across all API routes, authentication mechanisms, middleware layers, and client-facing components.
 
 Four vulnerabilities were uncovered and remediated with immediate code-level patches:
+
 1. **Critical Authentication Bypass & Dev Shortcut in Login Flow** ([app/api/auth/login/route.ts](file:///c:/Users/kushw/Github-Projects/digital-portfolio/app/api/auth/login/route.ts)): The login endpoint previously defaulted to the single existing admin if an arbitrary email was submitted, eliminating email knowledge as an authentication factor and exposing the system to single-factor password spraying and timing-based user enumeration.
 2. **Denial of Service via File Upload Storage Flooding** ([app/api/upload/route.ts](file:///c:/Users/kushw/Github-Projects/digital-portfolio/app/api/upload/route.ts)): File uploads lacked per-IP rate limiting, allowing rapid local disk and Cloudinary quota exhaustion.
 3. **Cross-Site Request Forgery / Account Destruction Gap in Middleware** ([proxy.ts](file:///c:/Users/kushw/Github-Projects/digital-portfolio/proxy.ts)): Proxy route matcher omitted `/api/auth/:path*`, allowing cross-origin requests to reach `/api/auth/account` without global origin validation.
@@ -40,6 +41,7 @@ All 43 unit tests pass cleanly, TypeScript type-check succeeds with 0 errors, an
 ### 2. Login Bypass & Authentication Weaknesses
 
 #### Vulnerability Found: Single Admin Fallback & Dev Email Matching
+
 - **Attacker Exploit Mechanism:**
   - In [app/api/auth/login/route.ts](file:///c:/Users/kushw/Github-Projects/digital-portfolio/app/api/auth/login/route.ts), fallback logic previously stated:
     ```typescript
@@ -76,6 +78,7 @@ All 43 unit tests pass cleanly, TypeScript type-check succeeds with 0 errors, an
 ### 4. Feature Abuse & Denial of Service
 
 #### Vulnerability Found: Unthrottled File Uploads
+
 - **Attacker Exploit Mechanism:**
   - An attacker with access to `/api/upload` (or through a compromised session) could post large files repeatedly in an automated loop.
 - **Potential Damage:**
@@ -91,6 +94,7 @@ All 43 unit tests pass cleanly, TypeScript type-check succeeds with 0 errors, an
 ### 5. Content Injection & Cross-Site Scripting (XSS / NoSQL Injection)
 
 #### Vulnerability Found: DOM XSS via Unsanitized Dynamic `href` Attributes
+
 - **Attacker Exploit Mechanism:**
   - An attacker saves a project, hackathon, social link, or certificate containing a payload like `javascript:/* malicious payload */` or `data:text/html,...`.
   - When regular users or administrators click "View Certificate", "Live Demo", "GitHub Profile", or "Open External Resume", the browser executes the script in the context of the user's session.
@@ -105,10 +109,11 @@ All 43 unit tests pass cleanly, TypeScript type-check succeeds with 0 errors, an
     - [components/portfolio/Projects.tsx](file:///c:/Users/kushw/Github-Projects/digital-portfolio/components/portfolio/Projects.tsx)
     - [components/portfolio/TopBar.tsx](file:///c:/Users/kushw/Github-Projects/digital-portfolio/components/portfolio/TopBar.tsx)
     - [app/projects/[slug]/page.tsx](file:///c:/Users/kushw/Github-Projects/digital-portfolio/app/projects/[slug]/page.tsx)
-    - [app/(main)/hackathons/[slug]/page.tsx](file:///c:/Users/kushw/Github-Projects/digital-portfolio/app/(main)/hackathons/[slug]/page.tsx)
-    - [app/admin/(dashboard)/resume/page.tsx](file:///c:/Users/kushw/Github-Projects/digital-portfolio/app/admin/(dashboard)/resume/page.tsx)
+    - [app/(main)/hackathons/[slug]/page.tsx](<file:///c:/Users/kushw/Github-Projects/digital-portfolio/app/(main)/hackathons/[slug]/page.tsx>)
+    - [app/admin/(dashboard)/resume/page.tsx](<file:///c:/Users/kushw/Github-Projects/digital-portfolio/app/admin/(dashboard)/resume/page.tsx>)
 
 #### NoSQL / SQL Injection Assessment:
+
 - All MongoDB queries use parameterized Mongoose methods (`findOne({ email: normalizedEmail })`) where fields are explicitly typed strings.
 - All request bodies are strictly type-validated (`typeof email !== "string"`), preventing MongoDB query operator injection objects (e.g. `{ email: { $gt: "" } }`).
 - Text rendering is performed exclusively via React JSX curly brace expressions, preventing HTML tag injection.
@@ -118,6 +123,7 @@ All 43 unit tests pass cleanly, TypeScript type-check succeeds with 0 errors, an
 ### 6. Internal Exposure & Sensitive Information Leakage
 
 #### Vulnerability Found: Incomplete Proxy Route Matcher & Sensitive File Access
+
 - **Attacker Exploit Mechanism:**
   - Next.js proxy matcher previously omitted `/api/auth/:path*`.
   - Direct probing of dotfiles (`/.env`, `/.git`) could potentially expose configurations if misconfigured by edge proxies.
@@ -147,23 +153,23 @@ All 43 unit tests pass cleanly, TypeScript type-check succeeds with 0 errors, an
 
 ## Verification & Automated Test Status
 
-| Verification Step | Command | Result |
-| :--- | :--- | :--- |
-| **Unit Test Suite** | `npm test` | **43 / 43 tests passing** (100%) |
-| **TypeScript Typecheck** | `npm run type-check` (`tsc --noEmit`) | **0 errors** |
-| **ESLint Validation** | `npm run lint` | **0 errors, 0 warnings** |
+| Verification Step        | Command                               | Result                           |
+| :----------------------- | :------------------------------------ | :------------------------------- |
+| **Unit Test Suite**      | `npm test`                            | **43 / 43 tests passing** (100%) |
+| **TypeScript Typecheck** | `npm run type-check` (`tsc --noEmit`) | **0 errors**                     |
+| **ESLint Validation**    | `npm run lint`                        | **0 errors, 0 warnings**         |
 
 ---
 
 ## Summary Matrix of Exploits & Remediations
 
-| Attack Vector | Attacker Action | Severity | Status | Fixed In |
-| :--- | :--- | :--- | :--- | :--- |
-| **Login Bypass** | Submit arbitrary email to trigger single-admin fallback | **Critical** | **RESOLVED** | [app/api/auth/login/route.ts](file:///c:/Users/kushw/Github-Projects/digital-portfolio/app/api/auth/login/route.ts) |
-| **User Enumeration** | Measure response latency differences on login endpoint | **Medium** | **RESOLVED** | [app/api/auth/login/route.ts](file:///c:/Users/kushw/Github-Projects/digital-portfolio/app/api/auth/login/route.ts) |
-| **Storage DoS** | Flood file upload endpoint with 5MB payloads | **High** | **RESOLVED** | [app/api/upload/route.ts](file:///c:/Users/kushw/Github-Projects/digital-portfolio/app/api/upload/route.ts) |
-| **Middleware Bypass** | Target `/api/auth/account` without global CSRF validation | **High** | **RESOLVED** | [proxy.ts](file:///c:/Users/kushw/Github-Projects/digital-portfolio/proxy.ts) |
-| **Stored DOM XSS** | Supply `javascript:` URI in project, social, or certificate URLs | **High** | **RESOLVED** | [Hero.tsx](file:///c:/Users/kushw/Github-Projects/digital-portfolio/components/portfolio/Hero.tsx), [Hackathons.tsx](file:///c:/Users/kushw/Github-Projects/digital-portfolio/components/portfolio/Hackathons.tsx), [Education.tsx](file:///c:/Users/kushw/Github-Projects/digital-portfolio/components/portfolio/Education.tsx), [page.tsx](file:///c:/Users/kushw/Github-Projects/digital-portfolio/app/projects/[slug]/page.tsx) |
-| **Direct File Probing** | Request direct dotfiles (`/.env`, `/.git`) | **Low** | **RESOLVED** | [proxy.ts](file:///c:/Users/kushw/Github-Projects/digital-portfolio/proxy.ts) |
-| **NoSQL Injection** | Inject query operator objects (`{ $gt: "" }`) | **Critical** | **IMMUNE** | Input type guards & Mongoose casting |
-| **Payment Manipulation** | Exploit payment gateways, coupons, or free trials | **N/A** | **IMMUNE** | No financial or billing logic exists |
+| Attack Vector            | Attacker Action                                                  | Severity     | Status       | Fixed In                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| :----------------------- | :--------------------------------------------------------------- | :----------- | :----------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Login Bypass**         | Submit arbitrary email to trigger single-admin fallback          | **Critical** | **RESOLVED** | [app/api/auth/login/route.ts](file:///c:/Users/kushw/Github-Projects/digital-portfolio/app/api/auth/login/route.ts)                                                                                                                                                                                                                                                                                                                 |
+| **User Enumeration**     | Measure response latency differences on login endpoint           | **Medium**   | **RESOLVED** | [app/api/auth/login/route.ts](file:///c:/Users/kushw/Github-Projects/digital-portfolio/app/api/auth/login/route.ts)                                                                                                                                                                                                                                                                                                                 |
+| **Storage DoS**          | Flood file upload endpoint with 5MB payloads                     | **High**     | **RESOLVED** | [app/api/upload/route.ts](file:///c:/Users/kushw/Github-Projects/digital-portfolio/app/api/upload/route.ts)                                                                                                                                                                                                                                                                                                                         |
+| **Middleware Bypass**    | Target `/api/auth/account` without global CSRF validation        | **High**     | **RESOLVED** | [proxy.ts](file:///c:/Users/kushw/Github-Projects/digital-portfolio/proxy.ts)                                                                                                                                                                                                                                                                                                                                                       |
+| **Stored DOM XSS**       | Supply `javascript:` URI in project, social, or certificate URLs | **High**     | **RESOLVED** | [Hero.tsx](file:///c:/Users/kushw/Github-Projects/digital-portfolio/components/portfolio/Hero.tsx), [Hackathons.tsx](file:///c:/Users/kushw/Github-Projects/digital-portfolio/components/portfolio/Hackathons.tsx), [Education.tsx](file:///c:/Users/kushw/Github-Projects/digital-portfolio/components/portfolio/Education.tsx), [page.tsx](file:///c:/Users/kushw/Github-Projects/digital-portfolio/app/projects/[slug]/page.tsx) |
+| **Direct File Probing**  | Request direct dotfiles (`/.env`, `/.git`)                       | **Low**      | **RESOLVED** | [proxy.ts](file:///c:/Users/kushw/Github-Projects/digital-portfolio/proxy.ts)                                                                                                                                                                                                                                                                                                                                                       |
+| **NoSQL Injection**      | Inject query operator objects (`{ $gt: "" }`)                    | **Critical** | **IMMUNE**   | Input type guards & Mongoose casting                                                                                                                                                                                                                                                                                                                                                                                                |
+| **Payment Manipulation** | Exploit payment gateways, coupons, or free trials                | **N/A**      | **IMMUNE**   | No financial or billing logic exists                                                                                                                                                                                                                                                                                                                                                                                                |

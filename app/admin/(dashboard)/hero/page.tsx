@@ -56,7 +56,9 @@ export default function HeroAdmin() {
 
       const data = await res.json();
       setFormData({ ...formData, resumeUrl: data.url });
-      setSuccess("Resume uploaded successfully! (Remember to click Save Changes)");
+      setSuccess(
+        "Resume uploaded successfully! (Remember to click Save Changes)",
+      );
       setTimeout(() => setSuccess(""), 4000);
     } catch (err: any) {
       setError(err.message || "Failed to upload resume");

@@ -17,7 +17,9 @@ interface TopBarProps {
 
 export default function TopBar({ name, resumeUrl, social }: TopBarProps) {
   const brandName = name || "ANIT KUSHWAHA";
-  const github = sanitizeUrl(social?.github || "https://github.com/AnitKushwaha700");
+  const github = sanitizeUrl(
+    social?.github || "https://github.com/AnitKushwaha700",
+  );
   const linkedin = sanitizeUrl(
     social?.linkedin ||
       "https://www.linkedin.com/in/l-anit-kushwaha-l-7651462bb",

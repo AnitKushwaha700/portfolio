@@ -1,20 +1,20 @@
 # Personal Data Flow & Privacy Audit (Bearer Standard)
 
-*Audit conducted in accordance with [Bearer](https://github.com/bearer/bearer) data security and privacy guidelines.*
+_Audit conducted in accordance with [Bearer](https://github.com/bearer/bearer) data security and privacy guidelines._
 
 ---
 
 ## Executive Summary
 
-| Category | Status | Details |
-| :--- | :--- | :--- |
-| **Data Collection Mapping** | **Complete** | All ingress points mapped to transit, storage, and egress. |
-| **Log Sanitization** | **Protected** | Zero personal data or tokens in logs; auth logs strictly use `[REDACTED]`. |
-| **Third-Party Services** | **Audited** | Cloudinary, MongoDB, Resend (idle), Gemini (idle). No PII over-exposure. |
-| **Password Handling** | **Compliant** | Passwords hashed with salted bcrypt (cost 10). Plaintext never stored or returned. |
-| **Cookies & Web Storage** | **Hardened** | `httpOnly`, `secure`, `sameSite: lax`. Zero PII in `localStorage`/`sessionStorage`. |
-| **API Response Filtering**| **Hardened** | Mongoose `__v` stripped. Non-admin queries enforce `visible: true` and phone masking. |
-| **Data Deletion (GDPR)**   | **Implemented** | `DELETE /api/auth/account` + Admin UI Danger Zone permanently deletes & anonymizes data. |
+| Category                    | Status          | Details                                                                                  |
+| :-------------------------- | :-------------- | :--------------------------------------------------------------------------------------- |
+| **Data Collection Mapping** | **Complete**    | All ingress points mapped to transit, storage, and egress.                               |
+| **Log Sanitization**        | **Protected**   | Zero personal data or tokens in logs; auth logs strictly use `[REDACTED]`.               |
+| **Third-Party Services**    | **Audited**     | Cloudinary, MongoDB, Resend (idle), Gemini (idle). No PII over-exposure.                 |
+| **Password Handling**       | **Compliant**   | Passwords hashed with salted bcrypt (cost 10). Plaintext never stored or returned.       |
+| **Cookies & Web Storage**   | **Hardened**    | `httpOnly`, `secure`, `sameSite: lax`. Zero PII in `localStorage`/`sessionStorage`.      |
+| **API Response Filtering**  | **Hardened**    | Mongoose `__v` stripped. Non-admin queries enforce `visible: true` and phone masking.    |
+| **Data Deletion (GDPR)**    | **Implemented** | `DELETE /api/auth/account` + Admin UI Danger Zone permanently deletes & anonymizes data. |
 
 ---
 
@@ -68,16 +68,16 @@ flowchart TD
 
 ## 2. Ingress & Egress Data Inventory
 
-| Field | Ingress Point | Internal Path | Persistent Storage | External Destination / Egress | Access Restrictions |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **Email (Admin)** | `/admin/login` | Body ➔ `normalizedEmail` | `AdminUser.email` | Encrypted JWT cookie payload | Admin only |
-| **Password** | `/admin/login` | Body ➔ `normalizedPassword` ➔ `bcrypt.compare` | **Never stored** (bcrypt hash only) | **Never leaves server** | Local variable only |
-| **IP Address** | `x-forwarded-for` | In-memory `rateLimitStore` | **None** (cleared after 1 min window) | None | Server memory only |
-| **Name & Bio** | `/admin/hero` | Body ➔ `PUT /api/settings` | `PortfolioSettings.hero` | Public Portfolio Homepage | Public |
-| **Email (Contact)**| `/admin/social` | Body ➔ `PUT /api/settings` | `PortfolioSettings.social.email` | Public Contact Section | Public |
-| **Phone Number** | `/admin/social` | Body ➔ `PUT /api/settings` | `PortfolioSettings.social.phone` | Masked in `GET /api/settings` (`*******1426`) | Unauthenticated calls receive masked value |
-| **Resume Document**| `/api/upload` | Form ➔ Buffer ➔ `public_id` | Cloudinary & `public/uploads/` | Direct download URL | Publicly accessible URL |
-| **Career History** | `/admin/experience`, `/admin/education` | Body ➔ API Route | `Experience`, `Education` collections | Filtered by `visible: true` for public | Admin toggleable |
+| Field               | Ingress Point                           | Internal Path                                  | Persistent Storage                    | External Destination / Egress                 | Access Restrictions                        |
+| :------------------ | :-------------------------------------- | :--------------------------------------------- | :------------------------------------ | :-------------------------------------------- | :----------------------------------------- |
+| **Email (Admin)**   | `/admin/login`                          | Body ➔ `normalizedEmail`                       | `AdminUser.email`                     | Encrypted JWT cookie payload                  | Admin only                                 |
+| **Password**        | `/admin/login`                          | Body ➔ `normalizedPassword` ➔ `bcrypt.compare` | **Never stored** (bcrypt hash only)   | **Never leaves server**                       | Local variable only                        |
+| **IP Address**      | `x-forwarded-for`                       | In-memory `rateLimitStore`                     | **None** (cleared after 1 min window) | None                                          | Server memory only                         |
+| **Name & Bio**      | `/admin/hero`                           | Body ➔ `PUT /api/settings`                     | `PortfolioSettings.hero`              | Public Portfolio Homepage                     | Public                                     |
+| **Email (Contact)** | `/admin/social`                         | Body ➔ `PUT /api/settings`                     | `PortfolioSettings.social.email`      | Public Contact Section                        | Public                                     |
+| **Phone Number**    | `/admin/social`                         | Body ➔ `PUT /api/settings`                     | `PortfolioSettings.social.phone`      | Masked in `GET /api/settings` (`*******1426`) | Unauthenticated calls receive masked value |
+| **Resume Document** | `/api/upload`                           | Form ➔ Buffer ➔ `public_id`                    | Cloudinary & `public/uploads/`        | Direct download URL                           | Publicly accessible URL                    |
+| **Career History**  | `/admin/experience`, `/admin/education` | Body ➔ API Route                               | `Experience`, `Education` collections | Filtered by `visible: true` for public        | Admin toggleable                           |
 
 ---
 
@@ -101,13 +101,13 @@ All server logs and console outputs were inspected:
 
 ## 4. Third-Party Integrations Audit
 
-| Third-Party Service | Data Transmitted | Data Excluded / Stripped | Risk Mitigation |
-| :--- | :--- | :--- | :--- |
-| **Cloudinary** | File byte stream, folder (`digital_portfolio`), sanitized `public_id`. | Zero user emails, passwords, tokens, or customer metadata. | Filename sanitized with alphanumeric regex; local fallback for ACL restrictions. |
-| **MongoDB Atlas** | Database documents (`AdminUser`, `PortfolioSettings`, etc.). | Passwords hashed prior to DB write. | TLS connection (`mongodb+srv://`) and IP access whitelist. |
-| **GitHub REST API** | Public repo path `repos/{owner}/{repo}`. | Zero auth tokens, zero user credentials. | Unauthenticated GET request to fetch public repository metadata. |
-| **Resend (Email)** | Registered in `lib/env.ts` (optional). | No automated emails currently sent. | Disabled when `RESEND_API_KEY` is omitted. |
-| **Google Gemini AI**| Registered in `lib/env.ts` (optional). | No PII transmitted. | Configured as optional helper. |
+| Third-Party Service  | Data Transmitted                                                       | Data Excluded / Stripped                                   | Risk Mitigation                                                                  |
+| :------------------- | :--------------------------------------------------------------------- | :--------------------------------------------------------- | :------------------------------------------------------------------------------- |
+| **Cloudinary**       | File byte stream, folder (`digital_portfolio`), sanitized `public_id`. | Zero user emails, passwords, tokens, or customer metadata. | Filename sanitized with alphanumeric regex; local fallback for ACL restrictions. |
+| **MongoDB Atlas**    | Database documents (`AdminUser`, `PortfolioSettings`, etc.).           | Passwords hashed prior to DB write.                        | TLS connection (`mongodb+srv://`) and IP access whitelist.                       |
+| **GitHub REST API**  | Public repo path `repos/{owner}/{repo}`.                               | Zero auth tokens, zero user credentials.                   | Unauthenticated GET request to fetch public repository metadata.                 |
+| **Resend (Email)**   | Registered in `lib/env.ts` (optional).                                 | No automated emails currently sent.                        | Disabled when `RESEND_API_KEY` is omitted.                                       |
+| **Google Gemini AI** | Registered in `lib/env.ts` (optional).                                 | No PII transmitted.                                        | Configured as optional helper.                                                   |
 
 ---
 

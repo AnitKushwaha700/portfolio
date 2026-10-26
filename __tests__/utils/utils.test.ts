@@ -184,4 +184,3 @@ describe("sanitizeUrl()", () => {
     expect(sanitizeUrl("")).toBe("#");
   });
 });
-

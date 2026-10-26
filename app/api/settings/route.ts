@@ -29,12 +29,16 @@ export async function GET(): Promise<Response> {
     await connectToDatabase();
 
     // Always work with plain objects (not Mongoose documents) for type safety
-    let doc = await PortfolioSettings.findOne().select("-__v").lean<Record<string, unknown>>();
+    let doc = await PortfolioSettings.findOne()
+      .select("-__v")
+      .lean<Record<string, unknown>>();
 
     if (!doc) {
       // Bootstrap: create default settings on first run, then fetch as lean
       await PortfolioSettings.create({});
-      doc = await PortfolioSettings.findOne().select("-__v").lean<Record<string, unknown>>();
+      doc = await PortfolioSettings.findOne()
+        .select("-__v")
+        .lean<Record<string, unknown>>();
     }
 
     if (!doc) {

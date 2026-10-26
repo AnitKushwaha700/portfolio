@@ -111,7 +111,7 @@ export default function ResumeAdmin() {
 
     if (file.size > MAX_FILE_SIZE_BYTES) {
       setError(
-        `File is too large (${(file.size / (1024 * 1024)).toFixed(1)} MB). Maximum allowed size is 10 MB.`
+        `File is too large (${(file.size / (1024 * 1024)).toFixed(1)} MB). Maximum allowed size is 10 MB.`,
       );
       return;
     }
@@ -142,7 +142,9 @@ export default function ResumeAdmin() {
       }
 
       await saveResumeToSettings(uploadedUrl);
-      showSuccessBanner("Resume uploaded and published to portfolio successfully!");
+      showSuccessBanner(
+        "Resume uploaded and published to portfolio successfully!",
+      );
     } catch (err: any) {
       setError(err.message || "Failed to upload resume file.");
     } finally {
@@ -246,7 +248,8 @@ export default function ResumeAdmin() {
           </div>
           <p className="text-sm text-gray-400 pt-1">
             Upload, update, and manage your CV / Resume document. This feeds the
-            public &quot;Resume&quot; button in your portfolio&apos;s navigation bar.
+            public &quot;Resume&quot; button in your portfolio&apos;s navigation
+            bar.
           </p>
         </div>
 
@@ -400,8 +403,8 @@ export default function ResumeAdmin() {
           <div className="py-2 text-sm text-gray-400 flex items-center gap-2">
             <Info className="w-4 h-4 text-amber-400 flex-shrink-0" />
             <span>
-              Upload a PDF document below or provide an external Google Drive link
-              to activate the resume button on your site.
+              Upload a PDF document below or provide an external Google Drive
+              link to activate the resume button on your site.
             </span>
           </div>
         )}
@@ -415,8 +418,8 @@ export default function ResumeAdmin() {
               Are you sure you want to remove the current resume?
             </p>
             <p className="text-xs text-red-400/80">
-              The &quot;Resume&quot; button in your portfolio header will revert to
-              pointing to your contact section until a new resume is added.
+              The &quot;Resume&quot; button in your portfolio header will revert
+              to pointing to your contact section until a new resume is added.
             </p>
           </div>
           <div className="flex items-center gap-2">
@@ -533,7 +536,11 @@ export default function ResumeAdmin() {
                     Click to browse or drag and drop your resume file
                   </p>
                   <p className="text-xs text-gray-400 leading-relaxed">
-                    Supports <span className="text-indigo-400 font-medium">PDF, DOC, DOCX</span> formats up to 10 MB.
+                    Supports{" "}
+                    <span className="text-indigo-400 font-medium">
+                      PDF, DOC, DOCX
+                    </span>{" "}
+                    formats up to 10 MB.
                   </p>
                   <div className="pt-2">
                     <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium transition-colors shadow-md shadow-indigo-600/20">
@@ -548,11 +555,13 @@ export default function ResumeAdmin() {
             <div className="p-4 rounded-xl bg-black/20 border border-gray-800/80 flex items-start gap-3 text-xs text-gray-400">
               <Info className="w-4 h-4 text-indigo-400 flex-shrink-0 mt-0.5" />
               <div>
-                <p className="text-gray-300 font-medium">Automatic Cloud Storage</p>
+                <p className="text-gray-300 font-medium">
+                  Automatic Cloud Storage
+                </p>
                 <p className="mt-0.5 leading-relaxed">
-                  Uploaded resumes are securely stored on Cloudinary (or local server
-                  storage in dev mode) and immediately linked to your portfolio&apos;s
-                  public resume download button.
+                  Uploaded resumes are securely stored on Cloudinary (or local
+                  server storage in dev mode) and immediately linked to your
+                  portfolio&apos;s public resume download button.
                 </p>
               </div>
             </div>
@@ -581,7 +590,11 @@ export default function ResumeAdmin() {
                   className="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-xl text-sm transition-colors disabled:opacity-50 flex items-center gap-2 cursor-pointer shadow-lg shadow-indigo-500/20"
                 >
                   {saving ? (
-                    <LoadingSpinner size="sm" variant="white" label="Saving..." />
+                    <LoadingSpinner
+                      size="sm"
+                      variant="white"
+                      label="Saving..."
+                    />
                   ) : (
                     <>
                       <FileCheck className="w-4 h-4" />
@@ -653,7 +666,8 @@ export default function ResumeAdmin() {
                   </p>
                   <p className="text-xs text-gray-400 max-w-md mx-auto">
                     This resume is hosted on an external service (Google Drive,
-                    Dropbox, or external server). You can verify the link directly.
+                    Dropbox, or external server). You can verify the link
+                    directly.
                   </p>
                 </div>
                 <div className="pt-2">
@@ -678,8 +692,8 @@ export default function ResumeAdmin() {
                 No Resume Uploaded Yet
               </p>
               <p className="text-xs text-gray-500 max-w-sm mx-auto">
-                Once you upload a document or link a resume above, an interactive
-                preview will appear here.
+                Once you upload a document or link a resume above, an
+                interactive preview will appear here.
               </p>
             </div>
           </div>
@@ -694,11 +708,11 @@ export default function ResumeAdmin() {
             Portfolio Navigation Integration
           </p>
           <p>
-            The resume you manage here is displayed on the public portfolio exclusively
-            as a secure viewing and download link in the top-right{" "}
-            <span className="text-indigo-400 font-medium">TopBar</span> navigation.
-            Public visitors cannot edit or upload files; only authorized
-            administrators in this dashboard can manage resume files.
+            The resume you manage here is displayed on the public portfolio
+            exclusively as a secure viewing and download link in the top-right{" "}
+            <span className="text-indigo-400 font-medium">TopBar</span>{" "}
+            navigation. Public visitors cannot edit or upload files; only
+            authorized administrators in this dashboard can manage resume files.
           </p>
         </div>
       </div>

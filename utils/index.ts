@@ -125,4 +125,3 @@ export function sanitizeUrl(url: string | undefined | null): string {
     return "#";
   }
 }
-

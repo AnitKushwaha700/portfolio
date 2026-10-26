@@ -36,7 +36,10 @@ interface HeroProps {
 
 export default function Hero({ settings }: HeroProps) {
   const { hero, social } = settings;
-  const profileImage = hero.profileImage || "/profile/anit-suit-trimmed.png";
+  const profileImage =
+    hero.profileImage && hero.profileImage !== "/profile/profile.jpg"
+      ? hero.profileImage
+      : "/profile/anit-suit-trimmed.png";
 
   // Heading dynamically controlled by Admin (custom headline, or role fallback)
   const adminHeading =

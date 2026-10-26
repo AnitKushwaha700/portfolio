@@ -34,7 +34,9 @@ const UPLOAD_RATE_LIMIT_MAX = 10;
 function isUploadRateLimited(ip: string): boolean {
   const now = Date.now();
   const windowStart = now - UPLOAD_RATE_LIMIT_WINDOW_MS;
-  const attempts = (uploadRateLimitStore.get(ip) ?? []).filter((t) => t >= windowStart);
+  const attempts = (uploadRateLimitStore.get(ip) ?? []).filter(
+    (t) => t >= windowStart,
+  );
   if (attempts.length >= UPLOAD_RATE_LIMIT_MAX) {
     return true;
   }
@@ -137,7 +139,7 @@ export async function POST(request: Request): Promise<Response> {
             url = result.secure_url;
           } else {
             console.warn(
-              `[upload] Cloudinary raw file delivery returned ${check.status} (PDF delivery restriction). Using local URL /uploads/${localFileName} for flawless access.`
+              `[upload] Cloudinary raw file delivery returned ${check.status} (PDF delivery restriction). Using local URL /uploads/${localFileName} for flawless access.`,
             );
           }
         } catch {

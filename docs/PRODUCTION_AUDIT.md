@@ -1,20 +1,20 @@
 # Pre-Deploy Production Audit Report
 
-*Audit based on [ECC Production Audit](https://github.com/affaan-m/ECC/tree/main/skills/production-audit).*
+_Audit based on [ECC Production Audit](https://github.com/affaan-m/ECC/tree/main/skills/production-audit)._
 
 ---
 
 ## Audit Checklist & Status Summary
 
-| # | Check Category | Status | Result / Remediations |
-| :-: | :--- | :---: | :--- |
+|   #   | Check Category            |   Status   | Result / Remediations                                                                                                            |
+| :---: | :------------------------ | :--------: | :------------------------------------------------------------------------------------------------------------------------------- |
 | **1** | **Environment Variables** | **PASSED** | Fail-fast validation in `lib/env.ts` & `instrumentation.ts`. `npm run check-env` verifies all 7 critical variables before build. |
-| **2** | **Debug Code Removal** | **PASSED** | 0 test endpoints, 0 TODO/FIXME comments, 0 commented-out blocks, 0 hardcoded credentials, debug logs removed. |
-| **3** | **Error Handling** | **PASSED** | Zero stack traces or query strings leaked to clients. Correlation UUIDs (`errorId`) returned with generic messages. |
-| **4** | **Security Headers** | **PASSED** | `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Strict-Transport-Security` (1 yr), strict CSP with `connect-src`. |
-| **5** | **Rate Limiting** | **PASSED** | Login rate limited to 5 attempts/minute/IP with sliding window, returning HTTP 429 and `Retry-After: 60` headers. |
-| **6** | **CORS Configuration** | **PASSED** | No wildcard CORS (`*`). Strict Origin validation on state-changing API methods (`POST`, `PUT`, `DELETE`, `PATCH`). |
-| **7** | **Database Security** | **PASSED** | Production TLS/SSL required for remote MongoDB connections (`tls: true`). Default credentials and unauthenticated ports blocked. |
+| **2** | **Debug Code Removal**    | **PASSED** | 0 test endpoints, 0 TODO/FIXME comments, 0 commented-out blocks, 0 hardcoded credentials, debug logs removed.                    |
+| **3** | **Error Handling**        | **PASSED** | Zero stack traces or query strings leaked to clients. Correlation UUIDs (`errorId`) returned with generic messages.              |
+| **4** | **Security Headers**      | **PASSED** | `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Strict-Transport-Security` (1 yr), strict CSP with `connect-src`.   |
+| **5** | **Rate Limiting**         | **PASSED** | Login rate limited to 5 attempts/minute/IP with sliding window, returning HTTP 429 and `Retry-After: 60` headers.                |
+| **6** | **CORS Configuration**    | **PASSED** | No wildcard CORS (`*`). Strict Origin validation on state-changing API methods (`POST`, `PUT`, `DELETE`, `PATCH`).               |
+| **7** | **Database Security**     | **PASSED** | Production TLS/SSL required for remote MongoDB connections (`tls: true`). Default credentials and unauthenticated ports blocked. |
 
 ---
 

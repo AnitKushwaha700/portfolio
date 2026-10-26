@@ -1,6 +1,6 @@
 # Deep Security Audit: Critical Paths & Complex Logic
 
-*Based on [Trail of Bits Security Audit Standards](https://github.com/trailofbits/skills).*
+_Based on [Trail of Bits Security Audit Standards](https://github.com/trailofbits/skills)._
 
 ---
 
@@ -16,14 +16,14 @@
 
 ## Executive Vulnerability Matrix
 
-| ID | Category | Severity | Title | Status |
-| :-: | :--- | :-: | :--- | :-: |
-| **TOB-01** | **Auth & Authorization** | **HIGH** | Missing In-Handler Auth Enforcement (Defense-in-Depth) | **RESOLVED** |
-| **TOB-02** | **Input Handling** | **HIGH** | Unrestricted File Upload Extensions (Stored XSS Risk) | **RESOLVED** |
-| **TOB-03** | **Input Handling** | **MEDIUM** | Unsanitized `href` Links (DOM/Stored `javascript:` XSS) | **RESOLVED** |
-| **TOB-04** | **Input Handling** | **LOW** | Potential Mass-Assignment on Mongoose Document Updates | **RESOLVED** |
-| **TOB-05** | **Auth & Authorization** | **INFO** | Stateless JWT Revocation Surface on Logout | **DOCUMENTED** |
-| **TOB-06** | **Payment Logic** | **INFO** | Payment Surface Analysis (Not Applicable) | **AUDITED** |
+|     ID     | Category                 |  Severity  | Title                                                   |     Status     |
+| :--------: | :----------------------- | :--------: | :------------------------------------------------------ | :------------: |
+| **TOB-01** | **Auth & Authorization** |  **HIGH**  | Missing In-Handler Auth Enforcement (Defense-in-Depth)  |  **RESOLVED**  |
+| **TOB-02** | **Input Handling**       |  **HIGH**  | Unrestricted File Upload Extensions (Stored XSS Risk)   |  **RESOLVED**  |
+| **TOB-03** | **Input Handling**       | **MEDIUM** | Unsanitized `href` Links (DOM/Stored `javascript:` XSS) |  **RESOLVED**  |
+| **TOB-04** | **Input Handling**       |  **LOW**   | Potential Mass-Assignment on Mongoose Document Updates  |  **RESOLVED**  |
+| **TOB-05** | **Auth & Authorization** |  **INFO**  | Stateless JWT Revocation Surface on Logout              | **DOCUMENTED** |
+| **TOB-06** | **Payment Logic**        |  **INFO**  | Payment Surface Analysis (Not Applicable)               |  **AUDITED**   |
 
 ---
 

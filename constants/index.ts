@@ -57,11 +57,7 @@ export const ALLOWED_FILE_EXTENSIONS = new Set([
 ]);
 
 /** File extensions that must be uploaded as raw (not image-processed) */
-export const RAW_FILE_EXTENSIONS = new Set([
-  "pdf",
-  "doc",
-  "docx",
-]);
+export const RAW_FILE_EXTENSIONS = new Set(["pdf", "doc", "docx"]);
 
 // ─── Skill Categories ─────────────────────────────────────────────────────────
 

@@ -37,24 +37,29 @@ export default async function Home() {
     if (settings) {
       const { sectionVisibility } = settings;
 
-      const [rawProjects, rawExperiences, rawSkills, rawEducation, rawHackathons] =
-        await Promise.all([
-          sectionVisibility.projects
-            ? Project.find({ visible: true }).sort({ order: 1 }).lean()
-            : [],
-          sectionVisibility.experience
-            ? Experience.find({ visible: true }).sort({ order: 1 }).lean()
-            : [],
-          sectionVisibility.skills
-            ? Skill.find({ visible: true }).sort({ order: 1 }).lean()
-            : [],
-          sectionVisibility.education
-            ? Education.find({ visible: true }).sort({ order: 1 }).lean()
-            : [],
-          sectionVisibility.hackathon
-            ? Hackathon.find({ visible: true }).sort({ date: -1 }).lean()
-            : [],
-        ]);
+      const [
+        rawProjects,
+        rawExperiences,
+        rawSkills,
+        rawEducation,
+        rawHackathons,
+      ] = await Promise.all([
+        sectionVisibility.projects
+          ? Project.find({ visible: true }).sort({ order: 1 }).lean()
+          : [],
+        sectionVisibility.experience
+          ? Experience.find({ visible: true }).sort({ order: 1 }).lean()
+          : [],
+        sectionVisibility.skills
+          ? Skill.find({ visible: true }).sort({ order: 1 }).lean()
+          : [],
+        sectionVisibility.education
+          ? Education.find({ visible: true }).sort({ order: 1 }).lean()
+          : [],
+        sectionVisibility.hackathon
+          ? Hackathon.find({ visible: true }).sort({ date: -1 }).lean()
+          : [],
+      ]);
 
       projects = JSON.parse(JSON.stringify(rawProjects));
       experiences = JSON.parse(JSON.stringify(rawExperiences));
@@ -76,10 +81,13 @@ export default async function Home() {
           <div className="w-12 h-12 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 mx-auto flex items-center justify-center font-bold">
             !
           </div>
-          <h2 className="text-xl font-bold text-white">Portfolio Initializing</h2>
+          <h2 className="text-xl font-bold text-white">
+            Portfolio Initializing
+          </h2>
           <p className="text-sm text-gray-400">
-            Connecting to cloud services. If this is a fresh deployment, please ensure
-            your MongoDB Atlas cluster URI is configured in your hosting environment variables.
+            Connecting to cloud services. If this is a fresh deployment, please
+            ensure your MongoDB Atlas cluster URI is configured in your hosting
+            environment variables.
           </p>
         </div>
       </div>
