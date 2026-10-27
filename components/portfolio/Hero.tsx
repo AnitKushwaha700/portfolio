@@ -294,6 +294,7 @@ export default function Hero({ settings }: HeroProps) {
                       sizes="(max-width: 768px) 100vw, 50vw"
                       className="object-cover object-center"
                       priority
+                      unoptimized
                     />
                   </motion.div>
 
@@ -324,6 +325,7 @@ export default function Hero({ settings }: HeroProps) {
                       fill
                       sizes="(max-width: 768px) 100vw, 50vw"
                       className="object-cover object-bottom"
+                      unoptimized
                     />
                   </motion.div>
                 </div>
@@ -385,6 +387,7 @@ export default function Hero({ settings }: HeroProps) {
                       fill
                       sizes="(max-width: 768px) 100vw, 50vw"
                       className="object-cover object-bottom"
+                      unoptimized
                     />
                   </motion.div>
 
@@ -415,6 +418,7 @@ export default function Hero({ settings }: HeroProps) {
                       fill
                       sizes="(max-width: 768px) 100vw, 50vw"
                       className="object-cover object-bottom"
+                      unoptimized
                     />
                   </motion.div>
                 </div>
