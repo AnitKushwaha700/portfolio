@@ -10,6 +10,15 @@ import { MONGOOSE_BUFFER_COMMANDS } from "@/constants";
 
 import dns from "node:dns";
 
+// Ensure SRV DNS resolution succeeds on Windows/local networks
+if (typeof dns.setServers === "function") {
+  try {
+    dns.setServers(["8.8.8.8", "1.1.1.1"]);
+  } catch {
+    // Ignore if not supported in environment
+  }
+}
+
 interface MongooseCache {
   conn: typeof mongoose | null;
   promise: Promise<typeof mongoose> | null;

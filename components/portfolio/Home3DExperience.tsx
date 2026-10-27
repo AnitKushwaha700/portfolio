@@ -1,19 +1,12 @@
 "use client";
 
-import { useSyncExternalStore } from "react";
-import Hero3DCanvas from "./Hero3DCanvas";
+import dynamic from "next/dynamic";
 
-const emptySubscribe = () => () => {};
+const Hero3DCanvas = dynamic(() => import("./Hero3DCanvas"), {
+  ssr: false,
+});
 
 export default function Home3DExperience() {
-  const isMounted = useSyncExternalStore(
-    emptySubscribe,
-    () => true,
-    () => false,
-  );
-
-  if (!isMounted) return null;
-
   return (
     <>
       {/* Full-Page Background 3D Cyber Vortex Canvas */}

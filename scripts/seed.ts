@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import * as dotenv from "dotenv";
 import bcrypt from "bcryptjs";
+import dns from "node:dns";
 import { AdminUser } from "../models/AdminUser";
 import { PortfolioSettings } from "../models/PortfolioSettings";
 import { Project } from "../models/Project";
@@ -10,17 +11,26 @@ import { Education } from "../models/Education";
 
 dotenv.config({ path: ".env" });
 
-const MONGODB_URI = process.env.MONGODB_URI;
+const rawUri = process.env.MONGODB_URI;
 
-if (!MONGODB_URI) {
+if (!rawUri) {
   throw new Error(
     "Please define the MONGODB_URI environment variable inside .env",
   );
 }
 
+// Fix SRV DNS resolution on local ISPs/Windows
+if (rawUri.includes("+srv") && typeof dns.setServers === "function") {
+  try {
+    dns.setServers(["8.8.8.8", "1.1.1.1"]);
+  } catch {
+    // Ignore if not supported in environment
+  }
+}
+
 async function seed() {
   try {
-    await mongoose.connect(MONGODB_URI as string);
+    await mongoose.connect(rawUri as string);
     console.log("Connected to MongoDB");
 
     // Clear existing data
