@@ -44,17 +44,17 @@ export default function TopBar({ name, resumeUrl, social }: TopBarProps) {
 
       {/* TopBar Right: Theme Toggle, Resume Button & Social Links */}
       <div className="pointer-events-auto flex items-center gap-1.5 sm:gap-3 shrink-0">
-        {/* Theme Toggle Button (Light / Dark) */}
+        {/* Theme Toggle Button (Light / Dark) — styled exactly like social icons */}
         <button
           onClick={toggleTheme}
           aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
           title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-          className="p-1.5 sm:p-2 rounded-full bg-white/5 hover:bg-white/10 border border-gray-800 text-gray-200 transition-all duration-300 hover:scale-110 active:scale-95 shadow-sm cursor-pointer flex items-center justify-center shrink-0"
+          className="p-1.5 sm:p-2 text-gray-400 hover:text-white hover:bg-white/5 rounded-full transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer flex items-center justify-center shrink-0"
         >
           {theme === "dark" ? (
-            <Sun className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-400 hover:text-amber-300 transition-transform duration-300 hover:rotate-45" />
+            <Sun className="w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform duration-300 hover:rotate-45" />
           ) : (
-            <Moon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-indigo-600 hover:text-indigo-500 transition-transform duration-300 hover:-rotate-12" />
+            <Moon className="w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform duration-300 hover:-rotate-12" />
           )}
         </button>
 

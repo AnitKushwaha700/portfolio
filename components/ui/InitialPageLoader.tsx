@@ -64,7 +64,7 @@ export default function InitialPageLoader() {
             scale: 0.98,
             transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] },
           }}
-          className="fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-[#0B0F19] text-white selection:bg-none"
+          className="fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-slate-50 dark:bg-[#0B0F19] text-slate-900 dark:text-white selection:bg-none"
         >
           {/* Ambient background glow */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[420px] h-[420px] bg-indigo-600/15 rounded-full blur-[110px] pointer-events-none" />
@@ -78,7 +78,7 @@ export default function InitialPageLoader() {
               className="relative mb-6"
             >
               <div className="absolute -inset-2 bg-linear-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-2xl opacity-60 blur-md animate-pulse" />
-              <div className="relative w-16 h-16 rounded-2xl bg-[#111827] border border-gray-800 flex items-center justify-center shadow-2xl">
+              <div className="relative w-16 h-16 rounded-2xl bg-white dark:bg-[#111827] border border-slate-200 dark:border-gray-800 flex items-center justify-center shadow-2xl">
                 <span className="text-xl font-black tracking-wider bg-linear-to-r from-indigo-400 via-purple-300 to-pink-400 bg-clip-text text-transparent">
                   AK
                 </span>
@@ -90,13 +90,13 @@ export default function InitialPageLoader() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.1 }}
-              className="text-lg font-bold tracking-widest uppercase text-gray-100 mb-1"
+              className="text-lg font-bold tracking-widest uppercase text-slate-900 dark:text-gray-100 mb-1"
             >
               Anit Kushwaha
             </motion.h1>
 
             {/* Modern Slim Progress Bar */}
-            <div className="w-full bg-gray-900/80 border border-gray-800/80 rounded-full h-1.5 overflow-hidden p-px shadow-inner">
+            <div className="w-full bg-slate-200 dark:bg-gray-900/80 border border-slate-300 dark:border-gray-800/80 rounded-full h-1.5 overflow-hidden p-px shadow-inner">
               <motion.div
                 className="h-full bg-linear-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-full"
                 style={{ width: `${progress}%` }}
@@ -105,7 +105,7 @@ export default function InitialPageLoader() {
             </div>
 
             {/* Subtle percentage and status indicator */}
-            <div className="flex justify-between items-center w-full mt-2.5 px-0.5 text-[10px] text-gray-500 font-mono">
+            <div className="flex justify-between items-center w-full mt-2.5 px-0.5 text-[10px] text-slate-500 dark:text-gray-500 font-mono">
               <span className="flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-ping" />
                 loading experience

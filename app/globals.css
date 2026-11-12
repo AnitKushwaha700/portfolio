@@ -169,23 +169,24 @@ html.light header a.text-white {
 html.light header a.text-white:hover {
   color: #ef4444 !important;
 }
-html.light header a.text-gray-400 {
+html.light header a.text-gray-400,
+html.light header button.text-gray-400 {
   color: #64748b !important;
+  background-color: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
 }
-html.light header a.text-gray-400:hover {
+html.light header a.text-gray-400:hover,
+html.light header button.text-gray-400:hover {
   color: #0f172a !important;
-}
-html.light header button {
-  background-color: rgba(241, 245, 249, 0.95) !important;
-  border-color: rgba(203, 213, 225, 0.85) !important;
-  color: #0f172a !important;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+  background-color: rgba(15, 23, 42, 0.06) !important;
 }
 html.light header a[href*="#contact"],
 html.light header a[href*="resume"] {
   background-color: rgba(241, 245, 249, 0.95) !important;
   border-color: rgba(203, 213, 225, 0.85) !important;
   color: #0f172a !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
 }
 
 /* Floating Navigation Bar in Light Mode */
