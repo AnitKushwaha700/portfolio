@@ -33,15 +33,12 @@ function ProjectGraphicFallback({ slug, title }: { slug: string; title: string }
   if (normalized.includes("craving") || normalized.includes("food")) {
     return (
       <div className="relative w-full h-full flex items-center justify-center">
-        <div className="absolute inset-0 bg-gradient-to-tr from-red-500/10 via-rose-500/15 to-transparent rounded-2xl" />
-        <div className="relative flex flex-col items-center justify-center p-4">
-          <div className="w-20 h-20 rounded-2xl bg-gradient-to-tr from-red-500 via-rose-500 to-amber-500 p-0.5 shadow-xl shadow-red-500/30 transform -rotate-3 hover:rotate-0 transition-transform duration-300">
+        <div className="absolute inset-0 bg-gradient-to-tr from-red-500/10 via-rose-500/15 to-transparent rounded-xl" />
+        <div className="relative flex items-center justify-center">
+          <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-tr from-red-500 via-rose-500 to-amber-500 p-0.5 shadow-lg shadow-red-500/30 transform -rotate-2 hover:rotate-0 transition-transform duration-300">
             <div className="w-full h-full bg-[#111827] rounded-[14px] flex items-center justify-center">
-              <UtensilsCrossed className="w-10 h-10 text-rose-400" />
+              <UtensilsCrossed className="w-6 h-6 sm:w-7 sm:h-7 text-rose-400" />
             </div>
-          </div>
-          <div className="mt-3 flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/20 text-[10px] font-semibold text-rose-400">
-            <span>Fast Delivery API</span>
           </div>
         </div>
       </div>
@@ -51,15 +48,12 @@ function ProjectGraphicFallback({ slug, title }: { slug: string; title: string }
   if (normalized.includes("chat") || normalized.includes("talk")) {
     return (
       <div className="relative w-full h-full flex items-center justify-center">
-        <div className="absolute inset-0 bg-gradient-to-tr from-rose-500/10 via-red-500/15 to-transparent rounded-2xl" />
-        <div className="relative flex flex-col items-center justify-center p-4">
-          <div className="w-20 h-20 rounded-2xl bg-gradient-to-tr from-rose-500 to-red-500 p-0.5 shadow-xl shadow-rose-500/30 transform rotate-2 hover:rotate-0 transition-transform duration-300">
+        <div className="absolute inset-0 bg-gradient-to-tr from-rose-500/10 via-red-500/15 to-transparent rounded-xl" />
+        <div className="relative flex items-center justify-center">
+          <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-tr from-rose-500 to-red-500 p-0.5 shadow-lg shadow-rose-500/30 transform rotate-2 hover:rotate-0 transition-transform duration-300">
             <div className="w-full h-full bg-[#111827] rounded-[14px] flex items-center justify-center">
-              <MessageSquare className="w-10 h-10 text-red-400" />
+              <MessageSquare className="w-6 h-6 sm:w-7 sm:h-7 text-red-400" />
             </div>
-          </div>
-          <div className="mt-3 flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/20 text-[10px] font-semibold text-red-400">
-            <span>WebRTC &amp; Sockets</span>
           </div>
         </div>
       </div>
@@ -69,15 +63,12 @@ function ProjectGraphicFallback({ slug, title }: { slug: string; title: string }
   if (normalized.includes("auth") || normalized.includes("security")) {
     return (
       <div className="relative w-full h-full flex items-center justify-center">
-        <div className="absolute inset-0 bg-gradient-to-tr from-amber-500/10 via-red-500/15 to-transparent rounded-2xl" />
-        <div className="relative flex flex-col items-center justify-center p-4">
-          <div className="w-20 h-20 rounded-2xl bg-gradient-to-tr from-amber-500 via-rose-500 to-red-500 p-0.5 shadow-xl shadow-amber-500/30 transform -rotate-2 hover:rotate-0 transition-transform duration-300">
+        <div className="absolute inset-0 bg-gradient-to-tr from-amber-500/10 via-red-500/15 to-transparent rounded-xl" />
+        <div className="relative flex items-center justify-center">
+          <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-tr from-amber-500 via-rose-500 to-red-500 p-0.5 shadow-lg shadow-amber-500/30 transform -rotate-2 hover:rotate-0 transition-transform duration-300">
             <div className="w-full h-full bg-[#111827] rounded-[14px] flex items-center justify-center">
-              <ShieldCheck className="w-10 h-10 text-amber-400" />
+              <ShieldCheck className="w-6 h-6 sm:w-7 sm:h-7 text-amber-400" />
             </div>
-          </div>
-          <div className="mt-3 flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-[10px] font-semibold text-amber-400">
-            <span>JWT &amp; RBAC Secure</span>
           </div>
         </div>
       </div>
@@ -87,33 +78,27 @@ function ProjectGraphicFallback({ slug, title }: { slug: string; title: string }
   if (normalized.includes("career") || normalized.includes("ai") || normalized.includes("resume")) {
     return (
       <div className="relative w-full h-full flex items-center justify-center">
-        <div className="absolute inset-0 bg-gradient-to-tr from-rose-500/10 via-amber-500/15 to-transparent rounded-2xl" />
-        <div className="relative flex flex-col items-center justify-center p-4">
-          <div className="w-20 h-20 rounded-2xl bg-gradient-to-tr from-red-600 via-rose-500 to-amber-400 p-0.5 shadow-xl shadow-red-500/30 transform rotate-3 hover:rotate-0 transition-transform duration-300">
+        <div className="absolute inset-0 bg-gradient-to-tr from-rose-500/10 via-amber-500/15 to-transparent rounded-xl" />
+        <div className="relative flex items-center justify-center">
+          <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-tr from-red-600 via-rose-500 to-amber-400 p-0.5 shadow-lg shadow-red-500/30 transform rotate-2 hover:rotate-0 transition-transform duration-300">
             <div className="w-full h-full bg-[#111827] rounded-[14px] flex items-center justify-center">
-              <Sparkles className="w-10 h-10 text-amber-300" />
+              <Sparkles className="w-6 h-6 sm:w-7 sm:h-7 text-amber-300" />
             </div>
-          </div>
-          <div className="mt-3 flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/20 text-[10px] font-semibold text-amber-300">
-            <span>AI LLM Agent</span>
           </div>
         </div>
       </div>
     );
   }
 
-  // Default Laptop / LMS illustration
+  // Default Laptop / Platform illustration
   return (
     <div className="relative w-full h-full flex items-center justify-center">
-      <div className="absolute inset-0 bg-gradient-to-tr from-red-500/10 via-rose-500/15 to-transparent rounded-2xl" />
-      <div className="relative flex flex-col items-center justify-center p-4">
-        <div className="w-20 h-20 rounded-2xl bg-gradient-to-tr from-red-500 to-rose-400 p-0.5 shadow-xl shadow-red-500/30 transform hover:scale-105 transition-transform duration-300">
+      <div className="absolute inset-0 bg-gradient-to-tr from-red-500/10 via-rose-500/15 to-transparent rounded-xl" />
+      <div className="relative flex items-center justify-center">
+        <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-tr from-red-500 to-rose-400 p-0.5 shadow-lg shadow-red-500/30 transform hover:scale-105 transition-transform duration-300">
           <div className="w-full h-full bg-[#111827] rounded-[14px] flex items-center justify-center">
-            <Laptop className="w-10 h-10 text-rose-400" />
+            <Laptop className="w-6 h-6 sm:w-7 sm:h-7 text-rose-400" />
           </div>
-        </div>
-        <div className="mt-3 flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/20 text-[10px] font-semibold text-rose-400">
-          <span>Full Stack Platform</span>
         </div>
       </div>
     </div>
@@ -279,20 +264,20 @@ export default function Projects({ projects }: ProjectsProps) {
   if (!hasProjects) return null;
 
   return (
-    <section id="projects" className="section-container relative w-full max-w-full overflow-hidden py-16 sm:py-20">
+    <section id="projects" className="section-container relative w-full max-w-full overflow-hidden scroll-mt-20 pt-20 sm:pt-28 pb-12 sm:pb-16">
       {/* Ambient background glows matching signature palette */}
-      <div className="absolute top-1/3 left-1/4 -translate-x-1/2 w-[350px] sm:w-[520px] h-[350px] sm:h-[520px] bg-red-600/10 rounded-full blur-[120px] sm:blur-[160px] pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 translate-x-1/2 w-[350px] sm:w-[520px] h-[350px] sm:h-[520px] bg-amber-600/10 rounded-full blur-[120px] sm:blur-[160px] pointer-events-none" />
+      <div className="absolute top-1/3 left-1/4 -translate-x-1/2 w-[300px] sm:w-[450px] h-[300px] sm:h-[450px] bg-red-600/10 rounded-full blur-[100px] sm:blur-[140px] pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 translate-x-1/2 w-[300px] sm:w-[450px] h-[300px] sm:h-[450px] bg-amber-600/10 rounded-full blur-[100px] sm:blur-[140px] pointer-events-none" />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.6 }}
-        className="relative z-10 w-full max-w-full"
+        className="relative z-10 w-full max-w-6xl mx-auto"
       >
         {/* Section Header: Centered with Signature Red/Rose/Amber Gradient */}
-        <div className="text-center space-y-2.5 sm:space-y-3 mb-8 sm:mb-12">
+        <div className="text-center space-y-2.5 sm:space-y-3 mb-8 sm:mb-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/20 text-xs font-semibold text-red-400 uppercase tracking-wider mb-1">
             <Code2 className="w-3.5 h-3.5" />
             <span>Project Showcase</span>
@@ -315,7 +300,7 @@ export default function Projects({ projects }: ProjectsProps) {
 
         {/* Carousel Outer Wrapper with Left and Right Flanking Buttons */}
         <div
-          className="relative w-full max-w-full px-8 sm:px-12 lg:px-14 flex items-center group/carousel"
+          className="relative w-full max-w-full px-7 sm:px-11 lg:px-12 flex items-center group/carousel"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
           onTouchStart={handleTouchStart}
@@ -326,9 +311,9 @@ export default function Projects({ projects }: ProjectsProps) {
           <button
             onClick={() => advance("left")}
             aria-label="Previous Project"
-            className="absolute left-0.5 sm:left-1 lg:left-2 top-1/2 -translate-y-1/2 z-30 w-8 h-8 sm:w-11 sm:h-11 rounded-full bg-[#0d121f]/95 border border-gray-700/80 text-gray-200 hover:text-white hover:border-red-500/80 hover:bg-red-500/20 hover:scale-110 active:scale-95 transition-all duration-300 shadow-2xl shadow-black/90 backdrop-blur-md cursor-pointer flex items-center justify-center group"
+            className="absolute left-0 sm:left-0.5 lg:left-1 top-1/2 -translate-y-1/2 z-30 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#0d121f]/95 border border-gray-700/80 text-gray-200 hover:text-white hover:border-red-500/80 hover:bg-red-500/20 hover:scale-110 active:scale-95 transition-all duration-300 shadow-2xl shadow-black/90 backdrop-blur-md cursor-pointer flex items-center justify-center group"
           >
-            <ChevronLeft className="w-4 h-4 sm:w-6 sm:h-6 group-hover:-translate-x-0.5 transition-transform" />
+            <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 group-hover:-translate-x-0.5 transition-transform" />
           </button>
 
           {/* Carousel viewport: overflow-hidden clips the sliding track. min-w-0 prevents flex container blowout */}
@@ -336,7 +321,7 @@ export default function Projects({ projects }: ProjectsProps) {
             {/* Carousel Infinite Loop Track — GPU-accelerated via translateX */}
             <div
               ref={trackRef}
-              className="flex gap-4 sm:gap-6 py-4 select-none"
+              className="flex gap-3.5 sm:gap-5 py-3 select-none"
               style={{
                 transform: `translateX(${translateX}px)`,
                 transition: animating
@@ -362,20 +347,20 @@ export default function Projects({ projects }: ProjectsProps) {
                 return (
                   <div
                     key={`${project._id || project.slug || "proj"}-${index}`}
-                    className="flex-shrink-0 w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] snap-start group relative min-w-0 max-w-full"
+                    className="flex-shrink-0 w-full sm:w-[calc(50%-10px)] lg:w-[calc(33.333%-14px)] snap-start group relative min-w-0 max-w-full"
                   >
-                    {/* RICR-Style Card with Signature Accent */}
-                    <div className="relative h-full bg-[#0d121f]/90 border border-gray-800/90 rounded-2xl sm:rounded-3xl p-4 sm:p-6 flex flex-col justify-between overflow-hidden shadow-2xl transition-all duration-300 group-hover:border-red-500/50 group-hover:shadow-[0_0_35px_rgba(239,68,68,0.18)]">
+                    {/* Compact, Sleek Project Card Matching Other Portfolio Features */}
+                    <div className="relative h-full bg-[#0d121f]/90 border border-gray-800/90 rounded-2xl p-4 sm:p-5 flex flex-col justify-between overflow-hidden shadow-xl transition-all duration-300 group-hover:border-red-500/50 group-hover:shadow-[0_0_25px_rgba(239,68,68,0.15)]">
                       {/* Top Badge: Consistent Sequence & Harmonized Palette with Live Indicator */}
-                      <div className="flex justify-center mb-2.5 sm:mb-4">
-                        <span className="px-3 py-0.5 sm:px-3.5 sm:py-1 text-[11px] sm:text-xs font-semibold rounded-full border bg-red-500/10 text-red-400 border-red-500/30 transition-colors flex items-center gap-1.5">
+                      <div className="flex justify-center mb-2">
+                        <span className="px-2.5 py-0.5 text-[10px] sm:text-[11px] font-semibold rounded-full border bg-red-500/10 text-red-400 border-red-500/30 transition-colors flex items-center gap-1.5">
                           <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
                           <span>{badgeLabel}</span>
                         </span>
                       </div>
 
-                      {/* Center Graphic / Illustration Area */}
-                      <div className="relative h-36 sm:h-52 w-full flex items-center justify-center overflow-hidden my-1.5 sm:my-2 rounded-xl sm:rounded-2xl bg-gradient-to-b from-white/[0.03] to-transparent border border-white/[0.03]">
+                      {/* Center Graphic / Illustration Area — Proportionate & Compact */}
+                      <div className="relative h-28 sm:h-36 w-full flex items-center justify-center overflow-hidden my-1 sm:my-1.5 rounded-xl bg-gradient-to-b from-white/[0.03] to-transparent border border-white/[0.03]">
                         {formattedSrc ? (
                           <Image
                             src={formattedSrc}
@@ -383,7 +368,7 @@ export default function Projects({ projects }: ProjectsProps) {
                             fill
                             unoptimized={isExternal}
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                            className="object-contain p-2.5 sm:p-3 group-hover:scale-105 transition-transform duration-500 pointer-events-none"
+                            className="object-contain p-2 sm:p-2.5 group-hover:scale-105 transition-transform duration-500 pointer-events-none"
                           />
                         ) : (
                           <ProjectGraphicFallback slug={project.slug} title={project.title} />
@@ -391,44 +376,44 @@ export default function Projects({ projects }: ProjectsProps) {
                       </div>
 
                       {/* Title & Short Description */}
-                      <div className="text-center mt-2 sm:mt-3">
-                        <h3 className="text-base sm:text-lg lg:text-xl font-bold text-gray-100 group-hover:text-red-400 transition-colors line-clamp-1">
+                      <div className="text-center mt-1.5 sm:mt-2">
+                        <h3 className="text-sm sm:text-base font-bold text-gray-100 group-hover:text-red-400 transition-colors line-clamp-1">
                           {project.title}
                         </h3>
-                        <p className="text-xs sm:text-sm text-gray-400 mt-1 sm:mt-2 line-clamp-2 leading-relaxed">
+                        <p className="text-xs text-gray-400 mt-1 line-clamp-2 leading-relaxed">
                           {project.description}
                         </p>
                       </div>
 
                       {/* Tech Stack Pills (RICR 2x2 Grid Style) */}
-                      <div className="grid grid-cols-2 gap-1.5 sm:gap-2 mt-3.5 sm:mt-5 pt-1">
+                      <div className="grid grid-cols-2 gap-1.5 mt-2.5 pt-1">
                         {(project.technologies || []).slice(0, 4).map((tech: string) => (
                           <span
                             key={tech}
-                            className="py-1 sm:py-1.5 px-2 sm:px-3 text-center text-[10px] sm:text-xs font-medium text-gray-300 bg-white/[0.03] border border-gray-800 rounded-full hover:border-gray-700 transition-colors truncate"
+                            className="py-1 px-2 text-center text-[10px] sm:text-[11px] font-medium text-gray-300 bg-white/[0.03] border border-gray-800 rounded-full hover:border-gray-700 transition-colors truncate"
                           >
                             {tech}
                           </span>
                         ))}
                       </div>
 
-                      {/* Mobile Action Bar: Accessible directly on mobile screens without needing hover */}
-                      <div className="flex sm:hidden items-center justify-between mt-3.5 pt-3 border-t border-gray-800/70">
+                      {/* Mobile Action Bar */}
+                      <div className="flex sm:hidden items-center justify-between mt-3 pt-2.5 border-t border-gray-800/70">
                         <Link
                           href={`/projects/${project.slug}`}
-                          className="px-3 py-1.5 rounded-lg bg-red-500/10 border border-red-500/20 text-xs font-semibold text-red-400 hover:text-red-300 flex items-center gap-1.5 transition-colors active:scale-95"
+                          className="px-2.5 py-1 rounded-lg bg-red-500/10 border border-red-500/20 text-xs font-semibold text-red-400 hover:text-red-300 flex items-center gap-1 transition-colors active:scale-95"
                         >
-                          <span>View Details</span>
-                          <ArrowRight className="w-3.5 h-3.5" />
+                          <span>View</span>
+                          <ArrowRight className="w-3 h-3" />
                         </Link>
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-1.5">
                           {project.githubUrl && (
                             <Link
                               href={sanitizeUrl(project.githubUrl)}
                               target="_blank"
                               rel="noopener noreferrer"
                               aria-label="GitHub Repository"
-                              className="p-2 rounded-full bg-white/5 border border-white/10 text-gray-300 hover:text-white active:scale-95 transition-all"
+                              className="p-1.5 rounded-full bg-white/5 border border-white/10 text-gray-300 hover:text-white active:scale-95 transition-all"
                             >
                               <FaGithub className="w-3.5 h-3.5" />
                             </Link>
@@ -439,7 +424,7 @@ export default function Projects({ projects }: ProjectsProps) {
                               target="_blank"
                               rel="noopener noreferrer"
                               aria-label="Live Demo"
-                              className="p-2 rounded-full bg-white/5 border border-white/10 text-gray-300 hover:text-white active:scale-95 transition-all"
+                              className="p-1.5 rounded-full bg-white/5 border border-white/10 text-gray-300 hover:text-white active:scale-95 transition-all"
                             >
                               <ExternalLink className="w-3.5 h-3.5" />
                             </Link>
@@ -448,13 +433,13 @@ export default function Projects({ projects }: ProjectsProps) {
                       </div>
 
                       {/* Desktop Interactive Hover Blur Overlay with Signature Red Button */}
-                      <div className="hidden sm:flex absolute inset-0 bg-black/70 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-300 flex-col items-center justify-center gap-4 z-20 p-6 pointer-events-none group-hover:pointer-events-auto">
+                      <div className="hidden sm:flex absolute inset-0 bg-black/75 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-300 flex-col items-center justify-center gap-3 z-20 p-5 pointer-events-none group-hover:pointer-events-auto">
                         <Link
                           href={`/projects/${project.slug}`}
-                          className="px-7 py-3 rounded-full bg-gradient-to-r from-red-600 via-rose-600 to-amber-600 hover:opacity-95 text-white text-sm font-semibold shadow-xl shadow-red-600/30 hover:scale-105 active:scale-95 transition-all duration-200 inline-flex items-center gap-2"
+                          className="px-6 py-2.5 rounded-full bg-gradient-to-r from-red-600 via-rose-600 to-amber-600 hover:opacity-95 text-white text-xs font-semibold shadow-xl shadow-red-600/30 hover:scale-105 active:scale-95 transition-all duration-200 inline-flex items-center gap-2"
                         >
                           <span>View Details</span>
-                          <ArrowRight className="w-4 h-4" />
+                          <ArrowRight className="w-3.5 h-3.5" />
                         </Link>
 
                         {/* Quick Action Links: GitHub & Live Demo */}

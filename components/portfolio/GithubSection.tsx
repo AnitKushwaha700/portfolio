@@ -243,20 +243,28 @@ export default function GithubSection({
     return { weeks: weeksArr, monthLabels: labels };
   }, [data]);
 
+  // Fallbacks accurately matched to Anit Kushwaha's real GitHub profile
+  const displayedTotal =
+    data?.totalContributions ?? (selectedYear === "2026" ? 587 : selectedYear === "2025" ? 574 : 1);
+  const displayedCurrentStreak =
+    data?.currentStreak ?? (selectedYear === "2026" ? 236 : 1);
+  const displayedLongestStreak =
+    data?.longestStreak ?? (selectedYear === "2026" ? 236 : 14);
+
   return (
-    <section id="github" className="section-container relative w-full max-w-full py-14 sm:py-20 overflow-hidden">
+    <section id="github" className="section-container relative w-full max-w-full scroll-mt-20 pt-16 sm:pt-24 pb-14 sm:pb-20 overflow-hidden">
       {/* Background radial accent glow matching signature palette */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] sm:w-[650px] h-[340px] sm:h-[650px] bg-red-600/10 rounded-full blur-[110px] sm:blur-[170px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] bg-red-600/10 rounded-full blur-[100px] sm:blur-[140px] pointer-events-none" />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.6 }}
-        className="relative z-10 w-full max-w-full space-y-6 sm:space-y-12"
+        className="relative z-10 w-full max-w-5xl mx-auto space-y-6 sm:space-y-10"
       >
         {/* Section Header: Centered with Signature Red/Rose/Amber Gradient */}
-        <div className="text-center space-y-2.5 sm:space-y-3 mb-6 sm:mb-12">
+        <div className="text-center space-y-2.5 sm:space-y-3 mb-6 sm:mb-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/20 text-xs font-semibold text-red-400 uppercase tracking-wider mb-1">
             <FaGithub className="w-3.5 h-3.5" />
             <span>Open Source & Activity</span>
@@ -281,16 +289,16 @@ export default function GithubSection({
           </p>
         </div>
 
-        {/* 3 Metric Summary Cards with Harmonized Palette */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-5 w-full max-w-full">
+        {/* 3 Metric Summary Cards — Compact, Proportionate & Harmonized */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-4 w-full">
           {/* Card 1: Total Contributions */}
-          <div className="relative bg-[#0d121f]/90 border border-gray-800/90 rounded-2xl p-4 sm:p-6 flex items-center gap-3.5 sm:gap-4 shadow-xl hover:border-red-500/40 transition-colors w-full min-w-0">
-            <div className="p-2.5 sm:p-3.5 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 shrink-0">
-              <GitCommit className="w-5 h-5 sm:w-6 sm:h-6" />
+          <div className="relative bg-[#0d121f]/90 border border-gray-800/90 rounded-xl sm:rounded-2xl p-3.5 sm:p-4 flex items-center gap-3 sm:gap-3.5 shadow-xl hover:border-red-500/40 transition-colors w-full min-w-0">
+            <div className="p-2 sm:p-2.5 rounded-lg sm:rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 shrink-0">
+              <GitCommit className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
             <div className="min-w-0">
-              <div className="text-xl sm:text-3xl font-black text-white truncate">
-                {data?.totalContributions || 574}
+              <div className="text-xl sm:text-2xl font-black text-white truncate">
+                {displayedTotal}
               </div>
               <p className="text-[11px] sm:text-xs text-gray-400 font-medium truncate">
                 Contributions in {selectedYear === "last" ? "the last year" : selectedYear}
@@ -299,13 +307,13 @@ export default function GithubSection({
           </div>
 
           {/* Card 2: Current Streak */}
-          <div className="relative bg-[#0d121f]/90 border border-gray-800/90 rounded-2xl p-4 sm:p-6 flex items-center gap-3.5 sm:gap-4 shadow-xl hover:border-rose-500/40 transition-colors w-full min-w-0">
-            <div className="p-2.5 sm:p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 shrink-0">
-              <Flame className="w-5 h-5 sm:w-6 sm:h-6" />
+          <div className="relative bg-[#0d121f]/90 border border-gray-800/90 rounded-xl sm:rounded-2xl p-3.5 sm:p-4 flex items-center gap-3 sm:gap-3.5 shadow-xl hover:border-rose-500/40 transition-colors w-full min-w-0">
+            <div className="p-2 sm:p-2.5 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 shrink-0">
+              <Flame className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
             <div className="min-w-0">
-              <div className="text-xl sm:text-3xl font-black text-white flex items-center gap-1.5">
-                <span>{data?.currentStreak || 12}</span>
+              <div className="text-xl sm:text-2xl font-black text-white flex items-center gap-1.5">
+                <span>{displayedCurrentStreak}</span>
                 <span className="text-xs sm:text-sm font-semibold text-gray-400">Days</span>
               </div>
               <p className="text-[11px] sm:text-xs text-gray-400 font-medium truncate">Active Daily Streak</p>
@@ -313,13 +321,13 @@ export default function GithubSection({
           </div>
 
           {/* Card 3: Longest Streak */}
-          <div className="relative bg-[#0d121f]/90 border border-gray-800/90 rounded-2xl p-4 sm:p-6 flex items-center gap-3.5 sm:gap-4 shadow-xl hover:border-amber-500/40 transition-colors w-full min-w-0">
-            <div className="p-2.5 sm:p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 shrink-0">
-              <Trophy className="w-5 h-5 sm:w-6 sm:h-6" />
+          <div className="relative bg-[#0d121f]/90 border border-gray-800/90 rounded-xl sm:rounded-2xl p-3.5 sm:p-4 flex items-center gap-3 sm:gap-3.5 shadow-xl hover:border-amber-500/40 transition-colors w-full min-w-0">
+            <div className="p-2 sm:p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 shrink-0">
+              <Trophy className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
             <div className="min-w-0">
-              <div className="text-xl sm:text-3xl font-black text-white flex items-center gap-1.5">
-                <span>{data?.longestStreak || 28}</span>
+              <div className="text-xl sm:text-2xl font-black text-white flex items-center gap-1.5">
+                <span>{displayedLongestStreak}</span>
                 <span className="text-xs sm:text-sm font-semibold text-gray-400">Days</span>
               </div>
               <p className="text-[11px] sm:text-xs text-gray-400 font-medium truncate">Longest Recorded Streak</p>
@@ -328,14 +336,14 @@ export default function GithubSection({
         </div>
 
         {/* GitHub Heatmap Calendar Container */}
-        <div className="bg-[#0b0f19] border border-gray-800/90 rounded-2xl sm:rounded-3xl p-3.5 sm:p-8 shadow-2xl relative w-full max-w-full overflow-hidden">
+        <div className="bg-[#0b0f19] border border-gray-800/90 rounded-2xl p-3.5 sm:p-6 shadow-2xl relative w-full overflow-hidden">
           {/* Top Bar: Title + Year Selector Buttons */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-4 sm:pb-6 border-b border-gray-800/70 gap-3 sm:gap-4 w-full">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-3.5 sm:pb-4 border-b border-gray-800/70 gap-3 sm:gap-4 w-full">
             <div>
-              <h3 className="text-sm sm:text-lg font-bold text-gray-100 flex items-center gap-2">
+              <h3 className="text-sm sm:text-base font-bold text-gray-100 flex items-center gap-2">
                 <Calendar className="w-4 h-4 text-rose-400 shrink-0" />
                 <span>
-                  {data?.totalContributions || 574} contributions in{" "}
+                  {displayedTotal} contributions in{" "}
                   {selectedYear === "last" ? "the last year" : selectedYear}
                 </span>
               </h3>
@@ -345,12 +353,12 @@ export default function GithubSection({
             </div>
 
             {/* Year Selector Buttons: Harmonized Red/Rose Gradient */}
-            <div className="flex items-center gap-1.5 bg-[#111827] p-1 rounded-xl border border-gray-800 w-full sm:w-auto justify-center">
+            <div className="flex items-center gap-1 bg-[#111827] p-1 rounded-xl border border-gray-800 w-full sm:w-auto justify-center">
               {["2026", "2025", "2024"].map((year) => (
                 <button
                   key={year}
                   onClick={() => handleYearChange(year)}
-                  className={`flex-1 sm:flex-none px-3.5 py-1 text-xs font-semibold rounded-lg transition-all ${
+                  className={`flex-1 sm:flex-none px-3 py-1 text-xs font-semibold rounded-lg transition-all ${
                     selectedYear === year
                       ? "bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-md shadow-red-600/30"
                       : "text-gray-400 hover:text-white"
@@ -370,11 +378,11 @@ export default function GithubSection({
           {/* Heatmap Grid Viewport with Ref for Auto-Scroll to Right */}
           <div
             ref={heatmapScrollRef}
-            className="relative w-full max-w-full mt-2 sm:mt-6 overflow-x-auto pb-3 sm:pb-4 scrollbar-thin scroll-smooth"
+            className="relative w-full max-w-full mt-2 sm:mt-4 overflow-x-auto pb-3 sm:pb-4 scrollbar-thin scroll-smooth flex justify-start md:justify-center"
             style={{ WebkitOverflowScrolling: "touch" }}
           >
             {loading ? (
-              <div className="h-32 sm:h-36 flex items-center justify-center text-xs sm:text-sm text-gray-400 animate-pulse">
+              <div className="h-28 sm:h-32 flex items-center justify-center text-xs sm:text-sm text-gray-400 animate-pulse">
                 Loading contribution graph...
               </div>
             ) : (
@@ -441,7 +449,7 @@ export default function GithubSection({
           </div>
 
           {/* Bottom Bar: Help Link & Legend */}
-          <div className="flex flex-col sm:flex-row items-center justify-between pt-3.5 sm:pt-4 border-t border-gray-800/60 text-[11px] sm:text-xs text-gray-400 gap-2.5 sm:gap-3">
+          <div className="flex flex-col sm:flex-row items-center justify-between pt-3 sm:pt-3.5 border-t border-gray-800/60 text-[11px] sm:text-xs text-gray-400 gap-2 sm:gap-3">
             <Link
               href="https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-github-profile/managing-contribution-settings-on-your-profile"
               target="_blank"
@@ -466,11 +474,11 @@ export default function GithubSection({
         </div>
 
         {/* Pinned Repositories Grid */}
-        <div className="space-y-4 sm:space-y-6">
+        <div className="space-y-3.5 sm:space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <BookMarked className="w-4 h-4 sm:w-5 sm:h-5 text-gray-300" />
-              <h3 className="text-lg sm:text-xl font-bold text-white tracking-tight">
+              <h3 className="text-base sm:text-lg font-bold text-white tracking-tight">
                 Pinned Repositories
               </h3>
             </div>
@@ -485,17 +493,17 @@ export default function GithubSection({
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
             {PINNED_REPOS.map((repo) => (
               <Link
                 key={repo.name}
                 href={repo.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group relative bg-[#0d121f]/90 border border-gray-800/80 rounded-2xl p-4 sm:p-5 flex flex-col justify-between hover:border-red-500/50 hover:shadow-[0_0_25px_rgba(239,68,68,0.12)] transition-all duration-300 active:scale-[0.99]"
+                className="group relative bg-[#0d121f]/90 border border-gray-800/80 rounded-xl p-3.5 sm:p-4 flex flex-col justify-between hover:border-red-500/50 hover:shadow-[0_0_20px_rgba(239,68,68,0.12)] transition-all duration-300 active:scale-[0.99]"
               >
                 <div>
-                  <div className="flex flex-wrap sm:flex-nowrap items-start sm:items-center justify-between gap-2 mb-2">
+                  <div className="flex flex-wrap sm:flex-nowrap items-start sm:items-center justify-between gap-2 mb-1.5">
                     <div className="flex items-center gap-2 font-bold text-sm sm:text-base text-gray-100 group-hover:text-red-400 transition-colors truncate min-w-0">
                       <BookMarked className="w-4 h-4 text-gray-400 group-hover:text-red-400 shrink-0" />
                       <span className="truncate">{repo.fullName || repo.name}</span>
@@ -512,15 +520,15 @@ export default function GithubSection({
                     </div>
                   </div>
 
-                  <p className="text-xs text-gray-400 line-clamp-2 leading-relaxed mb-3 sm:mb-4">
+                  <p className="text-xs text-gray-400 line-clamp-2 leading-relaxed mb-3">
                     {repo.description}
                   </p>
                 </div>
 
-                <div className="flex items-center justify-between text-xs text-gray-400 pt-2.5 sm:pt-3 border-t border-gray-800/60">
+                <div className="flex items-center justify-between text-xs text-gray-400 pt-2.5 border-t border-gray-800/60">
                   <div className="flex items-center gap-2">
                     <span
-                      className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full"
+                      className="w-2.5 h-2.5 rounded-full"
                       style={{ backgroundColor: repo.languageColor }}
                     />
                     <span className="text-[11px] sm:text-xs">{repo.language}</span>
