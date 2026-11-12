@@ -79,7 +79,7 @@ export default function ProjectDetail() {
               setError(null);
               setReloadKey((k) => k + 1);
             }}
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-sm font-medium transition-colors cursor-pointer"
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-red-600 to-rose-600 hover:opacity-95 text-white rounded-xl text-sm font-medium transition-colors cursor-pointer"
           >
             <RefreshCw className="w-4 h-4" />
             Try Again
@@ -107,7 +107,7 @@ export default function ProjectDetail() {
         >
           <Link
             href="/#projects"
-            className="inline-flex items-center gap-2 text-gray-400 hover:text-indigo-400 mb-8 transition-colors group text-sm font-medium"
+            className="inline-flex items-center gap-2 text-gray-400 hover:text-red-400 mb-6 sm:mb-8 transition-colors group text-sm font-medium"
           >
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
             Back to Portfolio
@@ -118,22 +118,22 @@ export default function ProjectDetail() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="mb-10"
+          className="mb-8 sm:mb-10"
         >
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-100 mb-6 tracking-tight">
+          <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-100 mb-4 sm:mb-6 tracking-tight">
             {project.title}
           </h1>
-          <p className="text-lg md:text-xl text-gray-400 leading-relaxed mb-8">
+          <p className="text-sm sm:text-base md:text-lg text-gray-400 leading-relaxed mb-6 sm:mb-8">
             {project.description}
           </p>
 
-          <div className="flex flex-wrap gap-4">
+          <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4">
             {project.githubUrl && (
               <a
                 href={sanitizeUrl(project.githubUrl)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 px-6 py-3 rounded-full bg-card border border-gray-800 text-gray-300 hover:text-white hover:border-gray-600 hover:bg-gray-800 transition-all shadow-lg"
+                className="inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-full bg-card border border-gray-800 text-gray-300 hover:text-white hover:border-gray-600 hover:bg-gray-800 transition-all shadow-lg active:scale-95"
               >
                 <FaGithub className="w-5 h-5" />
                 <span className="font-medium text-sm">View Source</span>
@@ -144,7 +144,7 @@ export default function ProjectDetail() {
                 href={sanitizeUrl(project.liveUrl)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 px-6 py-3 rounded-full bg-indigo-600 hover:bg-indigo-500 text-white transition-all shadow-lg shadow-indigo-500/25 group"
+                className="inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-full bg-gradient-to-r from-red-600 via-rose-600 to-amber-600 hover:opacity-95 text-white transition-all shadow-lg shadow-red-500/25 group active:scale-95"
               >
                 <span className="font-medium text-sm">Live Demo</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -158,7 +158,7 @@ export default function ProjectDetail() {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="relative w-full h-[300px] md:h-125 rounded-4xl overflow-hidden mb-20 border border-gray-800/60 shadow-2xl shadow-indigo-500/10 group"
+            className="relative w-full h-[220px] sm:h-[340px] md:h-125 rounded-2xl sm:rounded-4xl overflow-hidden mb-10 sm:mb-20 border border-gray-800/60 shadow-2xl shadow-red-500/10 group"
           >
             <div className="absolute inset-0 bg-gradient-to-t from-[#0B0F19] to-transparent z-10 opacity-30" />
             <Image
@@ -178,7 +178,7 @@ export default function ProjectDetail() {
           initial={{ opacity: 0, y: 25 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.25 }}
-          className="mb-16"
+          className="mb-10 sm:mb-16"
         >
           <ProjectMetricsChart
             technologies={project.technologies || []}
@@ -187,56 +187,56 @@ export default function ProjectDetail() {
           />
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 sm:gap-12 lg:gap-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="lg:col-span-2 space-y-16 text-gray-300 leading-relaxed"
+            className="lg:col-span-2 space-y-10 sm:space-y-16 text-gray-300 leading-relaxed"
           >
             {project.content.overview && (
-              <section className="prose prose-invert prose-indigo max-w-none">
-                <h2 className="text-2xl font-bold text-gray-100 mb-6 flex items-center gap-3">
-                  <span className="w-8 h-px bg-indigo-500/50"></span>
+              <section className="prose prose-invert prose-red max-w-none">
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-100 mb-4 sm:mb-6 flex items-center gap-3">
+                  <span className="w-8 h-px bg-red-500/50"></span>
                   Overview
                 </h2>
-                <p className="text-gray-400 text-lg leading-relaxed">
+                <p className="text-gray-400 text-sm sm:text-base md:text-lg leading-relaxed">
                   {project.content.overview}
                 </p>
               </section>
             )}
 
             {project.content.problem && (
-              <section className="prose prose-invert prose-indigo max-w-none">
-                <h2 className="text-2xl font-bold text-gray-100 mb-6 flex items-center gap-3">
-                  <span className="w-8 h-px bg-indigo-500/50"></span>
+              <section className="prose prose-invert prose-red max-w-none">
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-100 mb-4 sm:mb-6 flex items-center gap-3">
+                  <span className="w-8 h-px bg-red-500/50"></span>
                   The Problem
                 </h2>
-                <p className="text-gray-400 text-lg leading-relaxed">
+                <p className="text-gray-400 text-sm sm:text-base md:text-lg leading-relaxed">
                   {project.content.problem}
                 </p>
               </section>
             )}
 
             {project.content.solution && (
-              <section className="prose prose-invert prose-indigo max-w-none">
-                <h2 className="text-2xl font-bold text-gray-100 mb-6 flex items-center gap-3">
-                  <span className="w-8 h-px bg-indigo-500/50"></span>
+              <section className="prose prose-invert prose-red max-w-none">
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-100 mb-4 sm:mb-6 flex items-center gap-3">
+                  <span className="w-8 h-px bg-red-500/50"></span>
                   The Solution
                 </h2>
-                <p className="text-gray-400 text-lg leading-relaxed">
+                <p className="text-gray-400 text-sm sm:text-base md:text-lg leading-relaxed">
                   {project.content.solution}
                 </p>
               </section>
             )}
 
             {project.content.myContribution && (
-              <section className="prose prose-invert prose-indigo max-w-none">
-                <h2 className="text-2xl font-bold text-gray-100 mb-6 flex items-center gap-3">
-                  <span className="w-8 h-px bg-indigo-500/50"></span>
+              <section className="prose prose-invert prose-red max-w-none">
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-100 mb-4 sm:mb-6 flex items-center gap-3">
+                  <span className="w-8 h-px bg-red-500/50"></span>
                   My Contribution
                 </h2>
-                <p className="text-gray-400 text-lg leading-relaxed">
+                <p className="text-gray-400 text-sm sm:text-base md:text-lg leading-relaxed">
                   {project.content.myContribution}
                 </p>
               </section>
@@ -244,18 +244,18 @@ export default function ProjectDetail() {
 
             {project.features && project.features.length > 0 && (
               <section>
-                <h2 className="text-2xl font-bold text-gray-100 mb-6 flex items-center gap-3">
-                  <span className="w-8 h-px bg-indigo-500/50"></span>
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-100 mb-4 sm:mb-6 flex items-center gap-3">
+                  <span className="w-8 h-px bg-red-500/50"></span>
                   Key Features
                 </h2>
-                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                   {project.features.map((feature: string, i: number) => (
                     <li
                       key={i}
-                      className="flex items-start gap-3 bg-card p-4 rounded-xl border border-gray-800/50 hover:border-indigo-500/30 transition-colors"
+                      className="flex items-start gap-3 bg-card p-3.5 sm:p-4 rounded-xl border border-gray-800/50 hover:border-red-500/30 transition-colors"
                     >
-                      <CheckCircle2 className="w-5 h-5 text-indigo-400 shrink-0 mt-0.5" />
-                      <span className="text-gray-300 text-sm leading-relaxed">
+                      <CheckCircle2 className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
+                      <span className="text-gray-300 text-xs sm:text-sm leading-relaxed">
                         {feature}
                       </span>
                     </li>
@@ -265,25 +265,25 @@ export default function ProjectDetail() {
             )}
 
             {(project.content.challenges || project.content.learning) && (
-              <div className="bg-linear-to-br from-[#111827] to-[#0B0F19] border border-gray-800 rounded-4xl p-8 md:p-10 relative overflow-hidden shadow-2xl">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 rounded-full blur-[50px]" />
+              <div className="bg-gradient-to-br from-[#111827] to-[#0B0F19] border border-gray-800 rounded-2xl sm:rounded-4xl p-5 sm:p-8 md:p-10 relative overflow-hidden shadow-2xl">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-red-500/10 rounded-full blur-[50px]" />
 
                 {project.content.challenges && (
-                  <div className="mb-10 relative z-10">
-                    <h3 className="text-xl font-bold text-gray-100 mb-4">
+                  <div className="mb-8 sm:mb-10 relative z-10">
+                    <h3 className="text-lg sm:text-xl font-bold text-gray-100 mb-3 sm:mb-4">
                       Challenges Overcome
                     </h3>
-                    <p className="text-gray-400 leading-relaxed">
+                    <p className="text-gray-400 text-xs sm:text-sm md:text-base leading-relaxed">
                       {project.content.challenges}
                     </p>
                   </div>
                 )}
                 {project.content.learning && (
                   <div className="relative z-10">
-                    <h3 className="text-xl font-bold text-gray-100 mb-4">
+                    <h3 className="text-lg sm:text-xl font-bold text-gray-100 mb-3 sm:mb-4">
                       What I Learned
                     </h3>
-                    <p className="text-gray-400 leading-relaxed">
+                    <p className="text-gray-400 text-xs sm:text-sm md:text-base leading-relaxed">
                       {project.content.learning}
                     </p>
                   </div>
@@ -298,16 +298,16 @@ export default function ProjectDetail() {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="lg:col-span-1"
           >
-            <div className="sticky top-32 bg-card border border-gray-800 rounded-2xl p-6 shadow-xl">
-              <h3 className="text-sm font-bold text-gray-100 mb-6 uppercase tracking-widest flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-indigo-500"></span>
+            <div className="sticky top-32 bg-card border border-gray-800 rounded-2xl p-5 sm:p-6 shadow-xl">
+              <h3 className="text-xs sm:text-sm font-bold text-gray-100 mb-4 sm:mb-6 uppercase tracking-widest flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-red-500"></span>
                 Technologies Used
               </h3>
               <div className="flex flex-wrap gap-2">
                 {project.technologies.map((tech: string) => (
                   <span
                     key={tech}
-                    className="px-3 py-1.5 bg-background text-indigo-300 text-xs font-semibold rounded-lg border border-indigo-500/20 hover:bg-indigo-500/10 hover:border-indigo-500/30 transition-colors cursor-default"
+                    className="px-3 py-1.5 bg-background text-red-300 text-xs font-semibold rounded-lg border border-red-500/20 hover:bg-red-500/10 hover:border-red-500/30 transition-colors cursor-default"
                   >
                     {tech}
                   </span>

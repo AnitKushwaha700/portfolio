@@ -134,6 +134,11 @@ export default function Projects({ projects }: ProjectsProps) {
   // cardWidth stored in state so reads during render are safe and trigger re-renders
   const [cardWidth, setCardWidth] = useState(0);
 
+  // Touch gesture tracking for mobile swipe navigation
+  const touchStartX = useRef<number>(0);
+  const touchStartY = useRef<number>(0);
+  const touchDeltaX = useRef<number>(0);
+
   const safeProjects = useMemo(() => projects || [], [projects]);
   const hasProjects = safeProjects.length > 0;
 
@@ -195,6 +200,37 @@ export default function Projects({ projects }: ProjectsProps) {
     },
     [],
   );
+
+  // Mobile Touch handlers
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setIsHovered(true);
+    touchStartX.current = e.touches[0].clientX;
+    touchStartY.current = e.touches[0].clientY;
+    touchDeltaX.current = 0;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    const currentX = e.touches[0].clientX;
+    const currentY = e.touches[0].clientY;
+    const diffX = currentX - touchStartX.current;
+    const diffY = currentY - touchStartY.current;
+
+    // Track horizontal swipe only when user is not vertically scrolling
+    if (Math.abs(diffX) > Math.abs(diffY)) {
+      touchDeltaX.current = diffX;
+    }
+  };
+
+  const handleTouchEnd = () => {
+    setIsHovered(false);
+    const threshold = 35; // minimum swipe distance
+    if (touchDeltaX.current < -threshold) {
+      advance("right");
+    } else if (touchDeltaX.current > threshold) {
+      advance("left");
+    }
+    touchDeltaX.current = 0;
+  };
 
   // After CSS transition ends, check if we need to silently snap back to middle copy
   const handleTransitionEnd = useCallback(() => {
@@ -272,21 +308,27 @@ export default function Projects({ projects }: ProjectsProps) {
           </p>
         </div>
 
+        {/* Mobile Swipe Hint */}
+        <div className="flex sm:hidden items-center justify-center gap-1.5 text-[11px] text-gray-400 mb-3 select-none">
+          <span className="animate-pulse">‹ Swipe left/right or use side arrows ›</span>
+        </div>
+
         {/* Carousel Outer Wrapper with Left and Right Flanking Buttons */}
         <div
-          className="relative w-full px-7 sm:px-12 lg:px-14 flex items-center group/carousel"
+          className="relative w-full px-8 sm:px-12 lg:px-14 flex items-center group/carousel"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
-          onTouchStart={() => setIsHovered(true)}
-          onTouchEnd={() => setIsHovered(false)}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
         >
           {/* Left Navigation Button (Flanking Left Side) */}
           <button
             onClick={() => advance("left")}
             aria-label="Previous Project"
-            className="absolute left-0 sm:left-1 lg:left-2 top-1/2 -translate-y-1/2 z-30 w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-[#0d121f]/95 border border-gray-700/80 text-gray-200 hover:text-white hover:border-red-500/80 hover:bg-red-500/20 hover:scale-110 active:scale-95 transition-all duration-300 shadow-2xl shadow-black/90 backdrop-blur-md cursor-pointer flex items-center justify-center group"
+            className="absolute left-0.5 sm:left-1 lg:left-2 top-1/2 -translate-y-1/2 z-30 w-8 h-8 sm:w-11 sm:h-11 rounded-full bg-[#0d121f]/95 border border-gray-700/80 text-gray-200 hover:text-white hover:border-red-500/80 hover:bg-red-500/20 hover:scale-110 active:scale-95 transition-all duration-300 shadow-2xl shadow-black/90 backdrop-blur-md cursor-pointer flex items-center justify-center group"
           >
-            <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 group-hover:-translate-x-0.5 transition-transform" />
+            <ChevronLeft className="w-4 h-4 sm:w-6 sm:h-6 group-hover:-translate-x-0.5 transition-transform" />
           </button>
 
           {/* Carousel viewport: overflow-hidden clips the sliding track */}
@@ -323,17 +365,17 @@ export default function Projects({ projects }: ProjectsProps) {
                     className="flex-shrink-0 w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] snap-start group relative"
                   >
                     {/* RICR-Style Card with Signature Accent */}
-                    <div className="relative h-full bg-[#0d121f]/90 border border-gray-800/90 rounded-3xl p-5 sm:p-6 flex flex-col justify-between overflow-hidden shadow-2xl transition-all duration-300 group-hover:border-red-500/50 group-hover:shadow-[0_0_35px_rgba(239,68,68,0.18)]">
+                    <div className="relative h-full bg-[#0d121f]/90 border border-gray-800/90 rounded-2xl sm:rounded-3xl p-4 sm:p-6 flex flex-col justify-between overflow-hidden shadow-2xl transition-all duration-300 group-hover:border-red-500/50 group-hover:shadow-[0_0_35px_rgba(239,68,68,0.18)]">
                       {/* Top Badge: Consistent Sequence & Harmonized Palette with Live Indicator */}
-                      <div className="flex justify-center mb-3 sm:mb-4">
-                        <span className="px-3.5 py-1 text-xs font-semibold rounded-full border bg-red-500/10 text-red-400 border-red-500/30 transition-colors flex items-center gap-1.5">
+                      <div className="flex justify-center mb-2.5 sm:mb-4">
+                        <span className="px-3 py-0.5 sm:px-3.5 sm:py-1 text-[11px] sm:text-xs font-semibold rounded-full border bg-red-500/10 text-red-400 border-red-500/30 transition-colors flex items-center gap-1.5">
                           <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
                           <span>{badgeLabel}</span>
                         </span>
                       </div>
 
                       {/* Center Graphic / Illustration Area */}
-                      <div className="relative h-40 sm:h-52 w-full flex items-center justify-center overflow-hidden my-2 rounded-2xl bg-gradient-to-b from-white/[0.03] to-transparent border border-white/[0.03]">
+                      <div className="relative h-36 sm:h-52 w-full flex items-center justify-center overflow-hidden my-1.5 sm:my-2 rounded-xl sm:rounded-2xl bg-gradient-to-b from-white/[0.03] to-transparent border border-white/[0.03]">
                         {formattedSrc ? (
                           <Image
                             src={formattedSrc}
@@ -341,7 +383,7 @@ export default function Projects({ projects }: ProjectsProps) {
                             fill
                             unoptimized={isExternal}
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                            className="object-contain p-3 group-hover:scale-105 transition-transform duration-500 pointer-events-none"
+                            className="object-contain p-2.5 sm:p-3 group-hover:scale-105 transition-transform duration-500 pointer-events-none"
                           />
                         ) : (
                           <ProjectGraphicFallback slug={project.slug} title={project.title} />
@@ -353,17 +395,17 @@ export default function Projects({ projects }: ProjectsProps) {
                         <h3 className="text-base sm:text-lg lg:text-xl font-bold text-gray-100 group-hover:text-red-400 transition-colors line-clamp-1">
                           {project.title}
                         </h3>
-                        <p className="text-xs sm:text-sm text-gray-400 mt-1.5 sm:mt-2 line-clamp-2 leading-relaxed">
+                        <p className="text-xs sm:text-sm text-gray-400 mt-1 sm:mt-2 line-clamp-2 leading-relaxed">
                           {project.description}
                         </p>
                       </div>
 
                       {/* Tech Stack Pills (RICR 2x2 Grid Style) */}
-                      <div className="grid grid-cols-2 gap-2 mt-4 sm:mt-5 pt-1">
+                      <div className="grid grid-cols-2 gap-1.5 sm:gap-2 mt-3.5 sm:mt-5 pt-1">
                         {(project.technologies || []).slice(0, 4).map((tech: string) => (
                           <span
                             key={tech}
-                            className="py-1 sm:py-1.5 px-2.5 sm:px-3 text-center text-[11px] sm:text-xs font-medium text-gray-300 bg-white/[0.03] border border-gray-800 rounded-full hover:border-gray-700 transition-colors truncate"
+                            className="py-1 sm:py-1.5 px-2 sm:px-3 text-center text-[10px] sm:text-xs font-medium text-gray-300 bg-white/[0.03] border border-gray-800 rounded-full hover:border-gray-700 transition-colors truncate"
                           >
                             {tech}
                           </span>
@@ -371,10 +413,10 @@ export default function Projects({ projects }: ProjectsProps) {
                       </div>
 
                       {/* Mobile Action Bar: Accessible directly on mobile screens without needing hover */}
-                      <div className="flex sm:hidden items-center justify-between mt-4 pt-3 border-t border-gray-800/70">
+                      <div className="flex sm:hidden items-center justify-between mt-3.5 pt-3 border-t border-gray-800/70">
                         <Link
                           href={`/projects/${project.slug}`}
-                          className="text-xs font-semibold text-red-400 hover:text-red-300 flex items-center gap-1.5 transition-colors"
+                          className="px-3 py-1.5 rounded-lg bg-red-500/10 border border-red-500/20 text-xs font-semibold text-red-400 hover:text-red-300 flex items-center gap-1.5 transition-colors active:scale-95"
                         >
                           <span>View Details</span>
                           <ArrowRight className="w-3.5 h-3.5" />
@@ -386,7 +428,7 @@ export default function Projects({ projects }: ProjectsProps) {
                               target="_blank"
                               rel="noopener noreferrer"
                               aria-label="GitHub Repository"
-                              className="p-1.5 rounded-full bg-white/5 border border-white/10 text-gray-300 hover:text-white"
+                              className="p-2 rounded-full bg-white/5 border border-white/10 text-gray-300 hover:text-white active:scale-95 transition-all"
                             >
                               <FaGithub className="w-3.5 h-3.5" />
                             </Link>
@@ -397,7 +439,7 @@ export default function Projects({ projects }: ProjectsProps) {
                               target="_blank"
                               rel="noopener noreferrer"
                               aria-label="Live Demo"
-                              className="p-1.5 rounded-full bg-white/5 border border-white/10 text-gray-300 hover:text-white"
+                              className="p-2 rounded-full bg-white/5 border border-white/10 text-gray-300 hover:text-white active:scale-95 transition-all"
                             >
                               <ExternalLink className="w-3.5 h-3.5" />
                             </Link>
@@ -452,26 +494,30 @@ export default function Projects({ projects }: ProjectsProps) {
           <button
             onClick={() => advance("right")}
             aria-label="Next Project"
-            className="absolute right-0 sm:right-1 lg:right-2 top-1/2 -translate-y-1/2 z-30 w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-[#0d121f]/95 border border-gray-700/80 text-gray-200 hover:text-white hover:border-red-500/80 hover:bg-red-500/20 hover:scale-110 active:scale-95 transition-all duration-300 shadow-2xl shadow-black/90 backdrop-blur-md cursor-pointer flex items-center justify-center group"
+            className="absolute right-0.5 sm:right-1 lg:right-2 top-1/2 -translate-y-1/2 z-30 w-8 h-8 sm:w-11 sm:h-11 rounded-full bg-[#0d121f]/95 border border-gray-700/80 text-gray-200 hover:text-white hover:border-red-500/80 hover:bg-red-500/20 hover:scale-110 active:scale-95 transition-all duration-300 shadow-2xl shadow-black/90 backdrop-blur-md cursor-pointer flex items-center justify-center group"
           >
-            <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 group-hover:translate-x-0.5 transition-transform" />
+            <ChevronRight className="w-4 h-4 sm:w-6 sm:h-6 group-hover:translate-x-0.5 transition-transform" />
           </button>
         </div>
 
         {/* Carousel Indicator Dots with Signature Red Gradient */}
         {safeProjects.length > 1 && (
-          <div className="flex justify-center items-center gap-2 mt-8">
+          <div className="flex justify-center items-center gap-2 mt-6 sm:mt-8">
             {safeProjects.map((_, dotIndex) => (
               <button
                 key={dotIndex}
                 onClick={() => scrollToSlide(dotIndex)}
                 aria-label={`Go to slide ${dotIndex + 1}`}
-                className={`transition-all duration-300 rounded-full cursor-pointer ${
-                  activeIndex === dotIndex
-                    ? "w-8 h-2 bg-gradient-to-r from-red-500 to-amber-500 shadow-[0_0_12px_rgba(239,68,68,0.8)]"
-                    : "w-2 h-2 bg-gray-700 hover:bg-gray-500"
-                }`}
-              />
+                className="py-2 px-0.5 group cursor-pointer focus:outline-none"
+              >
+                <span
+                  className={`block transition-all duration-300 rounded-full ${
+                    activeIndex === dotIndex
+                      ? "w-7 sm:w-8 h-2 bg-gradient-to-r from-red-500 to-amber-500 shadow-[0_0_12px_rgba(239,68,68,0.8)]"
+                      : "w-2 h-2 bg-gray-700 group-hover:bg-gray-500"
+                  }`}
+                />
+              </button>
             ))}
           </div>
         )}
