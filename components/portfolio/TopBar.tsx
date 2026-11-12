@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
-import { FileText } from "lucide-react";
+import { FileText, Sun, Moon } from "lucide-react";
 import { sanitizeUrl } from "@/utils";
+import { useTheme } from "@/components/theme/ThemeProvider";
 
 interface TopBarProps {
   name?: string;
@@ -16,6 +17,7 @@ interface TopBarProps {
 }
 
 export default function TopBar({ name, resumeUrl, social }: TopBarProps) {
+  const { theme, toggleTheme } = useTheme();
   const brandName = name || "ANIT KUSHWAHA";
   const github = sanitizeUrl(
     social?.github || "https://github.com/AnitKushwaha700",
@@ -40,8 +42,22 @@ export default function TopBar({ name, resumeUrl, social }: TopBarProps) {
         </Link>
       </div>
 
-      {/* TopBar Right: Resume Button & Social Links */}
-      <div className="pointer-events-auto flex items-center gap-1 sm:gap-3 shrink-0">
+      {/* TopBar Right: Theme Toggle, Resume Button & Social Links */}
+      <div className="pointer-events-auto flex items-center gap-1.5 sm:gap-3 shrink-0">
+        {/* Theme Toggle Button (Light / Dark) */}
+        <button
+          onClick={toggleTheme}
+          aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+          title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+          className="p-1.5 sm:p-2 rounded-full bg-white/5 hover:bg-white/10 border border-gray-800 text-gray-200 transition-all duration-300 hover:scale-110 active:scale-95 shadow-sm cursor-pointer flex items-center justify-center shrink-0"
+        >
+          {theme === "dark" ? (
+            <Sun className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-400 hover:text-amber-300 transition-transform duration-300 hover:rotate-45" />
+          ) : (
+            <Moon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-indigo-600 hover:text-indigo-500 transition-transform duration-300 hover:-rotate-12" />
+          )}
+        </button>
+
         <Link
           href={github}
           target="_blank"

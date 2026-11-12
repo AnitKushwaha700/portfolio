@@ -23,7 +23,19 @@ export default function Hero3DCanvas() {
 
     // Scene, Camera, Renderer
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x07070d, 0.035);
+    const isInitiallyLight =
+      typeof document !== "undefined" &&
+      document.documentElement.classList.contains("light");
+    scene.fog = new THREE.FogExp2(isInitiallyLight ? 0xf8fafc : 0x07070d, 0.035);
+
+    const handleThemeChange = (e: Event) => {
+      const customEvt = e as CustomEvent<string>;
+      const isLight = customEvt.detail === "light";
+      if (scene.fog) {
+        (scene.fog as THREE.FogExp2).color.setHex(isLight ? 0xf8fafc : 0x07070d);
+      }
+    };
+    window.addEventListener("portfolio-theme-change", handleThemeChange);
 
     const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
     camera.position.set(0, 0, 11);
@@ -470,6 +482,7 @@ export default function Hero3DCanvas() {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("resize", handleResize);
+      window.removeEventListener("portfolio-theme-change", handleThemeChange);
 
       try {
         const glContext = renderer.getContext();

@@ -53,7 +53,7 @@ export default function Hero({ settings }: HeroProps) {
     if (/frontend\s*\|\s*mern\s+stack\s+developer/i.test(trimmed)) {
       return (
         <span className="inline-flex items-center flex-wrap sm:flex-nowrap">
-          <span className="text-transparent bg-clip-text bg-gradient-to-b from-white via-slate-100 to-slate-300 font-black tracking-tight drop-shadow-[0_2px_18px_rgba(255,255,255,0.2)]">
+          <span className="text-transparent bg-clip-text bg-gradient-to-b from-slate-900 via-slate-800 to-slate-700 dark:from-white dark:via-slate-100 dark:to-slate-300 font-black tracking-tight drop-shadow-[0_2px_18px_rgba(255,255,255,0.2)]">
             FRONTEND
           </span>
           <span className="inline-block mx-2.5 sm:mx-3 text-red-500 font-light drop-shadow-[0_0_15px_rgba(239,68,68,0.95)] select-none">
@@ -84,7 +84,7 @@ export default function Hero({ settings }: HeroProps) {
 
       return (
         <span className="inline">
-          <span className="text-transparent bg-clip-text bg-gradient-to-b from-white via-slate-100 to-slate-300 font-black">
+          <span className="text-transparent bg-clip-text bg-gradient-to-b from-slate-900 via-slate-800 to-slate-700 dark:from-white dark:via-slate-100 dark:to-slate-300 font-black">
             {main ? `${main} ` : ""}
             <span className="text-red-500 drop-shadow-[0_0_30px_rgba(239,68,68,0.7)]">
               {accent}
@@ -111,7 +111,7 @@ export default function Hero({ settings }: HeroProps) {
 
     return (
       <span className="inline">
-        <span className="text-white font-black">{start} </span>
+        <span className="text-slate-900 dark:text-white font-black">{start} </span>
         <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-rose-500 to-amber-400 drop-shadow-[0_0_35px_rgba(239,68,68,0.5)] font-black">
           {highlight}
         </span>
@@ -125,8 +125,8 @@ export default function Hero({ settings }: HeroProps) {
       className="relative min-h-screen w-full flex items-center justify-center pt-24 sm:pt-28 lg:pt-20 pb-12 overflow-hidden bg-transparent"
     >
       {/* Ambient Radial Backlights */}
-      <div className="absolute top-1/4 left-1/4 -translate-x-1/2 w-[600px] h-[600px] bg-red-600/12 rounded-full blur-[170px] pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 translate-x-1/2 w-[600px] h-[600px] bg-indigo-600/12 rounded-full blur-[180px] pointer-events-none" />
+      <div className="absolute top-1/4 left-1/4 -translate-x-1/2 w-[600px] h-[600px] bg-red-600/12 rounded-full blur-[170px] pointer-events-none opacity-40 dark:opacity-100" />
+      <div className="absolute bottom-1/4 right-1/4 translate-x-1/2 w-[600px] h-[600px] bg-indigo-600/12 rounded-full blur-[180px] pointer-events-none opacity-40 dark:opacity-100" />
 
       {/* Main 2-Column Hero Container: Left Content, Right Image */}
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 flex items-center">
@@ -171,7 +171,7 @@ export default function Hero({ settings }: HeroProps) {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-sm sm:text-base md:text-lg text-gray-300/90 max-w-xl leading-relaxed font-normal"
+              className="text-sm sm:text-base md:text-lg text-slate-600 dark:text-gray-300/90 max-w-xl leading-relaxed font-normal"
             >
               {hero.description}
             </motion.p>
@@ -199,9 +199,9 @@ export default function Hero({ settings }: HeroProps) {
                 {/* Secondary Button */}
                 <Link
                   href="#contact"
-                  className="inline-flex items-center gap-2 px-6 sm:px-7 py-3 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-gray-800 hover:border-gray-600 text-gray-200 font-semibold text-sm sm:text-base backdrop-blur-md shadow-lg shadow-black/40 hover:scale-105 active:scale-95 transition-all group"
+                  className="inline-flex items-center gap-2 px-6 sm:px-7 py-3 rounded-xl bg-slate-100/90 dark:bg-white/[0.04] hover:bg-slate-200/90 dark:hover:bg-white/[0.08] border border-slate-300 dark:border-gray-800 hover:border-slate-400 dark:hover:border-gray-600 text-slate-800 dark:text-gray-200 font-semibold text-sm sm:text-base backdrop-blur-md shadow-md shadow-slate-900/5 dark:shadow-black/40 hover:scale-105 active:scale-95 transition-all group"
                 >
-                  <Mail className="w-4 h-4 text-gray-400 group-hover:text-white transition-colors" />
+                  <Mail className="w-4 h-4 text-slate-500 dark:text-gray-400 group-hover:text-slate-900 dark:group-hover:text-white transition-colors" />
                   <span>{hero.secondaryButtonText || "Contact Me"}</span>
                 </Link>
 
@@ -214,7 +214,7 @@ export default function Hero({ settings }: HeroProps) {
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label="GitHub Profile"
-                        className="p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-gray-800 hover:border-red-500/40 text-gray-400 hover:text-white transition-all hover:scale-110 active:scale-95"
+                        className="p-3 rounded-xl bg-slate-100/90 dark:bg-white/[0.03] hover:bg-slate-200/90 dark:hover:bg-white/[0.08] border border-slate-300 dark:border-gray-800 hover:border-red-500/40 text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white transition-all hover:scale-110 active:scale-95"
                       >
                         <FaGithub className="w-4 h-4" />
                       </a>
@@ -225,7 +225,7 @@ export default function Hero({ settings }: HeroProps) {
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label="LinkedIn Profile"
-                        className="p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-gray-800 hover:border-rose-500/40 text-gray-400 hover:text-white transition-all hover:scale-110 active:scale-95"
+                        className="p-3 rounded-xl bg-slate-100/90 dark:bg-white/[0.03] hover:bg-slate-200/90 dark:hover:bg-white/[0.08] border border-slate-300 dark:border-gray-800 hover:border-rose-500/40 text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white transition-all hover:scale-110 active:scale-95"
                       >
                         <FaLinkedin className="w-4 h-4" />
                       </a>

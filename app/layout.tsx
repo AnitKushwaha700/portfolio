@@ -5,6 +5,7 @@ import "./globals.css";
 import InstallPrompt from "@/components/pwa/InstallPrompt";
 import TopProgressBar from "@/components/ui/TopProgressBar";
 import InitialPageLoader from "@/components/ui/InitialPageLoader";
+import { ThemeProvider } from "@/components/theme/ThemeProvider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -69,13 +70,22 @@ export default function RootLayout({
       data-scroll-behavior="smooth"
       suppressHydrationWarning
     >
-      <body className="flex min-h-dvh flex-col bg-background text-gray-100 overflow-x-hidden max-w-full">
-        <Suspense fallback={null}>
-          <TopProgressBar />
-        </Suspense>
-        <InitialPageLoader />
-        <main className="flex-1 w-full max-w-full relative overflow-x-hidden">{children}</main>
-        <InstallPrompt />
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var s=localStorage.getItem('portfolio-theme');var t=s||'dark';if(t==='light'){document.documentElement.classList.remove('dark');document.documentElement.classList.add('light');}else{document.documentElement.classList.add('dark');document.documentElement.classList.remove('light');}}catch(e){}})();`,
+          }}
+        />
+      </head>
+      <body className="flex min-h-dvh flex-col bg-background text-foreground overflow-x-hidden max-w-full transition-colors duration-300">
+        <ThemeProvider>
+          <Suspense fallback={null}>
+            <TopProgressBar />
+          </Suspense>
+          <InitialPageLoader />
+          <main className="flex-1 w-full max-w-full relative overflow-x-hidden">{children}</main>
+          <InstallPrompt />
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -14,6 +14,7 @@ import {
   Calendar,
 } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
+import { useTheme } from "@/components/theme/ThemeProvider";
 
 interface ContributionDay {
   date: string;
@@ -98,13 +99,21 @@ const PINNED_REPOS: PinnedRepo[] = [
   },
 ];
 
-// GitHub level colors
-const LEVEL_COLORS: Record<number, string> = {
+// GitHub level colors for Dark and Light themes
+const LEVEL_COLORS_DARK: Record<number, string> = {
   0: "#161b22", // empty
   1: "#0e4429", // light green
   2: "#006d32", // medium green
   3: "#26a641", // bright green
   4: "#39d353", // intense green
+};
+
+const LEVEL_COLORS_LIGHT: Record<number, string> = {
+  0: "#ebedf0", // empty
+  1: "#9be9a8", // light green
+  2: "#40c463", // medium green
+  3: "#30a14e", // bright green
+  4: "#216e39", // intense green
 };
 
 const MONTH_NAMES = [
@@ -143,6 +152,8 @@ export default function GithubSection({
 }: {
   githubUrl?: string;
 }) {
+  const { theme } = useTheme();
+  const levelColors = theme === "light" ? LEVEL_COLORS_LIGHT : LEVEL_COLORS_DARK;
   const [selectedYear, setSelectedYear] = useState<string>("2026");
   const [data, setData] = useState<GithubData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -476,7 +487,7 @@ export default function GithubSection({
                             );
                           }
 
-                          const bg = LEVEL_COLORS[day.level] || LEVEL_COLORS[0];
+                          const bg = levelColors[day.level] || levelColors[0];
                           return (
                             <div
                               key={day.date}
@@ -526,7 +537,7 @@ export default function GithubSection({
                 <div
                   key={lvl}
                   className="w-3 h-3 rounded-[2px]"
-                  style={{ backgroundColor: LEVEL_COLORS[lvl] }}
+                  style={{ backgroundColor: levelColors[lvl] }}
                 />
               ))}
               <span>More</span>

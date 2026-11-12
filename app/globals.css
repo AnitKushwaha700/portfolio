@@ -1,17 +1,28 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
-  --color-background: #07070d;
-  --color-card: #0d0e19;
-  --color-primary-text: #F9FAFB;
-  --color-secondary-text: #9CA3AF;
+  --color-background: var(--background);
+  --color-card: var(--card-bg);
+  --color-primary-text: var(--foreground);
+  --color-secondary-text: var(--text-muted);
   --color-accent: #ef4444;
 }
 
 @layer base {
   :root {
+    --background: #f8fafc;
+    --foreground: #0f172a;
+    --card-bg: rgba(255, 255, 255, 0.9);
+    --text-muted: #64748b;
+  }
+
+  html.dark, :root:has(.dark) {
     --background: #07070d;
     --foreground: #F9FAFB;
+    --card-bg: rgba(13, 14, 25, 0.8);
+    --text-muted: #9CA3AF;
   }
   
   html {
@@ -19,6 +30,7 @@
     overflow-x: hidden;
     max-width: 100vw;
     width: 100%;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   body {
@@ -31,6 +43,7 @@
     max-width: 100vw;
     width: 100%;
     position: relative;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 }
 
@@ -40,7 +53,7 @@
   }
   
   .section-title {
-    @apply text-2xl sm:text-3xl md:text-5xl font-extrabold text-white mb-8 sm:mb-12 tracking-tight;
+    @apply text-2xl sm:text-3xl md:text-5xl font-extrabold text-white mb-8 sm:mb-12 tracking-tight transition-colors duration-300;
   }
   
   .card {
@@ -52,7 +65,193 @@
   }
 }
 
-/* Custom Scrollbar */
+/* =========================================================================
+   LIGHT THEME OVERRIDES (Triggered when html has class 'light')
+   ========================================================================= */
+
+html.light {
+  color-scheme: light;
+}
+
+html.light body {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+}
+
+/* Section titles in light theme */
+html.light .section-title {
+  color: #0f172a !important;
+}
+
+/* Card surfaces in light theme */
+html.light .card,
+html.light [class*="bg-[#0d"],
+html.light [class*="bg-[#141624]"],
+html.light [class*="bg-[#0e101b]"] {
+  background-color: rgba(255, 255, 255, 0.92) !important;
+  border-color: rgba(226, 232, 240, 0.95) !important;
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.06), 0 8px 10px -6px rgba(15, 23, 42, 0.04) !important;
+}
+
+html.light .card-hover:hover {
+  border-color: rgba(239, 68, 68, 0.45) !important;
+  box-shadow: 0 20px 30px -10px rgba(239, 68, 68, 0.12), 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Fallback preview containers & icons in light mode */
+html.light [class*="bg-[#0b0f19]"] {
+  background-color: #f1f5f9 !important;
+}
+
+html.light [class*="bg-[#111827]"] {
+  background-color: #ffffff !important;
+}
+
+/* Subtle dark borders become light slate borders */
+html.light [class*="border-gray-800"],
+html.light [class*="border-gray-700"] {
+  border-color: rgba(226, 232, 240, 0.95) !important;
+}
+
+/* Subtle dark chips & pills become soft slate pills */
+html.light [class*="bg-white/5"],
+html.light [class*="bg-white/[0.03]"],
+html.light [class*="bg-white/[0.04]"],
+html.light [class*="bg-white/10"] {
+  background-color: rgba(241, 245, 249, 0.92) !important;
+  border-color: rgba(226, 232, 240, 0.95) !important;
+}
+
+/* Text colors in light mode */
+html.light h1:not(.text-transparent),
+html.light h2:not(.text-transparent),
+html.light h3:not(.text-transparent),
+html.light h4:not(.text-transparent) {
+  color: #0f172a !important;
+}
+
+html.light .text-gray-100 {
+  color: #0f172a !important;
+}
+
+html.light .text-gray-200 {
+  color: #1e293b !important;
+}
+
+html.light .text-gray-300 {
+  color: #334155 !important;
+}
+
+html.light .text-gray-400 {
+  color: #64748b !important;
+}
+
+/* Card internal white text that is not a badge or button */
+html.light .card .text-white:not([class*="bg-red"]):not([class*="bg-gradient"]):not(.badge):not([class*="from-red"]):not(button.bg-red-600):not(a.bg-red-600),
+html.light .section-container .text-white:not([class*="bg-red"]):not([class*="bg-gradient"]):not(button.bg-red-600):not(a.bg-red-600) {
+  color: #0f172a !important;
+}
+
+/* Gradient / Accent button text remains crisp white */
+html.light a[class*="from-red-600"],
+html.light button[class*="from-red-600"],
+html.light a[class*="bg-red-600"],
+html.light button[class*="bg-red-600"],
+html.light a[class*="bg-red-500"],
+html.light button[class*="bg-red-500"] {
+  color: #ffffff !important;
+}
+
+/* TopBar Header in Light Mode */
+html.light header a.text-white {
+  color: #0f172a !important;
+}
+html.light header a.text-white:hover {
+  color: #ef4444 !important;
+}
+html.light header a.text-gray-400 {
+  color: #64748b !important;
+}
+html.light header a.text-gray-400:hover {
+  color: #0f172a !important;
+}
+html.light header button {
+  background-color: rgba(241, 245, 249, 0.95) !important;
+  border-color: rgba(203, 213, 225, 0.85) !important;
+  color: #0f172a !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+}
+html.light header a[href*="#contact"],
+html.light header a[href*="resume"] {
+  background-color: rgba(241, 245, 249, 0.95) !important;
+  border-color: rgba(203, 213, 225, 0.85) !important;
+  color: #0f172a !important;
+}
+
+/* Floating Navigation Bar in Light Mode */
+html.light aside[aria-label="Quick section navigation"] {
+  background-color: rgba(255, 255, 255, 0.92) !important;
+  border-color: rgba(226, 232, 240, 0.95) !important;
+  box-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.12), 0 0 1px 1px rgba(0, 0, 0, 0.05) !important;
+}
+html.light aside[aria-label="Quick section navigation"] a.text-gray-400 {
+  color: #64748b !important;
+}
+html.light aside[aria-label="Quick section navigation"] a.text-gray-400:hover {
+  color: #0f172a !important;
+  background-color: rgba(241, 245, 249, 0.95) !important;
+}
+
+/* Project Carousel Control Buttons in Light Mode */
+html.light button[aria-label="Previous project"],
+html.light button[aria-label="Next project"] {
+  background-color: rgba(255, 255, 255, 0.96) !important;
+  border-color: rgba(203, 213, 225, 0.85) !important;
+  color: #334155 !important;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08) !important;
+}
+html.light button[aria-label="Previous project"]:hover,
+html.light button[aria-label="Next project"]:hover {
+  color: #ef4444 !important;
+  background-color: #ffffff !important;
+}
+
+/* Experience timeline line & dot */
+html.light #experience div[class*="border-[#0B0F19]"] {
+  border-color: #f8fafc !important;
+}
+
+/* Contact section email copy / direct buttons */
+html.light #contact button[class*="bg-[#141624]"],
+html.light #contact a[class*="bg-[#141624]"] {
+  background-color: #f1f5f9 !important;
+  border-color: #e2e8f0 !important;
+  color: #0f172a !important;
+}
+html.light #contact button[class*="bg-[#141624]"]:hover,
+html.light #contact a[class*="bg-[#141624]"]:hover {
+  background-color: #e2e8f0 !important;
+  border-color: rgba(239, 68, 68, 0.5) !important;
+}
+
+/* Footer in Light Mode */
+html.light footer {
+  background-color: #f8fafc !important;
+  border-color: rgba(226, 232, 240, 0.9) !important;
+}
+html.light footer p,
+html.light footer a {
+  color: #64748b !important;
+}
+html.light footer a:hover {
+  color: #ef4444 !important;
+}
+
+/* =========================================================================
+   SCROLLBARS (Dark & Light)
+   ========================================================================= */
+
+/* Custom Scrollbar - Dark */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -65,6 +264,18 @@
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #374151;
+}
+
+/* Custom Scrollbar - Light */
+html.light ::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+html.light ::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+html.light ::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }
 
 /* No-scrollbar utility (used in Projects.tsx and heatmap) */
@@ -90,6 +301,13 @@
 }
 .scrollbar-thin::-webkit-scrollbar-thumb:hover {
   background: #4b5563;
+}
+
+html.light .scrollbar-thin::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+}
+html.light .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }
 
 @keyframes shimmer {
