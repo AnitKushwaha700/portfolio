@@ -347,19 +347,13 @@ export default function Hero3DCanvas() {
       lastTime = now;
       const time = (now - startTime) / 1000;
 
-      // Smoothly fade out the cyber vortex when scrolling past the Hero section
-      // so Featured Projects, GitHub, and subsequent sections have clean, readable cards
-      const heroFade = Math.max(
-        0,
-        Math.min(1, 1 - (window.scrollY / (Math.max(1, window.innerHeight) * 0.85)))
-      );
-
-      coreMaterial.opacity = 0.85 * heroFade;
-      innerThinMat.opacity = 0.6 * heroFade;
-      outerRingMat.opacity = 0.5 * heroFade;
-      tickMat.opacity = 0.65 * heroFade;
-      sparkMat.opacity = heroFade;
-      vortexGroup.visible = heroFade > 0.02;
+      // Keep the 3D cyber vortex visible and luminous across all sections on scroll
+      coreMaterial.opacity = 0.85;
+      innerThinMat.opacity = 0.6;
+      outerRingMat.opacity = 0.5;
+      tickMat.opacity = 0.65;
+      sparkMat.opacity = 0.95;
+      vortexGroup.visible = true;
 
       // Continuous ambient rotation of rings
       const spinSpeed = prefersReducedMotion ? 0.05 : 0.45;
