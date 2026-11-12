@@ -122,6 +122,22 @@ const MONTH_NAMES = [
   "Dec",
 ];
 
+// Helper to format date with weekday in tooltips (e.g., "Fri, Mar 20, 2026")
+function formatTooltipDate(dateStr: string) {
+  try {
+    const [y, m, d] = dateStr.split("-").map(Number);
+    const date = new Date(y, m - 1, d);
+    return date.toLocaleDateString("en-US", {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
+  } catch {
+    return dateStr;
+  }
+}
+
 export default function GithubSection({
   githubUrl = "https://github.com/AnitKushwaha700",
 }: {
@@ -210,29 +226,54 @@ export default function GithubSection({
     };
   }, [selectedYear]);
 
-  // Organize days into 52/53 columns (weeks of 7 days)
+  // Organize days into 53 standard Sunday-Saturday columns (weeks of 7 days)
+  // exactly matching GitHub's real contribution graph:
+  // Row 0 = Sunday, Row 1 = Monday, ..., Row 5 = Friday, Row 6 = Saturday
   const { weeks, monthLabels } = useMemo(() => {
     const raw = data?.contributions || [];
     if (raw.length === 0) return { weeks: [], monthLabels: [] };
 
-    const weeksArr: ContributionDay[][] = [];
-    let currentWeek: ContributionDay[] = [];
+    // Sort chronologically ascending
+    const sorted = [...raw].sort(
+      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+    );
 
-    raw.forEach((day, index) => {
-      currentWeek.push(day);
-      if (currentWeek.length === 7 || index === raw.length - 1) {
+    const weeksArr: (ContributionDay | null)[][] = [];
+    let currentWeek: (ContributionDay | null)[] = new Array(7).fill(null);
+
+    sorted.forEach((day) => {
+      const [year, month, dt] = day.date.split("-").map(Number);
+      // getDay(): 0 = Sun, 1 = Mon, 2 = Tue, 3 = Wed, 4 = Thu, 5 = Fri, 6 = Sat
+      const dayOfWeek = new Date(year, month - 1, dt).getDay();
+
+      currentWeek[dayOfWeek] = day;
+
+      // On Saturday (day 6), close this week column and start a fresh one
+      if (dayOfWeek === 6) {
         weeksArr.push(currentWeek);
-        currentWeek = [];
+        currentWeek = new Array(7).fill(null);
       }
     });
 
+    // If year doesn't end on a Saturday, push the final partial week
+    if (currentWeek.some((d) => d !== null)) {
+      weeksArr.push(currentWeek);
+    }
+
+    // Determine month label positions based on where the 1st of each month lands
     const labels: { name: string; colIndex: number }[] = [];
     let lastMonth = -1;
 
     weeksArr.forEach((wk, colIdx) => {
-      if (wk.length > 0) {
-        const d = new Date(wk[0].date);
-        const m = d.getMonth();
+      const validDays = wk.filter((d): d is ContributionDay => d !== null);
+      if (validDays.length > 0) {
+        const firstOfMonth = validDays.find(
+          (d) => Number(d.date.split("-")[2]) === 1
+        );
+        const m = firstOfMonth
+          ? Number(firstOfMonth.date.split("-")[1]) - 1
+          : Number(validDays[0].date.split("-")[1]) - 1;
+
         if (m !== lastMonth && colIdx < weeksArr.length - 2) {
           labels.push({ name: MONTH_NAMES[m], colIndex: colIdx });
           lastMonth = m;
@@ -388,7 +429,7 @@ export default function GithubSection({
             ) : (
               <div className="w-max min-w-[700px] select-none py-1">
                 {/* Month labels */}
-                <div className="relative h-5 text-[11px] text-gray-400 ml-8 flex">
+                <div className="relative h-5 text-[11px] text-gray-400 ml-7 flex">
                   {monthLabels.map((lbl, i) => (
                     <span
                       key={i}
@@ -404,17 +445,37 @@ export default function GithubSection({
 
                 {/* Day labels + Matrix */}
                 <div className="flex gap-2">
-                  <div className="flex flex-col justify-between text-[10px] text-gray-500 py-1 h-[100px] select-none">
-                    <span>Mon</span>
-                    <span>Wed</span>
-                    <span>Fri</span>
+                  {/* Exact pixel-aligned weekday labels: Mon = Row 1, Wed = Row 3, Fri = Row 5 */}
+                  <div className="flex flex-col gap-[3px] select-none text-[10px] text-gray-500 font-medium">
+                    <div className="w-5 h-[12px]" aria-hidden="true" />
+                    <div className="w-5 h-[12px] flex items-center leading-none">
+                      <span>Mon</span>
+                    </div>
+                    <div className="w-5 h-[12px]" aria-hidden="true" />
+                    <div className="w-5 h-[12px] flex items-center leading-none">
+                      <span>Wed</span>
+                    </div>
+                    <div className="w-5 h-[12px]" aria-hidden="true" />
+                    <div className="w-5 h-[12px] flex items-center leading-none text-rose-400 font-semibold">
+                      <span>Fri</span>
+                    </div>
+                    <div className="w-5 h-[12px]" aria-hidden="true" />
                   </div>
 
-                  {/* 52 Columns Grid */}
+                  {/* 53 Columns Grid */}
                   <div className="flex gap-[3px]">
                     {weeks.map((wk, colIdx) => (
                       <div key={colIdx} className="flex flex-col gap-[3px]">
-                        {wk.map((day) => {
+                        {wk.map((day, rowIdx) => {
+                          if (!day) {
+                            return (
+                              <div
+                                key={`empty-${colIdx}-${rowIdx}`}
+                                className="w-[12px] h-[12px] opacity-0 pointer-events-none"
+                              />
+                            );
+                          }
+
                           const bg = LEVEL_COLORS[day.level] || LEVEL_COLORS[0];
                           return (
                             <div
@@ -434,7 +495,7 @@ export default function GithubSection({
               </div>
             )}
 
-            {/* Floating Tooltip */}
+            {/* Floating Tooltip with Formatted Weekday */}
             {hoveredDay && (
               <div
                 className="fixed z-50 pointer-events-none -translate-x-1/2 -translate-y-full px-2.5 py-1.5 rounded-lg bg-gray-900 border border-gray-700 text-white text-[11px] font-medium shadow-2xl whitespace-nowrap"
@@ -443,7 +504,7 @@ export default function GithubSection({
                 <span className="font-bold text-red-400">
                   {hoveredDay.count} {hoveredDay.count === 1 ? "contribution" : "contributions"}
                 </span>{" "}
-                on {hoveredDay.date}
+                on {formatTooltipDate(hoveredDay.date)}
               </div>
             )}
           </div>

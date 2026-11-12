@@ -130,7 +130,7 @@ export async function GET(request: NextRequest) {
         totalContributions: year === "2026" ? 587 : 574,
         currentStreak: year === "2026" ? 236 : 12,
         longestStreak: year === "2026" ? 236 : 28,
-        contributions: generateFallbackContributions(),
+        contributions: generateFallbackContributions(year),
       },
       {
         headers: {
@@ -141,27 +141,47 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// Generates 52-week activity calendar matching screenshot
-function generateFallbackContributions(): ContributionDay[] {
+// Generates calendar matching Anit Kushwaha's real GitHub profile
+// Real streak began on Friday, March 20, 2026 and ran for 236 days to November 10, 2026
+function generateFallbackContributions(yearStr: string = "2026"): ContributionDay[] {
+  const targetYear = parseInt(yearStr, 10) || 2026;
   const result: ContributionDay[] = [];
-  const now = new Date();
 
-  for (let i = 365; i >= 0; i--) {
-    const d = new Date(now);
-    d.setDate(d.getDate() - i);
-    const dateStr = d.toISOString().split("T")[0];
+  const start = new Date(targetYear, 0, 1);
+  const end = new Date(targetYear, 11, 31);
 
-    // Distribute 574 commits across active months (March through October)
-    const month = d.getMonth(); // 0 to 11
+  for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, "0");
+    const dayNum = String(d.getDate()).padStart(2, "0");
+    const dateStr = `${y}-${m}-${dayNum}`;
+
     let count = 0;
     let level = 0;
 
-    if (month >= 2 && month <= 9) {
-      // Active period
-      const seed = (d.getDate() * 7 + month * 13) % 10;
-      if (seed > 3) {
-        count = (seed % 6) + 1;
-        level = count > 5 ? 4 : count > 3 ? 3 : count > 1 ? 2 : 1;
+    if (targetYear === 2026) {
+      // Unbroken 236-day streak from Friday March 20, 2026 to November 10, 2026
+      if (dateStr >= "2026-03-20" && dateStr <= "2026-11-10") {
+        const seed = (d.getDate() * 11 + d.getMonth() * 17) % 7;
+        count = seed === 0 ? 1 : seed + 1;
+        level = count >= 5 ? 4 : count >= 3 ? 3 : count >= 2 ? 2 : 1;
+        if (dateStr === "2026-03-20") {
+          count = 5;
+          level = 3;
+        }
+      }
+    } else if (targetYear === 2025) {
+      if (dateStr >= "2025-02-15" && dateStr <= "2025-10-30") {
+        const seed = (d.getDate() * 7 + d.getMonth() * 13) % 10;
+        if (seed > 3) {
+          count = (seed % 5) + 1;
+          level = count > 4 ? 4 : count > 2 ? 3 : count > 1 ? 2 : 1;
+        }
+      }
+    } else {
+      if (dateStr === "2024-11-20") {
+        count = 1;
+        level = 1;
       }
     }
 
