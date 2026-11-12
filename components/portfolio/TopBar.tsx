@@ -30,6 +30,17 @@ export default function TopBar({ name, resumeUrl, social }: TopBarProps) {
   const rawResumeUrl = resumeUrl && resumeUrl !== "#" ? resumeUrl : "#contact";
   const effectiveResumeUrl = sanitizeUrl(rawResumeUrl);
 
+  const handleResumeClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (effectiveResumeUrl.startsWith("#")) {
+      e.preventDefault();
+      const id = effectiveResumeUrl.slice(1);
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+  };
+
   return (
     <header className="fixed top-0 left-0 right-0 z-40 px-3 sm:px-10 lg:px-14 py-2.5 sm:py-6 flex items-center justify-between pointer-events-none w-full max-w-full">
       {/* Brand Name on top-left, dynamically controlled by Admin */}
@@ -95,10 +106,14 @@ export default function TopBar({ name, resumeUrl, social }: TopBarProps) {
                 ? undefined
                 : "noopener noreferrer"
             }
-            className="flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-slate-100/90 dark:bg-white/5 hover:bg-red-500/15 border border-slate-300 dark:border-gray-800 hover:border-red-500/50 text-slate-800 dark:text-gray-200 hover:text-red-600 dark:hover:text-white text-[11px] sm:text-sm font-medium transition-all duration-300 hover:scale-105 active:scale-95 backdrop-blur-md shadow-sm shrink-0"
+            onClick={handleResumeClick}
+            aria-label="View Resume"
+            className="group flex items-center gap-1.5 px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-slate-100/90 dark:bg-white/5 hover:bg-red-50 dark:hover:bg-red-500/15 border border-slate-300/90 dark:border-gray-800 hover:border-red-500/60 dark:hover:border-red-500/60 transition-all duration-300 hover:scale-105 active:scale-95 backdrop-blur-md shadow-xs shrink-0 cursor-pointer"
           >
-            <FileText className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-            <span>Resume</span>
+            <FileText className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-600 dark:text-red-400 group-hover:scale-110 transition-transform shrink-0" />
+            <span className="font-semibold text-slate-900 dark:text-gray-100 group-hover:text-red-600 dark:group-hover:text-white transition-colors text-xs sm:text-sm">
+              Resume
+            </span>
           </a>
         )}
       </div>
