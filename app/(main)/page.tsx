@@ -77,15 +77,15 @@ export default async function Home() {
 
   if (!settings) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#07070d]">
+      <div className="min-h-screen flex items-center justify-center bg-transparent">
         <div className="text-center p-8 max-w-md mx-auto space-y-4">
           <div className="w-12 h-12 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 mx-auto flex items-center justify-center font-bold">
             !
           </div>
-          <h2 className="text-xl font-bold text-white">
+          <h2 className="text-xl font-bold text-slate-900 dark:text-white">
             Portfolio Initializing
           </h2>
-          <p className="text-sm text-gray-400">
+          <p className="text-sm text-slate-600 dark:text-gray-400">
             Connecting to cloud services. If this is a fresh deployment, please
             ensure your MongoDB Atlas cluster URI is configured in your hosting
             environment variables.
@@ -98,7 +98,7 @@ export default async function Home() {
   const { sectionVisibility } = settings;
 
   return (
-    <div className="relative flex flex-col gap-0 w-full max-w-full overflow-hidden bg-[#07070d]">
+    <div className="relative flex flex-col gap-0 w-full max-w-full overflow-hidden bg-transparent">
       <Home3DExperience />
       {sectionVisibility.hero && (
         <Hero

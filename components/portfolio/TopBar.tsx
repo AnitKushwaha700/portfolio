@@ -36,7 +36,7 @@ export default function TopBar({ name, resumeUrl, social }: TopBarProps) {
       <div className="pointer-events-auto shrink-0">
         <Link
           href="/"
-          className="text-xs sm:text-base font-bold tracking-wider text-white hover:text-red-400 transition-colors group flex items-center"
+          className="text-xs sm:text-base font-bold tracking-wider text-slate-900 dark:text-white hover:text-red-600 dark:hover:text-red-400 transition-colors group flex items-center"
         >
           <span className="truncate max-w-[110px] sm:max-w-none font-bold tracking-wider">{brandName.toUpperCase()}</span>
         </Link>
@@ -49,7 +49,7 @@ export default function TopBar({ name, resumeUrl, social }: TopBarProps) {
           onClick={toggleTheme}
           aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
           title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-          className="p-1.5 sm:p-2 text-gray-400 hover:text-white hover:bg-white/5 rounded-full transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer flex items-center justify-center shrink-0"
+          className="p-1.5 sm:p-2 text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 rounded-full transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer flex items-center justify-center shrink-0"
         >
           {theme === "dark" ? (
             <Sun className="w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform duration-300 hover:rotate-45" />
@@ -62,7 +62,7 @@ export default function TopBar({ name, resumeUrl, social }: TopBarProps) {
           href={github}
           target="_blank"
           rel="noopener noreferrer"
-          className="p-1.5 sm:p-2 text-gray-400 hover:text-white hover:bg-white/5 rounded-full transition-all duration-300 hover:scale-110 active:scale-95"
+          className="p-1.5 sm:p-2 text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 rounded-full transition-all duration-300 hover:scale-110 active:scale-95"
           aria-label="GitHub"
         >
           <FaGithub className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
@@ -72,7 +72,7 @@ export default function TopBar({ name, resumeUrl, social }: TopBarProps) {
           href={linkedin}
           target="_blank"
           rel="noopener noreferrer"
-          className="p-1.5 sm:p-2 text-gray-400 hover:text-white hover:bg-white/5 rounded-full transition-all duration-300 hover:scale-110 active:scale-95"
+          className="p-1.5 sm:p-2 text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 rounded-full transition-all duration-300 hover:scale-110 active:scale-95"
           aria-label="LinkedIn"
         >
           <FaLinkedin className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
@@ -80,7 +80,7 @@ export default function TopBar({ name, resumeUrl, social }: TopBarProps) {
 
         <Link
           href={`mailto:${email}`}
-          className="hidden sm:inline-flex p-1.5 sm:p-2 text-gray-400 hover:text-white hover:bg-white/5 rounded-full transition-all duration-300 hover:scale-110 active:scale-95"
+          className="hidden sm:inline-flex p-1.5 sm:p-2 text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 rounded-full transition-all duration-300 hover:scale-110 active:scale-95"
           aria-label="Email"
         >
           <FaEnvelope className="w-3.5 h-3.5" />
@@ -95,7 +95,7 @@ export default function TopBar({ name, resumeUrl, social }: TopBarProps) {
                 ? undefined
                 : "noopener noreferrer"
             }
-            className="flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-white/5 hover:bg-red-500/15 border border-gray-800 hover:border-red-500/50 text-gray-200 hover:text-white text-[11px] sm:text-sm font-medium transition-all duration-300 hover:scale-105 active:scale-95 backdrop-blur-md shadow-sm shrink-0"
+            className="flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-slate-100/90 dark:bg-white/5 hover:bg-red-500/15 border border-slate-300 dark:border-gray-800 hover:border-red-500/50 text-slate-800 dark:text-gray-200 hover:text-red-600 dark:hover:text-white text-[11px] sm:text-sm font-medium transition-all duration-300 hover:scale-105 active:scale-95 backdrop-blur-md shadow-sm shrink-0"
           >
             <FileText className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             <span>Resume</span>

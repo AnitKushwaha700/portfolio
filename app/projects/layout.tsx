@@ -24,7 +24,7 @@ export default async function ProjectsLayout({
   }
 
   return (
-    <div className="relative min-h-screen w-full overflow-hidden bg-[#07070d] text-gray-100 flex flex-col">
+    <div className="relative min-h-screen w-full overflow-hidden bg-background text-foreground flex flex-col">
       {/* 3D Cyber Vortex & Constellation Background (Same as Home) */}
       <Home3DExperience />
 
