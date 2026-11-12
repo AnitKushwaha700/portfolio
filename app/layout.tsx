@@ -74,7 +74,7 @@ export default function RootLayout({
           <TopProgressBar />
         </Suspense>
         <InitialPageLoader />
-        <main className="flex-1 w-full relative">{children}</main>
+        <main className="flex-1 w-full max-w-full relative overflow-x-hidden">{children}</main>
         <InstallPrompt />
       </body>
     </html>

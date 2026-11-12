@@ -98,7 +98,7 @@ export default async function Home() {
   const { sectionVisibility } = settings;
 
   return (
-    <div className="relative flex flex-col gap-0 w-full overflow-x-clip bg-[#07070d]">
+    <div className="relative flex flex-col gap-0 w-full max-w-full overflow-hidden bg-[#07070d]">
       <Home3DExperience />
       {sectionVisibility.hero && (
         <Hero

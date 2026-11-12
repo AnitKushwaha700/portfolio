@@ -244,7 +244,7 @@ export default function Hero({ settings }: HeroProps) {
               transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
               className="lg:col-span-6 flex items-center justify-center lg:justify-end"
             >
-              <div className="relative h-[50vh] sm:h-[65vh] lg:h-[75vh] xl:h-[80vh] w-full flex items-end justify-center lg:justify-end select-none">
+              <div className="relative h-[50vh] sm:h-[65vh] lg:h-[75vh] xl:h-[80vh] w-full flex items-end justify-center lg:justify-end select-none overflow-hidden">
                 {/* 1. Underlying Cyan/Teal Atmospheric Aura Glow (Backlight) */}
                 <motion.div
                   animate={{

@@ -279,20 +279,20 @@ export default function Projects({ projects }: ProjectsProps) {
   if (!hasProjects) return null;
 
   return (
-    <section id="projects" className="section-container relative overflow-hidden py-20">
+    <section id="projects" className="section-container relative w-full max-w-full overflow-hidden py-16 sm:py-20">
       {/* Ambient background glows matching signature palette */}
-      <div className="absolute top-1/3 left-1/4 -translate-x-1/2 w-[520px] h-[520px] bg-red-600/10 rounded-full blur-[160px] pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 translate-x-1/2 w-[520px] h-[520px] bg-amber-600/10 rounded-full blur-[160px] pointer-events-none" />
+      <div className="absolute top-1/3 left-1/4 -translate-x-1/2 w-[350px] sm:w-[520px] h-[350px] sm:h-[520px] bg-red-600/10 rounded-full blur-[120px] sm:blur-[160px] pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 translate-x-1/2 w-[350px] sm:w-[520px] h-[350px] sm:h-[520px] bg-amber-600/10 rounded-full blur-[120px] sm:blur-[160px] pointer-events-none" />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.6 }}
-        className="relative z-10"
+        className="relative z-10 w-full max-w-full"
       >
         {/* Section Header: Centered with Signature Red/Rose/Amber Gradient */}
-        <div className="text-center space-y-3 mb-12">
+        <div className="text-center space-y-2.5 sm:space-y-3 mb-8 sm:mb-12">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/20 text-xs font-semibold text-red-400 uppercase tracking-wider mb-1">
             <Code2 className="w-3.5 h-3.5" />
             <span>Project Showcase</span>
@@ -303,7 +303,7 @@ export default function Projects({ projects }: ProjectsProps) {
               Projects
             </span>
           </h2>
-          <p className="text-sm sm:text-base text-gray-400 max-w-xl mx-auto">
+          <p className="text-xs sm:text-base text-gray-400 max-w-xl mx-auto px-2">
             A selection of production-ready full-stack applications, interactive web tools, and real-time systems.
           </p>
         </div>
@@ -315,7 +315,7 @@ export default function Projects({ projects }: ProjectsProps) {
 
         {/* Carousel Outer Wrapper with Left and Right Flanking Buttons */}
         <div
-          className="relative w-full px-8 sm:px-12 lg:px-14 flex items-center group/carousel"
+          className="relative w-full max-w-full px-8 sm:px-12 lg:px-14 flex items-center group/carousel"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
           onTouchStart={handleTouchStart}
@@ -331,8 +331,8 @@ export default function Projects({ projects }: ProjectsProps) {
             <ChevronLeft className="w-4 h-4 sm:w-6 sm:h-6 group-hover:-translate-x-0.5 transition-transform" />
           </button>
 
-          {/* Carousel viewport: overflow-hidden clips the sliding track */}
-          <div className="w-full overflow-hidden">
+          {/* Carousel viewport: overflow-hidden clips the sliding track. min-w-0 prevents flex container blowout */}
+          <div className="w-full min-w-0 overflow-hidden">
             {/* Carousel Infinite Loop Track — GPU-accelerated via translateX */}
             <div
               ref={trackRef}
@@ -362,7 +362,7 @@ export default function Projects({ projects }: ProjectsProps) {
                 return (
                   <div
                     key={`${project._id || project.slug || "proj"}-${index}`}
-                    className="flex-shrink-0 w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] snap-start group relative"
+                    className="flex-shrink-0 w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] snap-start group relative min-w-0 max-w-full"
                   >
                     {/* RICR-Style Card with Signature Accent */}
                     <div className="relative h-full bg-[#0d121f]/90 border border-gray-800/90 rounded-2xl sm:rounded-3xl p-4 sm:p-6 flex flex-col justify-between overflow-hidden shadow-2xl transition-all duration-300 group-hover:border-red-500/50 group-hover:shadow-[0_0_35px_rgba(239,68,68,0.18)]">

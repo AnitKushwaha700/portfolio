@@ -244,24 +244,24 @@ export default function GithubSection({
   }, [data]);
 
   return (
-    <section id="github" className="section-container relative py-16 sm:py-20 overflow-hidden">
+    <section id="github" className="section-container relative w-full max-w-full py-14 sm:py-20 overflow-hidden">
       {/* Background radial accent glow matching signature palette */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[380px] sm:w-[650px] h-[380px] sm:h-[650px] bg-red-600/10 rounded-full blur-[130px] sm:blur-[170px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] sm:w-[650px] h-[340px] sm:h-[650px] bg-red-600/10 rounded-full blur-[110px] sm:blur-[170px] pointer-events-none" />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.6 }}
-        className="relative z-10 space-y-8 sm:space-y-12"
+        className="relative z-10 w-full max-w-full space-y-6 sm:space-y-12"
       >
         {/* Section Header: Centered with Signature Red/Rose/Amber Gradient */}
-        <div className="text-center space-y-2.5 sm:space-y-3 mb-8 sm:mb-12">
+        <div className="text-center space-y-2.5 sm:space-y-3 mb-6 sm:mb-12">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/20 text-xs font-semibold text-red-400 uppercase tracking-wider mb-1">
             <FaGithub className="w-3.5 h-3.5" />
             <span>Open Source & Activity</span>
           </div>
-          <h2 className="section-title mb-0 text-center">
+          <h2 className="section-title mb-0 text-center break-words">
             GitHub Activity &{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-rose-500 to-amber-500 drop-shadow-[0_0_30px_rgba(239,68,68,0.35)]">
               Streak
@@ -282,55 +282,55 @@ export default function GithubSection({
         </div>
 
         {/* 3 Metric Summary Cards with Harmonized Palette */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-5 w-full max-w-full">
           {/* Card 1: Total Contributions */}
-          <div className="relative bg-[#0d121f]/90 border border-gray-800/90 rounded-2xl p-4 sm:p-6 flex items-center gap-3.5 sm:gap-4 shadow-xl hover:border-red-500/40 transition-colors">
+          <div className="relative bg-[#0d121f]/90 border border-gray-800/90 rounded-2xl p-4 sm:p-6 flex items-center gap-3.5 sm:gap-4 shadow-xl hover:border-red-500/40 transition-colors w-full min-w-0">
             <div className="p-2.5 sm:p-3.5 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 shrink-0">
               <GitCommit className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
-            <div>
-              <div className="text-xl sm:text-3xl font-black text-white">
+            <div className="min-w-0">
+              <div className="text-xl sm:text-3xl font-black text-white truncate">
                 {data?.totalContributions || 574}
               </div>
-              <p className="text-[11px] sm:text-xs text-gray-400 font-medium">
+              <p className="text-[11px] sm:text-xs text-gray-400 font-medium truncate">
                 Contributions in {selectedYear === "last" ? "the last year" : selectedYear}
               </p>
             </div>
           </div>
 
           {/* Card 2: Current Streak */}
-          <div className="relative bg-[#0d121f]/90 border border-gray-800/90 rounded-2xl p-4 sm:p-6 flex items-center gap-3.5 sm:gap-4 shadow-xl hover:border-rose-500/40 transition-colors">
+          <div className="relative bg-[#0d121f]/90 border border-gray-800/90 rounded-2xl p-4 sm:p-6 flex items-center gap-3.5 sm:gap-4 shadow-xl hover:border-rose-500/40 transition-colors w-full min-w-0">
             <div className="p-2.5 sm:p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 shrink-0">
               <Flame className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
-            <div>
+            <div className="min-w-0">
               <div className="text-xl sm:text-3xl font-black text-white flex items-center gap-1.5">
                 <span>{data?.currentStreak || 12}</span>
                 <span className="text-xs sm:text-sm font-semibold text-gray-400">Days</span>
               </div>
-              <p className="text-[11px] sm:text-xs text-gray-400 font-medium">Active Daily Streak</p>
+              <p className="text-[11px] sm:text-xs text-gray-400 font-medium truncate">Active Daily Streak</p>
             </div>
           </div>
 
           {/* Card 3: Longest Streak */}
-          <div className="relative bg-[#0d121f]/90 border border-gray-800/90 rounded-2xl p-4 sm:p-6 flex items-center gap-3.5 sm:gap-4 shadow-xl hover:border-amber-500/40 transition-colors">
+          <div className="relative bg-[#0d121f]/90 border border-gray-800/90 rounded-2xl p-4 sm:p-6 flex items-center gap-3.5 sm:gap-4 shadow-xl hover:border-amber-500/40 transition-colors w-full min-w-0">
             <div className="p-2.5 sm:p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 shrink-0">
               <Trophy className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
-            <div>
+            <div className="min-w-0">
               <div className="text-xl sm:text-3xl font-black text-white flex items-center gap-1.5">
                 <span>{data?.longestStreak || 28}</span>
                 <span className="text-xs sm:text-sm font-semibold text-gray-400">Days</span>
               </div>
-              <p className="text-[11px] sm:text-xs text-gray-400 font-medium">Longest Recorded Streak</p>
+              <p className="text-[11px] sm:text-xs text-gray-400 font-medium truncate">Longest Recorded Streak</p>
             </div>
           </div>
         </div>
 
         {/* GitHub Heatmap Calendar Container */}
-        <div className="bg-[#0b0f19] border border-gray-800/90 rounded-2xl sm:rounded-3xl p-3.5 sm:p-8 shadow-2xl relative">
+        <div className="bg-[#0b0f19] border border-gray-800/90 rounded-2xl sm:rounded-3xl p-3.5 sm:p-8 shadow-2xl relative w-full max-w-full overflow-hidden">
           {/* Top Bar: Title + Year Selector Buttons */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-4 sm:pb-6 border-b border-gray-800/70 gap-3 sm:gap-4">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-4 sm:pb-6 border-b border-gray-800/70 gap-3 sm:gap-4 w-full">
             <div>
               <h3 className="text-sm sm:text-lg font-bold text-gray-100 flex items-center gap-2">
                 <Calendar className="w-4 h-4 text-rose-400 shrink-0" />
@@ -370,7 +370,7 @@ export default function GithubSection({
           {/* Heatmap Grid Viewport with Ref for Auto-Scroll to Right */}
           <div
             ref={heatmapScrollRef}
-            className="relative mt-2 sm:mt-6 overflow-x-auto pb-3 sm:pb-4 scrollbar-thin scroll-smooth"
+            className="relative w-full max-w-full mt-2 sm:mt-6 overflow-x-auto pb-3 sm:pb-4 scrollbar-thin scroll-smooth"
             style={{ WebkitOverflowScrolling: "touch" }}
           >
             {loading ? (
@@ -378,7 +378,7 @@ export default function GithubSection({
                 Loading contribution graph...
               </div>
             ) : (
-              <div className="min-w-[720px] select-none py-1">
+              <div className="w-max min-w-[700px] select-none py-1">
                 {/* Month labels */}
                 <div className="relative h-5 text-[11px] text-gray-400 ml-8 flex">
                   {monthLabels.map((lbl, i) => (
