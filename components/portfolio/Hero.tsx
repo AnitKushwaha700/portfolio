@@ -333,24 +333,34 @@ export default function Hero({ settings }: HeroProps) {
                   </motion.div>
                 </div>
 
-                {/* 3. Profile Image with Seamless 4-Sided Feather Mask (No Hard Borders) */}
+                {/* 3. Profile Image with Multi-Layer Soft Torso & Silhouette Vignette */}
                 <div
                   className="relative w-full h-full z-10 flex items-end justify-center select-none"
                   style={{
                     maskImage:
-                      "radial-gradient(ellipse 70% 68% at 50% 48%, black 45%, rgba(0,0,0,0.8) 65%, transparent 95%)",
+                      "linear-gradient(to top, transparent 0%, transparent 8%, rgba(0,0,0,0.3) 20%, black 36%, black 100%)",
                     WebkitMaskImage:
-                      "radial-gradient(ellipse 70% 68% at 50% 48%, black 45%, rgba(0,0,0,0.8) 65%, transparent 95%)",
+                      "linear-gradient(to top, transparent 0%, transparent 8%, rgba(0,0,0,0.3) 20%, black 36%, black 100%)",
                   }}
                 >
-                  <Image
-                    src={profileImage}
-                    alt={hero.name}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-contain object-bottom select-none pointer-events-none"
-                    priority
-                  />
+                  <div
+                    className="relative w-full h-full flex items-end justify-center"
+                    style={{
+                      maskImage:
+                        "radial-gradient(ellipse 88% 80% at 50% 32%, black 48%, rgba(0,0,0,0.7) 70%, transparent 95%)",
+                      WebkitMaskImage:
+                        "radial-gradient(ellipse 88% 80% at 50% 32%, black 48%, rgba(0,0,0,0.7) 70%, transparent 95%)",
+                    }}
+                  >
+                    <Image
+                      src={profileImage}
+                      alt={hero.name}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                      className="object-contain object-bottom select-none pointer-events-none drop-shadow-[0_20px_45px_rgba(0,0,0,0.85)] drop-shadow-[0_0_35px_rgba(6,182,212,0.25)]"
+                      priority
+                    />
+                  </div>
                 </div>
 
                 {/* 4. Foreground Volumetric Smoke Group (In Front of Waist, Lower Torso & Arms) */}
@@ -431,9 +441,9 @@ export default function Hero({ settings }: HeroProps) {
                   className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[160%] max-w-[800px] h-[30%] pointer-events-none select-none z-25"
                   style={{
                     maskImage:
-                      "radial-gradient(ellipse 70% 60% at 50% 70%, black 30%, transparent 85%)",
+                      "linear-gradient(to top, transparent 0%, transparent 6%, rgba(0,0,0,0.4) 18%, black 38%, black 70%, transparent 100%)",
                     WebkitMaskImage:
-                      "radial-gradient(ellipse 70% 60% at 50% 70%, black 30%, transparent 85%)",
+                      "linear-gradient(to top, transparent 0%, transparent 6%, rgba(0,0,0,0.4) 18%, black 38%, black 70%, transparent 100%)",
                   }}
                 >
                   {/* Ground Smoke Layer 1 — slow creep */}
@@ -448,6 +458,12 @@ export default function Hero({ settings }: HeroProps) {
                       duration: 12,
                       repeat: Infinity,
                       ease: "easeInOut",
+                    }}
+                    style={{
+                      maskImage:
+                        "radial-gradient(ellipse 55% 45% at 50% 50%, black 25%, transparent 75%)",
+                      WebkitMaskImage:
+                        "radial-gradient(ellipse 55% 45% at 50% 50%, black 25%, transparent 75%)",
                     }}
                     className="absolute inset-0 mix-blend-screen filter brightness-[115%]"
                   >
@@ -473,6 +489,12 @@ export default function Hero({ settings }: HeroProps) {
                       duration: 16,
                       repeat: Infinity,
                       ease: "easeInOut",
+                    }}
+                    style={{
+                      maskImage:
+                        "radial-gradient(ellipse 52% 42% at 50% 50%, black 20%, transparent 72%)",
+                      WebkitMaskImage:
+                        "radial-gradient(ellipse 52% 42% at 50% 50%, black 20%, transparent 72%)",
                     }}
                     className="absolute inset-0 mix-blend-screen filter brightness-[115%] scale-x-[-1]"
                   >

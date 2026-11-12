@@ -359,8 +359,8 @@ export default function Projects({ projects }: ProjectsProps) {
                         </span>
                       </div>
 
-                      {/* Center Graphic / Illustration Area — Proportionate & Compact */}
-                      <div className="relative h-28 sm:h-36 w-full flex items-center justify-center overflow-hidden my-1 sm:my-1.5 rounded-xl bg-gradient-to-b from-white/[0.03] to-transparent border border-white/[0.03]">
+                      {/* Project Preview Image Container — Edge-to-Edge Full Display, Border Hidden */}
+                      <div className="relative h-36 sm:h-44 w-full flex items-center justify-center overflow-hidden my-1.5 sm:my-2 rounded-xl bg-[#0b0f19]">
                         {formattedSrc ? (
                           <Image
                             src={formattedSrc}
@@ -368,7 +368,7 @@ export default function Projects({ projects }: ProjectsProps) {
                             fill
                             unoptimized={isExternal}
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                            className="object-contain p-2 sm:p-2.5 group-hover:scale-105 transition-transform duration-500 pointer-events-none"
+                            className="object-cover object-top group-hover:scale-105 transition-transform duration-500 pointer-events-none"
                           />
                         ) : (
                           <ProjectGraphicFallback slug={project.slug} title={project.title} />
