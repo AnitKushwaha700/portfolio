@@ -311,7 +311,7 @@ export default function Projects({ projects }: ProjectsProps) {
           <button
             onClick={() => advance("left")}
             aria-label="Previous Project"
-            className="absolute left-0 sm:left-0.5 lg:left-1 top-1/2 -translate-y-1/2 z-30 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#0d121f]/95 border border-gray-700/80 text-gray-200 hover:text-white hover:border-red-500/80 hover:bg-red-500/20 hover:scale-110 active:scale-95 transition-all duration-300 shadow-2xl shadow-black/90 backdrop-blur-md cursor-pointer flex items-center justify-center group"
+            className="absolute left-0 sm:left-0.5 lg:left-1 top-1/2 -translate-y-1/2 z-30 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/95 dark:bg-[#0d121f]/95 border border-slate-300 dark:border-gray-700/80 text-slate-700 dark:text-gray-200 hover:text-red-600 dark:hover:text-white hover:border-red-500/80 hover:bg-red-50 dark:hover:bg-red-500/20 hover:scale-110 active:scale-95 transition-all duration-300 shadow-md dark:shadow-2xl dark:shadow-black/90 backdrop-blur-md cursor-pointer flex items-center justify-center group"
           >
             <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 group-hover:-translate-x-0.5 transition-transform" />
           </button>
@@ -350,17 +350,17 @@ export default function Projects({ projects }: ProjectsProps) {
                     className="flex-shrink-0 w-full sm:w-[calc(50%-10px)] lg:w-[calc(33.333%-14px)] snap-start group relative min-w-0 max-w-full"
                   >
                     {/* Compact, Sleek Project Card Matching Other Portfolio Features */}
-                    <div className="relative h-full bg-[#0d121f]/90 border border-gray-800/90 rounded-2xl p-4 sm:p-5 flex flex-col justify-between overflow-hidden shadow-xl transition-all duration-300 group-hover:border-red-500/50 group-hover:shadow-[0_0_25px_rgba(239,68,68,0.15)]">
+                    <div className="relative h-full bg-white/95 dark:bg-[#0d121f]/90 border border-slate-200 dark:border-gray-800/90 rounded-2xl p-4 sm:p-5 flex flex-col justify-between overflow-hidden shadow-md dark:shadow-xl transition-all duration-300 group-hover:border-red-500/50 group-hover:shadow-[0_15px_30px_rgba(239,68,68,0.12)] dark:group-hover:shadow-[0_0_25px_rgba(239,68,68,0.15)]">
                       {/* Top Badge: Consistent Sequence & Harmonized Palette with Live Indicator */}
                       <div className="flex justify-center mb-2">
-                        <span className="px-2.5 py-0.5 text-[10px] sm:text-[11px] font-semibold rounded-full border bg-red-500/10 text-red-400 border-red-500/30 transition-colors flex items-center gap-1.5">
+                        <span className="px-2.5 py-0.5 text-[10px] sm:text-[11px] font-semibold rounded-full border bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 border-red-200/80 dark:border-red-500/30 transition-colors flex items-center gap-1.5">
                           <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
                           <span>{badgeLabel}</span>
                         </span>
                       </div>
 
                       {/* Project Preview Image Container — Edge-to-Edge Full Display, Border Hidden */}
-                      <div className="relative h-36 sm:h-44 w-full flex items-center justify-center overflow-hidden my-1.5 sm:my-2 rounded-xl bg-[#0b0f19]">
+                      <div className="relative h-36 sm:h-44 w-full flex items-center justify-center overflow-hidden my-1.5 sm:my-2 rounded-xl bg-slate-100 dark:bg-[#0b0f19]">
                         {formattedSrc ? (
                           <Image
                             src={formattedSrc}
@@ -377,10 +377,10 @@ export default function Projects({ projects }: ProjectsProps) {
 
                       {/* Title & Short Description */}
                       <div className="text-center mt-1.5 sm:mt-2">
-                        <h3 className="text-sm sm:text-base font-bold text-gray-100 group-hover:text-red-400 transition-colors line-clamp-1">
+                        <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-gray-100 group-hover:text-red-500 dark:group-hover:text-red-400 transition-colors line-clamp-1">
                           {project.title}
                         </h3>
-                        <p className="text-xs text-gray-400 mt-1 line-clamp-2 leading-relaxed">
+                        <p className="text-xs text-slate-600 dark:text-gray-400 mt-1 line-clamp-2 leading-relaxed">
                           {project.description}
                         </p>
                       </div>
@@ -390,7 +390,7 @@ export default function Projects({ projects }: ProjectsProps) {
                         {(project.technologies || []).slice(0, 4).map((tech: string) => (
                           <span
                             key={tech}
-                            className="py-1 px-2 text-center text-[10px] sm:text-[11px] font-medium text-gray-300 bg-white/[0.03] border border-gray-800 rounded-full hover:border-gray-700 transition-colors truncate"
+                            className="py-1 px-2 text-center text-[10px] sm:text-[11px] font-medium text-slate-700 dark:text-gray-300 bg-slate-100/90 dark:bg-white/[0.03] border border-slate-200 dark:border-gray-800 rounded-full hover:border-slate-300 dark:hover:border-gray-700 transition-colors truncate"
                           >
                             {tech}
                           </span>
@@ -398,7 +398,7 @@ export default function Projects({ projects }: ProjectsProps) {
                       </div>
 
                       {/* Mobile Action Bar */}
-                      <div className="flex sm:hidden items-center justify-between mt-3 pt-2.5 border-t border-gray-800/70">
+                      <div className="flex sm:hidden items-center justify-between mt-3 pt-2.5 border-t border-slate-200/80 dark:border-gray-800/70">
                         <Link
                           href={`/projects/${project.slug}`}
                           className="px-2.5 py-1 rounded-lg bg-red-500/10 border border-red-500/20 text-xs font-semibold text-red-400 hover:text-red-300 flex items-center gap-1 transition-colors active:scale-95"
@@ -479,7 +479,7 @@ export default function Projects({ projects }: ProjectsProps) {
           <button
             onClick={() => advance("right")}
             aria-label="Next Project"
-            className="absolute right-0.5 sm:right-1 lg:right-2 top-1/2 -translate-y-1/2 z-30 w-8 h-8 sm:w-11 sm:h-11 rounded-full bg-[#0d121f]/95 border border-gray-700/80 text-gray-200 hover:text-white hover:border-red-500/80 hover:bg-red-500/20 hover:scale-110 active:scale-95 transition-all duration-300 shadow-2xl shadow-black/90 backdrop-blur-md cursor-pointer flex items-center justify-center group"
+            className="absolute right-0.5 sm:right-1 lg:right-2 top-1/2 -translate-y-1/2 z-30 w-8 h-8 sm:w-11 sm:h-11 rounded-full bg-white/95 dark:bg-[#0d121f]/95 border border-slate-300 dark:border-gray-700/80 text-slate-700 dark:text-gray-200 hover:text-red-600 dark:hover:text-white hover:border-red-500/80 hover:bg-red-50 dark:hover:bg-red-500/20 hover:scale-110 active:scale-95 transition-all duration-300 shadow-md dark:shadow-2xl dark:shadow-black/90 backdrop-blur-md cursor-pointer flex items-center justify-center group"
           >
             <ChevronRight className="w-4 h-4 sm:w-6 sm:h-6 group-hover:translate-x-0.5 transition-transform" />
           </button>

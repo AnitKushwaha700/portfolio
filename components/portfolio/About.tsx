@@ -9,19 +9,22 @@ export default function About({ settings }: { settings: any }) {
       icon: GraduationCap,
       title: "B.Tech in CSE",
       desc: "Computer Science Engineering graduate with deep focus on algorithms, data structures & software architecture.",
-      color: "from-red-500/20 to-rose-500/10 text-red-400 border-red-500/30",
+      color:
+        "from-red-50 to-rose-50 text-red-600 border-red-200/80 dark:from-red-500/20 dark:to-rose-500/10 dark:text-red-400 dark:border-red-500/30",
     },
     {
       icon: Code2,
       title: "Frontend Engineering",
       desc: "Crafting reactive, pixel-perfect user interfaces with React.js, Next.js, TypeScript, and modern CSS systems.",
-      color: "from-red-500/20 to-rose-500/10 text-red-400 border-red-500/30",
+      color:
+        "from-red-50 to-rose-50 text-red-600 border-red-200/80 dark:from-red-500/20 dark:to-rose-500/10 dark:text-red-400 dark:border-red-500/30",
     },
     {
       icon: Server,
       title: "Scalable Backends",
       desc: "Architecting secure RESTful APIs, authentication workflows, and robust databases with Node.js & MongoDB.",
-      color: "from-red-500/20 to-rose-500/10 text-red-400 border-red-500/30",
+      color:
+        "from-red-50 to-rose-50 text-red-600 border-red-200/80 dark:from-red-500/20 dark:to-rose-500/10 dark:text-red-400 dark:border-red-500/30",
     },
   ];
 
@@ -48,9 +51,9 @@ export default function About({ settings }: { settings: any }) {
         </div>
 
         {/* Narrative Bio Card */}
-        <div className="card p-5 sm:p-8 md:p-10 border border-gray-800/90 bg-[#0d0e19]/80 backdrop-blur-xl shadow-2xl shadow-black/80 rounded-2xl relative overflow-hidden group">
+        <div className="card p-5 sm:p-8 md:p-10 border border-slate-200/90 dark:border-gray-800/90 bg-white/90 dark:bg-[#0d0e19]/80 backdrop-blur-xl shadow-lg dark:shadow-2xl dark:shadow-black/80 rounded-2xl relative overflow-hidden group">
           <div className="absolute top-0 right-0 w-80 h-80 bg-red-600/5 rounded-full blur-3xl pointer-events-none group-hover:bg-red-600/10 transition-colors" />
-          <p className="text-base sm:text-lg text-gray-300 leading-relaxed relative z-10 font-normal whitespace-pre-line">
+          <p className="text-base sm:text-lg text-slate-700 dark:text-gray-300 leading-relaxed relative z-10 font-normal whitespace-pre-line">
             {settings?.about?.content ||
               "Passionate software engineer building modern full-stack web applications."}
           </p>
@@ -75,10 +78,10 @@ export default function About({ settings }: { settings: any }) {
                   >
                     <Icon className="w-6 h-6" />
                   </div>
-                  <h3 className="text-lg font-bold text-white group-hover:text-red-400 transition-colors">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-red-500 transition-colors">
                     {item.title}
                   </h3>
-                  <p className="text-sm text-gray-400 leading-relaxed">
+                  <p className="text-sm text-slate-600 dark:text-gray-400 leading-relaxed">
                     {item.desc}
                   </p>
                 </div>

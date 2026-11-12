@@ -71,7 +71,7 @@ export default function Hackathons({
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="card group overflow-hidden flex flex-col justify-between p-5 sm:p-7 card-hover border border-gray-800/90 hover:border-red-500/40 bg-[#0d0e19]/80 backdrop-blur-xl relative"
+                className="card group overflow-hidden flex flex-col justify-between p-5 sm:p-7 card-hover border border-slate-200/90 dark:border-gray-800/90 hover:border-red-500/40 bg-white/95 dark:bg-[#0d0e19]/80 backdrop-blur-xl relative"
               >
                 {/* Subtle ambient glow */}
                 <div className="absolute top-0 right-0 w-48 h-48 bg-red-600/5 rounded-full blur-3xl pointer-events-none group-hover:bg-red-600/10 transition-colors" />
@@ -79,14 +79,14 @@ export default function Hackathons({
                 <div>
                   <div className="flex justify-between items-start mb-4 gap-3">
                     <div className="flex items-start gap-3.5">
-                      <div className="p-3 rounded-2xl bg-red-500/10 border border-red-500/20 text-red-400 group-hover:scale-110 group-hover:border-red-500/40 transition-all flex-shrink-0 mt-0.5">
-                        <Trophy className="w-5 h-5 text-red-400" />
+                      <div className="p-3 rounded-2xl bg-red-50 dark:bg-red-500/10 border border-red-200/80 dark:border-red-500/20 text-red-600 dark:text-red-400 group-hover:scale-110 group-hover:border-red-500/40 transition-all flex-shrink-0 mt-0.5">
+                        <Trophy className="w-5 h-5 text-red-600 dark:text-red-400" />
                       </div>
                       <div>
-                        <h3 className="text-xl font-bold text-gray-100 group-hover:text-red-400 transition-colors tracking-tight">
+                        <h3 className="text-xl font-bold text-slate-900 dark:text-gray-100 group-hover:text-red-500 dark:group-hover:text-red-400 transition-colors tracking-tight">
                           {hackathon.title}
                         </h3>
-                        <h4 className="text-sm font-medium text-red-400/90 mt-1">
+                        <h4 className="text-sm font-semibold text-red-600 dark:text-red-400/90 mt-1">
                           {hackathon.organization}
                         </h4>
                       </div>
@@ -97,26 +97,26 @@ export default function Hackathons({
                         target="_blank"
                         rel="noreferrer"
                         aria-label="External link"
-                        className="p-2 rounded-lg bg-gray-800/60 hover:bg-gray-800 text-gray-400 hover:text-white transition-colors shrink-0 border border-gray-700/40"
+                        className="p-2 rounded-lg bg-slate-100 dark:bg-gray-800/60 hover:bg-slate-200 dark:hover:bg-gray-800 text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white transition-colors shrink-0 border border-slate-200 dark:border-gray-700/40"
                       >
                         <ExternalLink className="w-4 h-4" />
                       </a>
                     )}
                   </div>
 
-                  <p className="text-gray-400 text-sm mb-6 leading-relaxed line-clamp-3">
+                  <p className="text-slate-600 dark:text-gray-400 text-sm mb-6 leading-relaxed line-clamp-3">
                     {hackathon.description}
                   </p>
 
                   <div className="flex flex-wrap gap-2 mb-6">
                     {hackathon.date && (
-                      <div className="flex items-center px-2.5 py-1 bg-red-500/10 text-rose-300 text-xs font-medium rounded-lg border border-red-500/20">
+                      <div className="flex items-center px-2.5 py-1 bg-rose-50 dark:bg-red-500/10 text-rose-700 dark:text-rose-300 text-xs font-medium rounded-lg border border-rose-200/80 dark:border-red-500/20">
                         <Calendar className="w-3.5 h-3.5 mr-1.5 opacity-70" />
                         {hackathon.date}
                       </div>
                     )}
                     {hackathon.location && (
-                      <div className="flex items-center px-2.5 py-1 bg-red-500/10 text-rose-300 text-xs font-medium rounded-lg border border-red-500/20">
+                      <div className="flex items-center px-2.5 py-1 bg-rose-50 dark:bg-red-500/10 text-rose-700 dark:text-rose-300 text-xs font-medium rounded-lg border border-rose-200/80 dark:border-red-500/20">
                         <MapPin className="w-3.5 h-3.5 mr-1.5 opacity-70" />
                         {hackathon.location}
                       </div>
@@ -124,7 +124,7 @@ export default function Hackathons({
                   </div>
                 </div>
 
-                <div className="pt-4 border-t border-gray-800/80 flex flex-wrap justify-between items-center gap-3">
+                <div className="pt-4 border-t border-slate-200/80 dark:border-gray-800/80 flex flex-wrap justify-between items-center gap-3">
                   {hackathon.slug ? (
                     <Link
                       href={`/hackathons/${hackathon.slug}`}

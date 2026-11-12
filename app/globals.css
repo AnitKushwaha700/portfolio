@@ -76,6 +76,10 @@ html.light {
 html.light body {
   background-color: #f8fafc !important;
   color: #0f172a !important;
+  background-image: radial-gradient(at 15% 15%, rgba(239, 68, 68, 0.035) 0px, transparent 55%),
+                    radial-gradient(at 85% 85%, rgba(245, 158, 11, 0.025) 0px, transparent 55%),
+                    radial-gradient(at 50% 50%, rgba(59, 130, 246, 0.02) 0px, transparent 65%) !important;
+  background-attachment: fixed;
 }
 
 /* Section titles in light theme */

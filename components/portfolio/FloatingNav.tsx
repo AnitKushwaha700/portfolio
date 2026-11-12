@@ -85,7 +85,7 @@ export default function FloatingNav() {
   return (
     <aside
       aria-label="Quick section navigation"
-      className="fixed right-4 lg:right-6 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col items-center gap-2 p-2 rounded-full bg-[#0a0b12]/80 backdrop-blur-xl border border-gray-800/80 shadow-2xl shadow-black/80"
+      className="fixed right-4 lg:right-6 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col items-center gap-2 p-2 rounded-full bg-white/90 dark:bg-[#0a0b12]/80 backdrop-blur-xl border border-slate-200 dark:border-gray-800/80 shadow-xl shadow-slate-900/10 dark:shadow-2xl dark:shadow-black/80"
     >
       {navItems.map((item) => {
         const Icon = item.icon;
@@ -98,15 +98,15 @@ export default function FloatingNav() {
             onClick={(e) => handleNavClick(e, item.id)}
             className={`group relative p-2.5 rounded-full transition-all duration-300 cursor-pointer ${
               isActive
-                ? "bg-red-600/90 text-white shadow-lg shadow-red-600/40 scale-110"
-                : "text-gray-400 hover:text-white hover:bg-white/5"
+                ? "bg-gradient-to-tr from-red-600 via-rose-600 to-amber-600 text-white shadow-md shadow-red-600/40 scale-110"
+                : "text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5"
             }`}
             aria-label={item.label}
           >
             <Icon className="w-4 h-4 transition-transform group-hover:scale-110" />
 
             {/* Hover Tooltip */}
-            <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2 px-2.5 py-1 text-[11px] font-medium tracking-wide text-gray-200 bg-gray-950/95 border border-gray-800 rounded-md whitespace-nowrap opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-200 shadow-xl">
+            <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2 px-2.5 py-1 text-[11px] font-medium tracking-wide text-white bg-slate-900/95 border border-slate-700 rounded-md whitespace-nowrap opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-200 shadow-xl">
               {item.label}
             </span>
           </a>

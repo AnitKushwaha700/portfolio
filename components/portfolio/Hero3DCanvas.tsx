@@ -524,8 +524,7 @@ export default function Hero3DCanvas() {
     >
       <canvas
         ref={canvasRef}
-        className="w-full h-full block"
-        style={{ opacity: 0.95 }}
+        className="w-full h-full block opacity-75 dark:opacity-95 transition-opacity duration-500"
       />
     </div>
   );

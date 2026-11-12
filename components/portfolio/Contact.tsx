@@ -53,14 +53,14 @@ export default function Contact({ settings }: ContactProps) {
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-red-600/10 rounded-full blur-3xl pointer-events-none group-hover:bg-red-600/15 transition-colors" />
 
           {/* Icon Badge */}
-          <div className="w-16 h-16 bg-red-500/10 rounded-2xl flex items-center justify-center mb-6 border border-red-500/30 text-red-400 group-hover:scale-110 transition-transform">
+          <div className="w-16 h-16 bg-red-50 dark:bg-red-500/10 rounded-2xl flex items-center justify-center mb-6 border border-red-200/80 dark:border-red-500/30 text-red-600 dark:text-red-400 group-hover:scale-110 transition-transform">
             <MessageSquare className="w-8 h-8" />
           </div>
 
-          <h3 className="text-2xl sm:text-3xl font-extrabold text-white mb-3 tracking-tight">
+          <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mb-3 tracking-tight">
             Let&apos;s Start a Conversation
           </h3>
-          <p className="text-gray-300 mb-9 max-w-lg text-sm sm:text-base leading-relaxed">
+          <p className="text-slate-600 dark:text-gray-300 mb-9 max-w-lg text-sm sm:text-base leading-relaxed">
             Whether you have a job opportunity, a project to discuss, or just
             want to say hi, my inbox is always open!
           </p>
@@ -70,25 +70,25 @@ export default function Contact({ settings }: ContactProps) {
             {/* Copy Email Button */}
             <button
               onClick={() => copy(email)}
-              className="flex-1 flex items-center justify-between gap-3 px-5 py-4 rounded-xl bg-[#141624]/90 hover:bg-[#191b2e] border border-gray-800 hover:border-red-500/50 text-gray-200 transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer group/btn"
+              className="flex-1 flex items-center justify-between gap-3 px-5 py-4 rounded-xl bg-slate-100 dark:bg-[#141624]/90 hover:bg-slate-200 dark:hover:bg-[#191b2e] border border-slate-200 dark:border-gray-800 hover:border-red-500/50 text-slate-800 dark:text-gray-200 transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer group/btn"
               title="Click to copy email address"
               aria-label={`Copy email address: ${email}`}
             >
               <div className="flex items-center gap-3">
-                <Mail className="w-5 h-5 text-red-400 group-hover/btn:scale-110 transition-transform" />
+                <Mail className="w-5 h-5 text-red-600 dark:text-red-400 group-hover/btn:scale-110 transition-transform" />
                 <span className="text-xs sm:text-sm font-medium truncate">
                   {email}
                 </span>
               </div>
-              <div className="shrink-0 text-xs font-semibold px-2.5 py-1 rounded-md bg-white/5 border border-white/10 text-gray-300 flex items-center gap-1.5">
+              <div className="shrink-0 text-xs font-semibold px-2.5 py-1 rounded-md bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-gray-300 flex items-center gap-1.5">
                 {copied ? (
                   <>
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                    <span className="text-emerald-400">Copied!</span>
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
+                    <span className="text-emerald-600 dark:text-emerald-400">Copied!</span>
                   </>
                 ) : (
                   <>
-                    <Copy className="w-3.5 h-3.5 text-gray-400" />
+                    <Copy className="w-3.5 h-3.5 text-slate-500 dark:text-gray-400" />
                     <span>Copy</span>
                   </>
                 )}
@@ -99,10 +99,10 @@ export default function Contact({ settings }: ContactProps) {
             {phone && (
               <a
                 href={`tel:${phone}`}
-                className="flex items-center justify-center gap-3 px-5 py-4 rounded-xl bg-[#141624]/90 hover:bg-[#191b2e] border border-gray-800 hover:border-red-500/50 text-gray-200 transition-all hover:scale-[1.02] active:scale-[0.98]"
+                className="flex items-center justify-center gap-3 px-5 py-4 rounded-xl bg-slate-100 dark:bg-[#141624]/90 hover:bg-slate-200 dark:hover:bg-[#191b2e] border border-slate-200 dark:border-gray-800 hover:border-red-500/50 text-slate-800 dark:text-gray-200 transition-all hover:scale-[1.02] active:scale-[0.98]"
                 aria-label={`Call phone number: ${phone}`}
               >
-                <Phone className="w-5 h-5 text-red-400" />
+                <Phone className="w-5 h-5 text-red-600 dark:text-red-400" />
                 <span className="text-xs sm:text-sm font-medium">{phone}</span>
               </a>
             )}
@@ -126,7 +126,7 @@ export default function Contact({ settings }: ContactProps) {
                   href={github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-3.5 rounded-full bg-white/5 border border-gray-800 text-gray-400 hover:text-white hover:border-red-500/50 hover:bg-red-500/10 transition-all duration-300 hover:scale-110 active:scale-95"
+                  className="p-3.5 rounded-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-gray-800 text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white hover:border-red-500/50 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all duration-300 hover:scale-110 active:scale-95"
                   aria-label="GitHub Profile"
                 >
                   <FaGithub className="w-4 h-4" />
@@ -137,7 +137,7 @@ export default function Contact({ settings }: ContactProps) {
                   href={linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-3.5 rounded-full bg-white/5 border border-gray-800 text-gray-400 hover:text-white hover:border-red-500/50 hover:bg-red-500/10 transition-all duration-300 hover:scale-110 active:scale-95"
+                  className="p-3.5 rounded-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-gray-800 text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white hover:border-red-500/50 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all duration-300 hover:scale-110 active:scale-95"
                   aria-label="LinkedIn Profile"
                 >
                   <FaLinkedin className="w-4 h-4" />

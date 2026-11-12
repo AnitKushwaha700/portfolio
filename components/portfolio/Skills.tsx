@@ -80,14 +80,14 @@ export default function Skills({ skills }: { skills: any[] }) {
                     {/* Header with Icon and Badge */}
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-red-500/10 border border-red-500/30 flex items-center justify-center text-red-400 group-hover:scale-110 group-hover:bg-red-500/20 transition-all">
+                        <div className="w-10 h-10 rounded-xl bg-red-50 dark:bg-red-500/10 border border-red-200/80 dark:border-red-500/30 flex items-center justify-center text-red-600 dark:text-red-400 group-hover:scale-110 group-hover:bg-red-100 dark:group-hover:bg-red-500/20 transition-all">
                           <Icon className="w-5 h-5" />
                         </div>
-                        <h3 className="text-lg font-bold text-white group-hover:text-red-400 transition-colors">
+                        <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-red-500 dark:group-hover:text-red-400 transition-colors">
                           {category}
                         </h3>
                       </div>
-                      <span className="text-[11px] font-semibold text-gray-400 px-2.5 py-1 rounded-full bg-white/5 border border-gray-800">
+                      <span className="text-[11px] font-semibold text-slate-600 dark:text-gray-400 px-2.5 py-1 rounded-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-gray-800">
                         {skillList.length} skills
                       </span>
                     </div>
@@ -97,7 +97,7 @@ export default function Skills({ skills }: { skills: any[] }) {
                       {skillList.map((skill: any) => (
                         <span
                           key={skill._id || skill.name}
-                          className="px-3 py-1.5 bg-[#141624]/90 text-gray-300 text-xs font-medium rounded-lg border border-gray-800/90 hover:border-red-500/60 hover:bg-red-500/10 hover:text-white transition-all hover:scale-105 cursor-default"
+                          className="px-3 py-1.5 bg-slate-100/90 dark:bg-[#141624]/90 text-slate-700 dark:text-gray-300 text-xs font-medium rounded-lg border border-slate-200 dark:border-gray-800/90 hover:border-red-500/60 hover:bg-red-50 dark:hover:bg-red-500/10 hover:text-red-600 dark:hover:text-white transition-all hover:scale-105 cursor-default"
                         >
                           {skill.name}
                         </span>

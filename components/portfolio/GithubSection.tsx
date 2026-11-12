@@ -344,68 +344,68 @@ export default function GithubSection({
         {/* 3 Metric Summary Cards — Compact, Proportionate & Harmonized */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-4 w-full">
           {/* Card 1: Total Contributions */}
-          <div className="relative bg-[#0d121f]/90 border border-gray-800/90 rounded-xl sm:rounded-2xl p-3.5 sm:p-4 flex items-center gap-3 sm:gap-3.5 shadow-xl hover:border-red-500/40 transition-colors w-full min-w-0">
-            <div className="p-2 sm:p-2.5 rounded-lg sm:rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 shrink-0">
+          <div className="relative bg-white/95 dark:bg-[#0d121f]/90 border border-slate-200 dark:border-gray-800/90 rounded-xl sm:rounded-2xl p-3.5 sm:p-4 flex items-center gap-3 sm:gap-3.5 shadow-md dark:shadow-xl hover:border-red-500/40 transition-colors w-full min-w-0">
+            <div className="p-2 sm:p-2.5 rounded-lg sm:rounded-xl bg-red-50 dark:bg-red-500/10 border border-red-200/80 dark:border-red-500/20 text-red-600 dark:text-red-400 shrink-0">
               <GitCommit className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
             <div className="min-w-0">
-              <div className="text-xl sm:text-2xl font-black text-white truncate">
+              <div className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white truncate">
                 {displayedTotal}
               </div>
-              <p className="text-[11px] sm:text-xs text-gray-400 font-medium truncate">
+              <p className="text-[11px] sm:text-xs text-slate-600 dark:text-gray-400 font-medium truncate">
                 Contributions in {selectedYear === "last" ? "the last year" : selectedYear}
               </p>
             </div>
           </div>
 
           {/* Card 2: Current Streak */}
-          <div className="relative bg-[#0d121f]/90 border border-gray-800/90 rounded-xl sm:rounded-2xl p-3.5 sm:p-4 flex items-center gap-3 sm:gap-3.5 shadow-xl hover:border-rose-500/40 transition-colors w-full min-w-0">
-            <div className="p-2 sm:p-2.5 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 shrink-0">
+          <div className="relative bg-white/95 dark:bg-[#0d121f]/90 border border-slate-200 dark:border-gray-800/90 rounded-xl sm:rounded-2xl p-3.5 sm:p-4 flex items-center gap-3 sm:gap-3.5 shadow-md dark:shadow-xl hover:border-rose-500/40 transition-colors w-full min-w-0">
+            <div className="p-2 sm:p-2.5 rounded-xl bg-rose-50 dark:bg-rose-500/10 border border-rose-200/80 dark:border-rose-500/20 text-rose-600 dark:text-rose-400 shrink-0">
               <Flame className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
             <div className="min-w-0">
-              <div className="text-xl sm:text-2xl font-black text-white flex items-center gap-1.5">
+              <div className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white flex items-center gap-1.5">
                 <span>{displayedCurrentStreak}</span>
-                <span className="text-xs sm:text-sm font-semibold text-gray-400">Days</span>
+                <span className="text-xs sm:text-sm font-semibold text-slate-600 dark:text-gray-400">Days</span>
               </div>
-              <p className="text-[11px] sm:text-xs text-gray-400 font-medium truncate">Active Daily Streak</p>
+              <p className="text-[11px] sm:text-xs text-slate-600 dark:text-gray-400 font-medium truncate">Active Daily Streak</p>
             </div>
           </div>
 
           {/* Card 3: Longest Streak */}
-          <div className="relative bg-[#0d121f]/90 border border-gray-800/90 rounded-xl sm:rounded-2xl p-3.5 sm:p-4 flex items-center gap-3 sm:gap-3.5 shadow-xl hover:border-amber-500/40 transition-colors w-full min-w-0">
-            <div className="p-2 sm:p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 shrink-0">
+          <div className="relative bg-white/95 dark:bg-[#0d121f]/90 border border-slate-200 dark:border-gray-800/90 rounded-xl sm:rounded-2xl p-3.5 sm:p-4 flex items-center gap-3 sm:gap-3.5 shadow-md dark:shadow-xl hover:border-amber-500/40 transition-colors w-full min-w-0">
+            <div className="p-2 sm:p-2.5 rounded-xl bg-amber-50 dark:bg-amber-500/10 border border-amber-200/80 dark:border-amber-500/20 text-amber-600 dark:text-amber-400 shrink-0">
               <Trophy className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
             <div className="min-w-0">
-              <div className="text-xl sm:text-2xl font-black text-white flex items-center gap-1.5">
+              <div className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white flex items-center gap-1.5">
                 <span>{displayedLongestStreak}</span>
-                <span className="text-xs sm:text-sm font-semibold text-gray-400">Days</span>
+                <span className="text-xs sm:text-sm font-semibold text-slate-600 dark:text-gray-400">Days</span>
               </div>
-              <p className="text-[11px] sm:text-xs text-gray-400 font-medium truncate">Longest Recorded Streak</p>
+              <p className="text-[11px] sm:text-xs text-slate-600 dark:text-gray-400 font-medium truncate">Longest Recorded Streak</p>
             </div>
           </div>
         </div>
 
         {/* GitHub Heatmap Calendar Container */}
-        <div className="bg-[#0b0f19] border border-gray-800/90 rounded-2xl p-3.5 sm:p-6 shadow-2xl relative w-full overflow-hidden">
+        <div className="bg-white/95 dark:bg-[#0b0f19] border border-slate-200 dark:border-gray-800/90 rounded-2xl p-3.5 sm:p-6 shadow-md dark:shadow-2xl relative w-full overflow-hidden">
           {/* Top Bar: Title + Year Selector Buttons */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-3.5 sm:pb-4 border-b border-gray-800/70 gap-3 sm:gap-4 w-full">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-3.5 sm:pb-4 border-b border-slate-200/80 dark:border-gray-800/70 gap-3 sm:gap-4 w-full">
             <div>
-              <h3 className="text-sm sm:text-base font-bold text-gray-100 flex items-center gap-2">
-                <Calendar className="w-4 h-4 text-rose-400 shrink-0" />
+              <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-gray-100 flex items-center gap-2">
+                <Calendar className="w-4 h-4 text-rose-500 dark:text-rose-400 shrink-0" />
                 <span>
                   {displayedTotal} contributions in{" "}
                   {selectedYear === "last" ? "the last year" : selectedYear}
                 </span>
               </h3>
-              <p className="text-[11px] sm:text-xs text-gray-400 mt-0.5">
+              <p className="text-[11px] sm:text-xs text-slate-600 dark:text-gray-400 mt-0.5">
                 Activity synchronized directly with GitHub profile
               </p>
             </div>
 
             {/* Year Selector Buttons: Harmonized Red/Rose Gradient */}
-            <div className="flex items-center gap-1 bg-[#111827] p-1 rounded-xl border border-gray-800 w-full sm:w-auto justify-center">
+            <div className="flex items-center gap-1 bg-slate-100 dark:bg-[#111827] p-1 rounded-xl border border-slate-200 dark:border-gray-800 w-full sm:w-auto justify-center">
               {["2026", "2025", "2024"].map((year) => (
                 <button
                   key={year}
@@ -413,7 +413,7 @@ export default function GithubSection({
                   className={`flex-1 sm:flex-none px-3 py-1 text-xs font-semibold rounded-lg transition-all ${
                     selectedYear === year
                       ? "bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-md shadow-red-600/30"
-                      : "text-gray-400 hover:text-white"
+                      : "text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white"
                   }`}
                 >
                   {year}
@@ -549,8 +549,8 @@ export default function GithubSection({
         <div className="space-y-3.5 sm:space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <BookMarked className="w-4 h-4 sm:w-5 sm:h-5 text-gray-300" />
-              <h3 className="text-base sm:text-lg font-bold text-white tracking-tight">
+              <BookMarked className="w-4 h-4 sm:w-5 sm:h-5 text-slate-500 dark:text-gray-300" />
+              <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white tracking-tight">
                 Pinned Repositories
               </h3>
             </div>
@@ -558,7 +558,7 @@ export default function GithubSection({
               href={`${githubUrl}?tab=repositories`}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs sm:text-sm text-red-400 hover:text-red-300 font-medium inline-flex items-center gap-1 transition-colors"
+              className="text-xs sm:text-sm text-red-600 dark:text-red-400 hover:text-red-500 font-medium inline-flex items-center gap-1 transition-colors"
             >
               <span>View All</span>
               <ExternalLink className="w-3.5 h-3.5" />
@@ -572,32 +572,32 @@ export default function GithubSection({
                 href={repo.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group relative bg-[#0d121f]/90 border border-gray-800/80 rounded-xl p-3.5 sm:p-4 flex flex-col justify-between hover:border-red-500/50 hover:shadow-[0_0_20px_rgba(239,68,68,0.12)] transition-all duration-300 active:scale-[0.99]"
+                className="group relative bg-white/95 dark:bg-[#0d121f]/90 border border-slate-200 dark:border-gray-800/80 rounded-xl p-3.5 sm:p-4 flex flex-col justify-between hover:border-red-500/50 hover:shadow-md dark:hover:shadow-[0_0_20px_rgba(239,68,68,0.12)] transition-all duration-300 active:scale-[0.99]"
               >
                 <div>
                   <div className="flex flex-wrap sm:flex-nowrap items-start sm:items-center justify-between gap-2 mb-1.5">
-                    <div className="flex items-center gap-2 font-bold text-sm sm:text-base text-gray-100 group-hover:text-red-400 transition-colors truncate min-w-0">
-                      <BookMarked className="w-4 h-4 text-gray-400 group-hover:text-red-400 shrink-0" />
+                    <div className="flex items-center gap-2 font-bold text-sm sm:text-base text-slate-900 dark:text-gray-100 group-hover:text-red-500 dark:group-hover:text-red-400 transition-colors truncate min-w-0">
+                      <BookMarked className="w-4 h-4 text-slate-400 dark:text-gray-400 group-hover:text-red-500 dark:group-hover:text-red-400 shrink-0" />
                       <span className="truncate">{repo.fullName || repo.name}</span>
                     </div>
                     <div className="flex items-center gap-1.5 shrink-0 ml-auto sm:ml-0">
                       {repo.tag && (
-                        <span className="px-2 py-0.5 text-[10px] font-semibold text-rose-400 bg-rose-500/10 border border-rose-500/20 rounded-full">
+                        <span className="px-2 py-0.5 text-[10px] font-semibold text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-500/10 border border-rose-200/80 dark:border-rose-500/20 rounded-full">
                           {repo.tag}
                         </span>
                       )}
-                      <span className="px-2 py-0.5 text-[10px] font-medium text-gray-400 bg-gray-800/60 border border-gray-700/60 rounded-full">
+                      <span className="px-2 py-0.5 text-[10px] font-medium text-slate-600 dark:text-gray-400 bg-slate-100 dark:bg-gray-800/60 border border-slate-200 dark:border-gray-700/60 rounded-full">
                         Public
                       </span>
                     </div>
                   </div>
 
-                  <p className="text-xs text-gray-400 line-clamp-2 leading-relaxed mb-3">
+                  <p className="text-xs text-slate-600 dark:text-gray-400 line-clamp-2 leading-relaxed mb-3">
                     {repo.description}
                   </p>
                 </div>
 
-                <div className="flex items-center justify-between text-xs text-gray-400 pt-2.5 border-t border-gray-800/60">
+                <div className="flex items-center justify-between text-xs text-slate-600 dark:text-gray-400 pt-2.5 border-t border-slate-200/80 dark:border-gray-800/60">
                   <div className="flex items-center gap-2">
                     <span
                       className="w-2.5 h-2.5 rounded-full"

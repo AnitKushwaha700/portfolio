@@ -139,13 +139,13 @@ export default function Hero({ settings }: HeroProps) {
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/25 backdrop-blur-md shadow-lg shadow-blue-950/20"
+                className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-blue-500/10 dark:bg-blue-500/10 border border-blue-300/80 dark:border-blue-500/25 backdrop-blur-md shadow-sm dark:shadow-lg dark:shadow-blue-950/20"
               >
                 <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-500 dark:bg-blue-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-600 dark:bg-blue-500"></span>
                 </span>
-                <span className="text-xs font-semibold tracking-wider uppercase text-blue-400">
+                <span className="text-xs font-semibold tracking-wider uppercase text-blue-600 dark:text-blue-400">
                   {hero.statusText}
                 </span>
               </motion.div>

@@ -38,18 +38,18 @@ export default function EducationSection({ education }: { education: any[] }) {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="card p-5 sm:p-6 card-hover flex flex-col h-full"
             >
-              <div className="w-12 h-12 bg-red-500/10 rounded-xl flex items-center justify-center mb-6 border border-red-500/20">
-                <GraduationCap className="w-6 h-6 text-red-400" />
+              <div className="w-12 h-12 bg-red-50 dark:bg-red-500/10 rounded-xl flex items-center justify-center mb-6 border border-red-200/80 dark:border-red-500/20">
+                <GraduationCap className="w-6 h-6 text-red-600 dark:text-red-400" />
               </div>
 
-              <h3 className="text-lg font-bold text-gray-100 mb-1">
+              <h3 className="text-lg font-bold text-slate-900 dark:text-gray-100 mb-1">
                 {edu.degree}
               </h3>
-              <p className="text-red-400 font-medium text-sm mb-4">
+              <p className="text-red-600 dark:text-red-400 font-semibold text-sm mb-4">
                 {edu.institution}
               </p>
 
-              <div className="space-y-2 text-sm text-gray-400 mt-auto pt-4 border-t border-gray-800/50">
+              <div className="space-y-2 text-sm text-slate-600 dark:text-gray-400 mt-auto pt-4 border-t border-slate-200/80 dark:border-gray-800/50">
                 {(edu.startDate || edu.endDate) && (
                   <div className="flex items-center gap-2">
                     <Calendar className="w-4 h-4 shrink-0" />
