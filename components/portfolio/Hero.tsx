@@ -333,14 +333,14 @@ export default function Hero({ settings }: HeroProps) {
                   </motion.div>
                 </div>
 
-                {/* 3. Profile Image with Smooth Bottom Torso Fade */}
+                {/* 3. Profile Image with Seamless 4-Sided Feather Mask (No Hard Borders) */}
                 <div
                   className="relative w-full h-full z-10 flex items-end justify-center select-none"
                   style={{
                     maskImage:
-                      "linear-gradient(to top, transparent 0%, transparent 6%, rgba(0,0,0,0.4) 16%, black 28%, black 100%)",
+                      "radial-gradient(ellipse 70% 68% at 50% 48%, black 45%, rgba(0,0,0,0.8) 65%, transparent 95%)",
                     WebkitMaskImage:
-                      "linear-gradient(to top, transparent 0%, transparent 6%, rgba(0,0,0,0.4) 16%, black 28%, black 100%)",
+                      "radial-gradient(ellipse 70% 68% at 50% 48%, black 45%, rgba(0,0,0,0.8) 65%, transparent 95%)",
                   }}
                 >
                   <Image
@@ -348,7 +348,7 @@ export default function Hero({ settings }: HeroProps) {
                     alt={hero.name}
                     fill
                     sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-contain object-bottom select-none pointer-events-none drop-shadow-[0_20px_45px_rgba(0,0,0,0.85)] drop-shadow-[0_0_35px_rgba(6,182,212,0.25)]"
+                    className="object-contain object-bottom select-none pointer-events-none"
                     priority
                   />
                 </div>
@@ -431,9 +431,9 @@ export default function Hero({ settings }: HeroProps) {
                   className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[160%] max-w-[800px] h-[30%] pointer-events-none select-none z-25"
                   style={{
                     maskImage:
-                      "linear-gradient(to top, transparent 0%, rgba(0,0,0,0.4) 10%, black 25%, black 70%, transparent 100%)",
+                      "radial-gradient(ellipse 70% 60% at 50% 70%, black 30%, transparent 85%)",
                     WebkitMaskImage:
-                      "linear-gradient(to top, transparent 0%, rgba(0,0,0,0.4) 10%, black 25%, black 70%, transparent 100%)",
+                      "radial-gradient(ellipse 70% 60% at 50% 70%, black 30%, transparent 85%)",
                   }}
                 >
                   {/* Ground Smoke Layer 1 — slow creep */}
