@@ -244,7 +244,8 @@ export default function Hero({ settings }: HeroProps) {
               transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
               className="lg:col-span-6 flex items-center justify-center lg:justify-end"
             >
-              <div className="relative h-[50vh] sm:h-[65vh] lg:h-[75vh] xl:h-[80vh] w-full flex items-end justify-center lg:justify-end select-none overflow-hidden">
+              {/* Avatar & Atmosphere Canvas — No hard overflow clipping box */}
+              <div className="relative h-[50vh] sm:h-[65vh] lg:h-[75vh] xl:h-[80vh] w-full flex items-end justify-center lg:justify-end select-none">
                 {/* 1. Underlying Cyan/Teal Atmospheric Aura Glow (Backlight) */}
                 <motion.div
                   animate={{
@@ -256,12 +257,18 @@ export default function Hero({ settings }: HeroProps) {
                     repeat: Infinity,
                     ease: "easeInOut",
                   }}
-                  className="absolute bottom-6 left-1/2 -translate-x-1/2 w-[85%] max-w-[500px] h-[50%] rounded-full bg-gradient-to-t from-transparent via-cyan-500/25 to-teal-400/15 blur-3xl pointer-events-none z-0"
+                  style={{
+                    maskImage:
+                      "radial-gradient(ellipse 70% 60% at 50% 50%, black 30%, transparent 75%)",
+                    WebkitMaskImage:
+                      "radial-gradient(ellipse 70% 60% at 50% 50%, black 30%, transparent 75%)",
+                  }}
+                  className="absolute bottom-6 left-1/2 -translate-x-1/2 w-[75%] max-w-[450px] h-[50%] rounded-full bg-gradient-to-t from-transparent via-cyan-500/25 to-teal-400/15 blur-3xl pointer-events-none z-0"
                 />
 
                 {/* 2. Background Volumetric Cyan Smoke Group (Behind Avatar & Shoulders) */}
                 <div
-                  className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[135%] max-w-[720px] h-[82%] pointer-events-none select-none z-0"
+                  className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[650px] h-[82%] pointer-events-none select-none z-0"
                   style={{
                     maskImage:
                       "linear-gradient(to top, transparent 0%, transparent 6%, rgba(0,0,0,0.6) 16%, black 28%, black 85%, transparent 100%)",
@@ -333,23 +340,23 @@ export default function Hero({ settings }: HeroProps) {
                   </motion.div>
                 </div>
 
-                {/* 3. Profile Image with Multi-Layer Soft Torso & Silhouette Vignette */}
+                {/* 3. Profile Image with Multi-Layer Soft Torso & Silhouette Vignette (Zero Border Lines) */}
                 <div
                   className="relative w-full h-full z-10 flex items-end justify-center select-none"
                   style={{
                     maskImage:
-                      "linear-gradient(to top, transparent 0%, transparent 8%, rgba(0,0,0,0.3) 20%, black 36%, black 100%)",
+                      "linear-gradient(to top, transparent 0%, transparent 10%, rgba(0,0,0,0.3) 22%, black 36%, black 100%)",
                     WebkitMaskImage:
-                      "linear-gradient(to top, transparent 0%, transparent 8%, rgba(0,0,0,0.3) 20%, black 36%, black 100%)",
+                      "linear-gradient(to top, transparent 0%, transparent 10%, rgba(0,0,0,0.3) 22%, black 36%, black 100%)",
                   }}
                 >
                   <div
                     className="relative w-full h-full flex items-end justify-center"
                     style={{
                       maskImage:
-                        "radial-gradient(ellipse 88% 80% at 50% 32%, black 48%, rgba(0,0,0,0.7) 70%, transparent 95%)",
+                        "linear-gradient(to right, transparent 0%, transparent 4%, black 10%, black 90%, transparent 96%, transparent 100%)",
                       WebkitMaskImage:
-                        "radial-gradient(ellipse 88% 80% at 50% 32%, black 48%, rgba(0,0,0,0.7) 70%, transparent 95%)",
+                        "linear-gradient(to right, transparent 0%, transparent 4%, black 10%, black 90%, transparent 96%, transparent 100%)",
                     }}
                   >
                     <Image
@@ -357,7 +364,7 @@ export default function Hero({ settings }: HeroProps) {
                       alt={hero.name}
                       fill
                       sizes="(max-width: 768px) 100vw, 50vw"
-                      className="object-contain object-bottom select-none pointer-events-none drop-shadow-[0_20px_45px_rgba(0,0,0,0.85)] drop-shadow-[0_0_35px_rgba(6,182,212,0.25)]"
+                      className="object-contain object-bottom select-none pointer-events-none"
                       priority
                     />
                   </div>
@@ -365,7 +372,7 @@ export default function Hero({ settings }: HeroProps) {
 
                 {/* 4. Foreground Volumetric Smoke Group (In Front of Waist, Lower Torso & Arms) */}
                 <div
-                  className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[130%] max-w-[660px] h-[55%] pointer-events-none select-none z-20"
+                  className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[580px] h-[55%] pointer-events-none select-none z-20"
                   style={{
                     maskImage:
                       "linear-gradient(to top, transparent 0%, transparent 8%, rgba(0,0,0,0.5) 20%, black 36%, black 80%, transparent 100%)",
@@ -438,7 +445,7 @@ export default function Hero({ settings }: HeroProps) {
 
                 {/* 5. Extra Ground-Level Smoke Pool (above foreground smoke, pooling at base) */}
                 <div
-                  className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[160%] max-w-[800px] h-[30%] pointer-events-none select-none z-25"
+                  className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[650px] h-[30%] pointer-events-none select-none z-25"
                   style={{
                     maskImage:
                       "linear-gradient(to top, transparent 0%, transparent 6%, rgba(0,0,0,0.4) 18%, black 38%, black 70%, transparent 100%)",
