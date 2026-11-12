@@ -48,7 +48,7 @@ export default function Contact({ settings }: ContactProps) {
           </p>
         </div>
 
-        <div className="card p-8 md:p-14 text-center flex flex-col items-center relative overflow-hidden group shadow-2xl">
+        <div className="card p-6 sm:p-8 md:p-14 text-center flex flex-col items-center relative overflow-hidden group shadow-2xl">
           {/* Subtle Ambient Glow */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-red-600/10 rounded-full blur-3xl pointer-events-none group-hover:bg-red-600/15 transition-colors" />
 
@@ -99,10 +99,10 @@ export default function Contact({ settings }: ContactProps) {
             {phone && (
               <a
                 href={`tel:${phone}`}
-                className="flex items-center justify-center gap-3 px-5 py-4 rounded-xl bg-[#141624]/90 hover:bg-[#191b2e] border border-gray-800 hover:border-indigo-500/50 text-gray-200 transition-all hover:scale-[1.02] active:scale-[0.98]"
+                className="flex items-center justify-center gap-3 px-5 py-4 rounded-xl bg-[#141624]/90 hover:bg-[#191b2e] border border-gray-800 hover:border-red-500/50 text-gray-200 transition-all hover:scale-[1.02] active:scale-[0.98]"
                 aria-label={`Call phone number: ${phone}`}
               >
-                <Phone className="w-5 h-5 text-indigo-400" />
+                <Phone className="w-5 h-5 text-red-400" />
                 <span className="text-xs sm:text-sm font-medium">{phone}</span>
               </a>
             )}

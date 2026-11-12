@@ -11,6 +11,7 @@ import About from "@/components/portfolio/About";
 import Skills from "@/components/portfolio/Skills";
 import ExperienceSection from "@/components/portfolio/Experience";
 import Projects from "@/components/portfolio/Projects";
+import GithubSection from "@/components/portfolio/GithubSection";
 import EducationSection from "@/components/portfolio/Education";
 import Hackathons from "@/components/portfolio/Hackathons";
 import Contact from "@/components/portfolio/Contact";
@@ -113,10 +114,13 @@ export default async function Home() {
         <ExperienceSection experiences={experiences} />
       )}
       {sectionVisibility.projects && <Projects projects={projects} />}
+      {(sectionVisibility.github ?? true) && (
+        <GithubSection githubUrl={settings?.social?.github} />
+      )}
+      {sectionVisibility.hackathon && <Hackathons hackathons={hackathons} />}
       {sectionVisibility.education && (
         <EducationSection education={education} />
       )}
-      {sectionVisibility.hackathon && <Hackathons hackathons={hackathons} />}
       {sectionVisibility.contact && <Contact settings={settings} />}
     </div>
   );

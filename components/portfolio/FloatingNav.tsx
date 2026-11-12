@@ -8,8 +8,10 @@ import {
   Briefcase,
   LayoutGrid,
   Trophy,
+  GraduationCap,
   Mail,
 } from "lucide-react";
+import { FaGithub } from "react-icons/fa";
 
 interface NavItem {
   id: string;
@@ -29,7 +31,9 @@ const navItems: NavItem[] = [
     icon: Briefcase,
   },
   { id: "projects", label: "Projects", href: "#projects", icon: LayoutGrid },
+  { id: "github", label: "GitHub", href: "#github", icon: FaGithub },
   { id: "hackathons", label: "Hackathons", href: "#hackathons", icon: Trophy },
+  { id: "education", label: "Education", href: "#education", icon: GraduationCap },
   { id: "contact", label: "Contact", href: "#contact", icon: Mail },
 ];
 

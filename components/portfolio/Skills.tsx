@@ -74,7 +74,7 @@ export default function Skills({ skills }: { skills: any[] }) {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: index * 0.08 }}
-                  className="card p-6 card-hover relative overflow-hidden group flex flex-col justify-between"
+                  className="card p-4 sm:p-6 card-hover relative overflow-hidden group flex flex-col justify-between"
                 >
                   <div className="space-y-5">
                     {/* Header with Icon and Badge */}
@@ -93,7 +93,7 @@ export default function Skills({ skills }: { skills: any[] }) {
                     </div>
 
                     {/* Skill Tags */}
-                    <div className="flex flex-wrap gap-2 pt-1">
+                    <div className="flex flex-wrap gap-1.5 pt-1">
                       {skillList.map((skill: any) => (
                         <span
                           key={skill._id || skill.name}

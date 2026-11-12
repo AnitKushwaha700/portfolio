@@ -71,22 +71,22 @@ export default function Hackathons({
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="card group overflow-hidden flex flex-col justify-between p-6 sm:p-7 card-hover border border-gray-800/90 hover:border-indigo-500/40 bg-[#0d0e19]/80 backdrop-blur-xl relative"
+                className="card group overflow-hidden flex flex-col justify-between p-5 sm:p-7 card-hover border border-gray-800/90 hover:border-red-500/40 bg-[#0d0e19]/80 backdrop-blur-xl relative"
               >
                 {/* Subtle ambient glow */}
-                <div className="absolute top-0 right-0 w-48 h-48 bg-indigo-600/5 rounded-full blur-3xl pointer-events-none group-hover:bg-indigo-600/10 transition-colors" />
+                <div className="absolute top-0 right-0 w-48 h-48 bg-red-600/5 rounded-full blur-3xl pointer-events-none group-hover:bg-red-600/10 transition-colors" />
 
                 <div>
                   <div className="flex justify-between items-start mb-4 gap-3">
                     <div className="flex items-start gap-3.5">
-                      <div className="p-3 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 group-hover:scale-110 group-hover:border-indigo-500/40 transition-all flex-shrink-0 mt-0.5">
-                        <Trophy className="w-5 h-5 text-indigo-400" />
+                      <div className="p-3 rounded-2xl bg-red-500/10 border border-red-500/20 text-red-400 group-hover:scale-110 group-hover:border-red-500/40 transition-all flex-shrink-0 mt-0.5">
+                        <Trophy className="w-5 h-5 text-red-400" />
                       </div>
                       <div>
-                        <h3 className="text-xl font-bold text-gray-100 group-hover:text-indigo-400 transition-colors tracking-tight">
+                        <h3 className="text-xl font-bold text-gray-100 group-hover:text-red-400 transition-colors tracking-tight">
                           {hackathon.title}
                         </h3>
-                        <h4 className="text-sm font-medium text-indigo-400/90 mt-1">
+                        <h4 className="text-sm font-medium text-red-400/90 mt-1">
                           {hackathon.organization}
                         </h4>
                       </div>
@@ -110,13 +110,13 @@ export default function Hackathons({
 
                   <div className="flex flex-wrap gap-2 mb-6">
                     {hackathon.date && (
-                      <div className="flex items-center px-2.5 py-1 bg-indigo-500/10 text-indigo-300 text-xs font-medium rounded-lg border border-indigo-500/20">
+                      <div className="flex items-center px-2.5 py-1 bg-red-500/10 text-rose-300 text-xs font-medium rounded-lg border border-red-500/20">
                         <Calendar className="w-3.5 h-3.5 mr-1.5 opacity-70" />
                         {hackathon.date}
                       </div>
                     )}
                     {hackathon.location && (
-                      <div className="flex items-center px-2.5 py-1 bg-indigo-500/10 text-indigo-300 text-xs font-medium rounded-lg border border-indigo-500/20">
+                      <div className="flex items-center px-2.5 py-1 bg-red-500/10 text-rose-300 text-xs font-medium rounded-lg border border-red-500/20">
                         <MapPin className="w-3.5 h-3.5 mr-1.5 opacity-70" />
                         {hackathon.location}
                       </div>
@@ -128,7 +128,7 @@ export default function Hackathons({
                   {hackathon.slug ? (
                     <Link
                       href={`/hackathons/${hackathon.slug}`}
-                      className="inline-flex items-center text-sm font-semibold text-indigo-400 hover:text-indigo-300 transition-colors group/link"
+                      className="inline-flex items-center text-sm font-semibold text-red-400 hover:text-rose-300 transition-colors group/link"
                     >
                       <span>View Details</span>
                       <ArrowRight className="w-4 h-4 ml-1.5 group-hover/link:translate-x-1 transition-transform" />
@@ -142,11 +142,11 @@ export default function Hackathons({
                       href={sanitizeUrl(certUrl)}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-300 hover:text-white border border-indigo-500/20 text-xs font-medium transition-colors"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-rose-300 hover:text-white border border-red-500/20 text-xs font-medium transition-colors"
                     >
-                      <Award className="w-3.5 h-3.5 text-indigo-400" />
+                      <Award className="w-3.5 h-3.5 text-red-400" />
                       <span>View Certificate</span>
-                      <ExternalLink className="w-3 h-3 text-indigo-400/80 ml-0.5" />
+                      <ExternalLink className="w-3 h-3 text-red-400/80 ml-0.5" />
                     </a>
                   )}
                 </div>

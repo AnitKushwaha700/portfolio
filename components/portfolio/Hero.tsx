@@ -225,7 +225,7 @@ export default function Hero({ settings }: HeroProps) {
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label="LinkedIn Profile"
-                        className="p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-gray-800 hover:border-indigo-500/40 text-gray-400 hover:text-white transition-all hover:scale-110 active:scale-95"
+                        className="p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-gray-800 hover:border-rose-500/40 text-gray-400 hover:text-white transition-all hover:scale-110 active:scale-95"
                       >
                         <FaLinkedin className="w-4 h-4" />
                       </a>
@@ -244,7 +244,7 @@ export default function Hero({ settings }: HeroProps) {
               transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
               className="lg:col-span-6 flex items-center justify-center lg:justify-end"
             >
-              <div className="relative h-[65vh] sm:h-[70vh] lg:h-[75vh] xl:h-[80vh] w-full flex items-end justify-center lg:justify-end select-none">
+              <div className="relative h-[50vh] sm:h-[65vh] lg:h-[75vh] xl:h-[80vh] w-full flex items-end justify-center lg:justify-end select-none">
                 {/* 1. Underlying Cyan/Teal Atmospheric Aura Glow (Backlight) */}
                 <motion.div
                   animate={{
@@ -355,7 +355,7 @@ export default function Hero({ settings }: HeroProps) {
 
                 {/* 4. Foreground Volumetric Smoke Group (In Front of Waist, Lower Torso & Arms) */}
                 <div
-                  className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[130%] max-w-[660px] h-[48%] pointer-events-none select-none z-20"
+                  className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[130%] max-w-[660px] h-[55%] pointer-events-none select-none z-20"
                   style={{
                     maskImage:
                       "linear-gradient(to top, transparent 0%, transparent 8%, rgba(0,0,0,0.5) 20%, black 36%, black 80%, transparent 100%)",
@@ -425,6 +425,72 @@ export default function Hero({ settings }: HeroProps) {
                     />
                   </motion.div>
                 </div>
+
+                {/* 5. Extra Ground-Level Smoke Pool (above foreground smoke, pooling at base) */}
+                <div
+                  className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[160%] max-w-[800px] h-[30%] pointer-events-none select-none z-25"
+                  style={{
+                    maskImage:
+                      "linear-gradient(to top, transparent 0%, rgba(0,0,0,0.4) 10%, black 25%, black 70%, transparent 100%)",
+                    WebkitMaskImage:
+                      "linear-gradient(to top, transparent 0%, rgba(0,0,0,0.4) 10%, black 25%, black 70%, transparent 100%)",
+                  }}
+                >
+                  {/* Ground Smoke Layer 1 — slow creep */}
+                  <motion.div
+                    animate={{
+                      x: [-8, 8, -4, 6, -8],
+                      y: [0, -4, 2, -2, 0],
+                      scale: [1, 1.04, 0.97, 1.03, 1],
+                      opacity: [0.7, 0.9, 0.65, 0.85, 0.7],
+                    }}
+                    transition={{
+                      duration: 12,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }}
+                    className="absolute inset-0 mix-blend-screen filter brightness-[115%]"
+                  >
+                    <Image
+                      src="/hero/cyan-smoke-foreground.jpg"
+                      alt="Ground-level smoke pool layer 1"
+                      fill
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                      className="object-cover object-bottom"
+                      unoptimized
+                    />
+                  </motion.div>
+
+                  {/* Ground Smoke Layer 2 — slower drift */}
+                  <motion.div
+                    animate={{
+                      x: [6, -6, 3, -5, 6],
+                      y: [-2, 4, -3, 2, -2],
+                      scale: [1.03, 0.97, 1.05, 0.98, 1.03],
+                      opacity: [0.55, 0.75, 0.5, 0.7, 0.55],
+                    }}
+                    transition={{
+                      duration: 16,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }}
+                    className="absolute inset-0 mix-blend-screen filter brightness-[115%] scale-x-[-1]"
+                  >
+                    <Image
+                      src="/hero/cyan-volumetric-smoke.jpg"
+                      alt="Ground-level smoke pool layer 2"
+                      fill
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                      className="object-cover object-bottom"
+                      unoptimized
+                    />
+                  </motion.div>
+                </div>
+
+                {/* 6. Pure-CSS Radial Ground Glow */}
+                <div
+                  className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-[20%] bg-gradient-to-t from-cyan-500/15 via-teal-500/8 to-transparent blur-2xl pointer-events-none z-30"
+                />
               </div>
             </motion.div>
           )}

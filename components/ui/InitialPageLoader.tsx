@@ -95,15 +95,6 @@ export default function InitialPageLoader() {
               Anit Kushwaha
             </motion.h1>
 
-            <motion.p
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.15 }}
-              className="text-xs font-medium text-indigo-400/90 tracking-wide uppercase mb-8"
-            >
-              Software Developer
-            </motion.p>
-
             {/* Modern Slim Progress Bar */}
             <div className="w-full bg-gray-900/80 border border-gray-800/80 rounded-full h-1.5 overflow-hidden p-px shadow-inner">
               <motion.div

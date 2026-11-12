@@ -69,7 +69,7 @@ export default function RootLayout({
       data-scroll-behavior="smooth"
       suppressHydrationWarning
     >
-      <body className="flex min-h-dvh flex-col bg-background text-gray-100">
+      <body className="flex min-h-dvh flex-col bg-background text-gray-100 overflow-x-hidden max-w-full">
         <Suspense fallback={null}>
           <TopProgressBar />
         </Suspense>

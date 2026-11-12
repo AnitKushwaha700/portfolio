@@ -36,16 +36,16 @@ export default function EducationSection({ education }: { education: any[] }) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="card p-6 card-hover flex flex-col h-full"
+              className="card p-5 sm:p-6 card-hover flex flex-col h-full"
             >
-              <div className="w-12 h-12 bg-indigo-500/10 rounded-xl flex items-center justify-center mb-6 border border-indigo-500/20">
-                <GraduationCap className="w-6 h-6 text-indigo-400" />
+              <div className="w-12 h-12 bg-red-500/10 rounded-xl flex items-center justify-center mb-6 border border-red-500/20">
+                <GraduationCap className="w-6 h-6 text-red-400" />
               </div>
 
               <h3 className="text-lg font-bold text-gray-100 mb-1">
                 {edu.degree}
               </h3>
-              <p className="text-indigo-400 font-medium text-sm mb-4">
+              <p className="text-red-400 font-medium text-sm mb-4">
                 {edu.institution}
               </p>
 
@@ -81,7 +81,7 @@ export default function EducationSection({ education }: { education: any[] }) {
                       href={sanitizeUrl(edu.certificateUrl)}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-indigo-400 hover:text-indigo-300 text-xs font-medium transition-colors flex items-center gap-1"
+                      className="text-red-400 hover:text-red-300 text-xs font-medium transition-colors flex items-center gap-1"
                     >
                       View Certificate
                       <svg

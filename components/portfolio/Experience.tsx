@@ -42,38 +42,38 @@ export default function ExperienceSection({
               className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active"
             >
               {/* Timeline dot */}
-              <div className="flex items-center justify-center w-10 h-10 rounded-full border-4 border-[#0B0F19] bg-indigo-600 shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 shadow shadow-indigo-600/50 z-10 ml-0 md:ml-0 md:absolute md:left-1/2 md:-translate-x-1/2">
+              <div className="flex items-center justify-center w-10 h-10 rounded-full border-4 border-[#0B0F19] bg-red-600 shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 shadow shadow-red-600/50 z-10 ml-0 md:ml-0 md:absolute md:left-1/2 md:-translate-x-1/2">
                 <Briefcase className="w-4 h-4 text-white" />
               </div>
 
               {/* Content Card */}
-              <div className="w-[calc(100%-4rem)] md:w-[calc(50%-3rem)] card p-6 card-hover ml-6 md:ml-0">
+              <div className="w-[calc(100%-3.5rem)] md:w-[calc(50%-3rem)] card p-4 sm:p-6 card-hover ml-4 sm:ml-6 md:ml-0">
                 <div className="flex flex-col gap-1 mb-4">
-                  <h3 className="text-xl font-bold text-gray-100">
+                  <h3 className="text-lg sm:text-xl font-bold text-gray-100">
                     {exp.role}
                   </h3>
-                  <div className="text-indigo-400 font-medium">
+                  <div className="text-red-400 font-medium">
                     {exp.company}
                   </div>
 
-                  <div className="flex flex-wrap gap-x-4 gap-y-2 mt-2 text-sm text-gray-400">
+                  <div className="flex flex-wrap gap-x-4 gap-y-2 mt-2 text-xs sm:text-sm text-gray-400">
                     <div className="flex items-center gap-1.5">
-                      <Calendar className="w-4 h-4" />
+                      <Calendar className="w-4 h-4 text-rose-400/80" />
                       <span>
                         {exp.startDate} – {exp.endDate || "Present"}
                       </span>
                     </div>
                     <div className="flex items-center gap-1.5">
-                      <MapPin className="w-4 h-4" />
+                      <MapPin className="w-4 h-4 text-rose-400/80" />
                       <span>{exp.location}</span>
                     </div>
                   </div>
                 </div>
 
-                <ul className="space-y-2 text-gray-300 text-sm">
+                <ul className="space-y-2 text-gray-300 text-xs sm:text-sm">
                   {exp.responsibilities.map((resp: string, idx: number) => (
                     <li key={idx} className="flex gap-2">
-                      <span className="text-indigo-500 mt-1.5 shrink-0">•</span>
+                      <span className="text-red-500 mt-1 shrink-0">•</span>
                       <span>{resp}</span>
                     </li>
                   ))}

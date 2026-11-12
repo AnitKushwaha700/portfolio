@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import DataTable from "@/components/admin/DataTable";
 import Modal from "@/components/admin/Modal";
 import ToggleSwitch from "@/components/ui/ToggleSwitch";
-import { Loader2 } from "lucide-react";
+import { Loader2, Upload, Image as ImageIcon } from "lucide-react";
 
 interface Project {
   _id: string;
@@ -58,6 +58,8 @@ export default function ProjectsAdmin() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [fetchingGithub, setFetchingGithub] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const projectImageInputRef = useRef<HTMLInputElement>(null);
 
   const fetchGithubDetails = async () => {
     if (!formData.githubUrl) return;
@@ -103,6 +105,17 @@ export default function ProjectsAdmin() {
     } finally {
       setFetchingGithub(false);
     }
+  };
+
+  const handleProjectImageUpload = async (file: File) => {
+    if (!file.type.startsWith("image/")) return;
+    setUploadingImage(true);
+    const fd = new FormData();
+    fd.append("file", file);
+    const res = await fetch("/api/upload", { method: "POST", body: fd });
+    const data = await res.json();
+    setFormData((prev) => ({ ...prev, image: data.url || data.data?.url || "" }));
+    setUploadingImage(false);
   };
 
   const fetchProjects = async () => {
@@ -467,20 +480,73 @@ export default function ProjectsAdmin() {
             />
           </div>
 
-          <div className="space-y-1">
+          <div className="space-y-2">
             <label className="text-xs font-medium text-gray-400 uppercase">
-              Image URL (Hosted link)
+              Project Image
             </label>
-            <input
-              required
-              type="url"
-              placeholder="https://imgur.com/..."
-              value={formData.image}
-              onChange={(e) =>
-                setFormData({ ...formData, image: e.target.value })
-              }
-              className="w-full px-3 py-2 bg-black/20 border border-gray-800 rounded-lg text-white focus:border-indigo-500 outline-none"
-            />
+            <div className="flex items-start gap-3">
+              {/* Preview thumbnail */}
+              <div className="w-20 h-20 rounded-xl border border-gray-700 bg-black/20 flex-shrink-0 overflow-hidden flex items-center justify-center">
+                {formData.image ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={formData.image}
+                    alt="Project preview"
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <ImageIcon className="w-8 h-8 text-gray-600" />
+                )}
+              </div>
+              {/* Upload zone + URL input */}
+              <div className="flex-1 space-y-2">
+                {/* Hidden file input */}
+                <input
+                  ref={projectImageInputRef}
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) handleProjectImageUpload(file);
+                    e.target.value = "";
+                  }}
+                />
+                {/* Drag-and-drop zone */}
+                <div
+                  className="border-dashed border-2 border-gray-700 rounded-xl cursor-pointer p-4 flex flex-col items-center justify-center gap-1 hover:border-indigo-500 transition-colors"
+                  onClick={() => projectImageInputRef.current?.click()}
+                  onDragOver={(e) => e.preventDefault()}
+                  onDrop={(e) => {
+                    e.preventDefault();
+                    const file = e.dataTransfer.files?.[0];
+                    if (file) handleProjectImageUpload(file);
+                  }}
+                >
+                  {uploadingImage ? (
+                    <Loader2 className="w-5 h-5 text-indigo-400 animate-spin" />
+                  ) : (
+                    <Upload className="w-5 h-5 text-gray-500" />
+                  )}
+                  <span className="text-xs text-gray-500">
+                    {uploadingImage ? "Uploading…" : "Click or drop image"}
+                  </span>
+                </div>
+                {/* OR URL input */}
+                <div className="flex items-center gap-2">
+                  <span className="text-xs text-gray-600 whitespace-nowrap">OR enter URL</span>
+                  <input
+                    type="url"
+                    placeholder="https://imgur.com/..."
+                    value={formData.image}
+                    onChange={(e) =>
+                      setFormData({ ...formData, image: e.target.value })
+                    }
+                    className="w-full px-3 py-2 bg-black/20 border border-gray-800 rounded-lg text-white focus:border-indigo-500 outline-none text-sm"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
 
           <div className="space-y-1">
