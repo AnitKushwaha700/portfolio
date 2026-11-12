@@ -58,6 +58,7 @@ export default function TopBar({ name, resumeUrl, social }: TopBarProps) {
         {/* Theme Toggle Button (Light / Dark) — styled exactly like social icons */}
         <button
           onClick={toggleTheme}
+          suppressHydrationWarning
           aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
           title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
           className="p-1.5 sm:p-2 text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 rounded-full transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer flex items-center justify-center shrink-0"

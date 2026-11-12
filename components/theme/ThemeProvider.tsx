@@ -1,6 +1,11 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useCallback,
+  useSyncExternalStore,
+} from "react";
 
 export type Theme = "dark" | "light";
 
@@ -16,25 +21,53 @@ const ThemeContext = createContext<ThemeContextType>({
   setTheme: () => {},
 });
 
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  // Initialize lazily to prevent synchronous setState inside useEffect
-  const [theme, setThemeState] = useState<Theme>(() => {
-    if (typeof window !== "undefined") {
-      try {
-        const saved = localStorage.getItem("portfolio-theme") as Theme | null;
-        if (saved === "light" || saved === "dark") return saved;
-        if (document.documentElement.classList.contains("light")) return "light";
-      } catch {
-        // fallback
-      }
-    }
-    return "dark";
-  });
+const themeListeners = new Set<() => void>();
 
-  // Sync DOM and custom event whenever theme changes
-  useEffect(() => {
+const subscribe = (callback: () => void) => {
+  themeListeners.add(callback);
+  const handleStorage = () => callback();
+  window.addEventListener("storage", handleStorage);
+  return () => {
+    themeListeners.delete(callback);
+    window.removeEventListener("storage", handleStorage);
+  };
+};
+
+const notifyListeners = () => {
+  themeListeners.forEach((listener) => {
+    try {
+      listener();
+    } catch {
+      // ignore
+    }
+  });
+};
+
+const getClientSnapshot = (): Theme => {
+  if (typeof window === "undefined") return "dark";
+  try {
+    const saved = localStorage.getItem("portfolio-theme") as Theme | null;
+    if (saved === "light" || saved === "dark") return saved;
+    if (document.documentElement.classList.contains("light")) return "light";
+  } catch {
+    // fallback
+  }
+  return "dark";
+};
+
+const getServerSnapshot = (): Theme => "dark";
+
+export function ThemeProvider({ children }: { children: React.ReactNode }) {
+  const theme = useSyncExternalStore(
+    subscribe,
+    getClientSnapshot,
+    getServerSnapshot,
+  );
+
+  const applyTheme = useCallback((newTheme: Theme) => {
+    if (typeof window === "undefined") return;
     const root = document.documentElement;
-    if (theme === "light") {
+    if (newTheme === "light") {
       root.classList.remove("dark");
       root.classList.add("light");
     } else {
@@ -42,22 +75,28 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       root.classList.add("dark");
     }
     try {
-      localStorage.setItem("portfolio-theme", theme);
+      localStorage.setItem("portfolio-theme", newTheme);
     } catch {
       // ignore
     }
     window.dispatchEvent(
-      new CustomEvent("portfolio-theme-change", { detail: theme }),
+      new CustomEvent("portfolio-theme-change", { detail: newTheme }),
     );
-  }, [theme]);
+    notifyListeners();
+  }, []);
 
-  const setTheme = (newTheme: Theme) => {
-    setThemeState(newTheme);
-  };
+  const setTheme = useCallback(
+    (newTheme: Theme) => {
+      applyTheme(newTheme);
+    },
+    [applyTheme],
+  );
 
-  const toggleTheme = () => {
-    setThemeState((prev) => (prev === "dark" ? "light" : "dark"));
-  };
+  const toggleTheme = useCallback(() => {
+    const current = getClientSnapshot();
+    const next = current === "dark" ? "light" : "dark";
+    applyTheme(next);
+  }, [applyTheme]);
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme, setTheme }}>
@@ -69,4 +108,3 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 export function useTheme() {
   return useContext(ThemeContext);
 }
-
