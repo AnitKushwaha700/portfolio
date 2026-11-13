@@ -13,7 +13,6 @@ import {
   BookMarked,
   Calendar,
 } from "lucide-react";
-import { FaGithub } from "react-icons/fa";
 import { useTheme } from "@/components/theme/ThemeProvider";
 
 interface ContributionDay {
@@ -304,123 +303,133 @@ export default function GithubSection({
     data?.longestStreak ?? (selectedYear === "2026" ? 236 : 14);
 
   return (
-    <section id="github" className="section-container relative w-full max-w-full scroll-mt-20 pt-16 sm:pt-24 pb-14 sm:pb-20 overflow-hidden">
-      {/* Background radial accent glow matching signature palette */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] bg-red-600/10 rounded-full blur-[100px] sm:blur-[140px] pointer-events-none" />
+    <section id="github" className="relative z-10 py-16 sm:py-24 overflow-hidden bg-transparent">
+      {/* Background radial accent glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] bg-emerald-500/10 rounded-full blur-[100px] sm:blur-[140px] pointer-events-none" />
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.6 }}
-        className="relative z-10 w-full max-w-5xl mx-auto space-y-6 sm:space-y-10"
-      >
-        {/* Section Header: Centered with Signature Red/Rose/Amber Gradient */}
-        <div className="text-center space-y-2.5 sm:space-y-3 mb-6 sm:mb-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/20 text-xs font-semibold text-red-400 uppercase tracking-wider mb-1">
-            <FaGithub className="w-3.5 h-3.5" />
-            <span>Open Source & Activity</span>
-          </div>
-          <h2 className="section-title mb-0 text-center break-words">
-            GitHub Activity &{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-rose-500 to-amber-500 drop-shadow-[0_0_30px_rgba(239,68,68,0.35)]">
-              Streak
-            </span>
-          </h2>
-          <p className="text-xs sm:text-base text-gray-400 max-w-xl mx-auto px-2">
-            Live commit history, continuous development streaks, and pinned repositories from{" "}
-            <Link
-              href={githubUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-red-400 hover:underline font-medium"
-            >
-              @AnitKushwaha700
-            </Link>
-            .
-          </p>
-        </div>
-
-        {/* 3 Metric Summary Cards — Compact, Proportionate & Harmonized */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-4 w-full">
-          {/* Card 1: Total Contributions */}
-          <div className="relative bg-white/95 dark:bg-[#0d121f]/90 border border-slate-200 dark:border-gray-800/90 rounded-xl sm:rounded-2xl p-3.5 sm:p-4 flex items-center gap-3 sm:gap-3.5 shadow-md dark:shadow-xl hover:border-red-500/40 transition-colors w-full min-w-0">
-            <div className="p-2 sm:p-2.5 rounded-lg sm:rounded-xl bg-red-50 dark:bg-red-500/10 border border-red-200/80 dark:border-red-500/20 text-red-600 dark:text-red-400 shrink-0">
-              <GitCommit className="w-4 h-4 sm:w-5 sm:h-5" />
-            </div>
-            <div className="min-w-0">
-              <div className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white truncate">
-                {displayedTotal}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+          className="relative z-10 w-full space-y-8 sm:space-y-12"
+        >
+          {/* Section Header: Matching Pattern Sequence & Editorial Layout */}
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 sm:mb-12">
+            {/* Left Title & Kicker */}
+            <div className="space-y-3 max-w-2xl">
+              <div className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold tracking-widest uppercase text-slate-500 dark:text-gray-400">
+                <span className="text-emerald-500 dark:text-emerald-400 font-mono">05</span>
+                <span className="w-4 h-px bg-slate-300 dark:bg-gray-700" />
+                <span>OPEN SOURCE & CODE</span>
               </div>
-              <p className="text-[11px] sm:text-xs text-slate-600 dark:text-gray-400 font-medium truncate">
-                Contributions in {selectedYear === "last" ? "the last year" : selectedYear}
-              </p>
-            </div>
-          </div>
 
-          {/* Card 2: Current Streak */}
-          <div className="relative bg-white/95 dark:bg-[#0d121f]/90 border border-slate-200 dark:border-gray-800/90 rounded-xl sm:rounded-2xl p-3.5 sm:p-4 flex items-center gap-3 sm:gap-3.5 shadow-md dark:shadow-xl hover:border-rose-500/40 transition-colors w-full min-w-0">
-            <div className="p-2 sm:p-2.5 rounded-xl bg-rose-50 dark:bg-rose-500/10 border border-rose-200/80 dark:border-rose-500/20 text-rose-600 dark:text-rose-400 shrink-0">
-              <Flame className="w-4 h-4 sm:w-5 sm:h-5" />
-            </div>
-            <div className="min-w-0">
-              <div className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white flex items-center gap-1.5">
-                <span>{displayedCurrentStreak}</span>
-                <span className="text-xs sm:text-sm font-semibold text-slate-600 dark:text-gray-400">Days</span>
-              </div>
-              <p className="text-[11px] sm:text-xs text-slate-600 dark:text-gray-400 font-medium truncate">Active Daily Streak</p>
-            </div>
-          </div>
-
-          {/* Card 3: Longest Streak */}
-          <div className="relative bg-white/95 dark:bg-[#0d121f]/90 border border-slate-200 dark:border-gray-800/90 rounded-xl sm:rounded-2xl p-3.5 sm:p-4 flex items-center gap-3 sm:gap-3.5 shadow-md dark:shadow-xl hover:border-amber-500/40 transition-colors w-full min-w-0">
-            <div className="p-2 sm:p-2.5 rounded-xl bg-amber-50 dark:bg-amber-500/10 border border-amber-200/80 dark:border-amber-500/20 text-amber-600 dark:text-amber-400 shrink-0">
-              <Trophy className="w-4 h-4 sm:w-5 sm:h-5" />
-            </div>
-            <div className="min-w-0">
-              <div className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white flex items-center gap-1.5">
-                <span>{displayedLongestStreak}</span>
-                <span className="text-xs sm:text-sm font-semibold text-slate-600 dark:text-gray-400">Days</span>
-              </div>
-              <p className="text-[11px] sm:text-xs text-slate-600 dark:text-gray-400 font-medium truncate">Longest Recorded Streak</p>
-            </div>
-          </div>
-        </div>
-
-        {/* GitHub Heatmap Calendar Container */}
-        <div className="bg-white/95 dark:bg-[#0b0f19] border border-slate-200 dark:border-gray-800/90 rounded-2xl p-3.5 sm:p-6 shadow-md dark:shadow-2xl relative w-full overflow-hidden">
-          {/* Top Bar: Title + Year Selector Buttons */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-3.5 sm:pb-4 border-b border-slate-200/80 dark:border-gray-800/70 gap-3 sm:gap-4 w-full">
-            <div>
-              <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-gray-100 flex items-center gap-2">
-                <Calendar className="w-4 h-4 text-rose-500 dark:text-rose-400 shrink-0" />
-                <span>
-                  {displayedTotal} contributions in{" "}
-                  {selectedYear === "last" ? "the last year" : selectedYear}
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-slate-900 dark:text-white leading-[1.15]">
+                Continuous shipping &{" "}
+                <span className="font-serif italic font-normal text-emerald-600 dark:text-emerald-400 tracking-normal drop-shadow-[0_2px_16px_rgba(16,185,129,0.2)]">
+                  open source.
                 </span>
-              </h3>
-              <p className="text-[11px] sm:text-xs text-slate-600 dark:text-gray-400 mt-0.5">
-                Activity synchronized directly with GitHub profile
-              </p>
+              </h2>
             </div>
 
-            {/* Year Selector Buttons: Harmonized Red/Rose Gradient */}
-            <div className="flex items-center gap-1 bg-slate-100 dark:bg-[#111827] p-1 rounded-xl border border-slate-200 dark:border-gray-800 w-full sm:w-auto justify-center">
-              {["2026", "2025", "2024"].map((year) => (
-                <button
-                  key={year}
-                  onClick={() => handleYearChange(year)}
-                  className={`flex-1 sm:flex-none px-3 py-1 text-xs font-semibold rounded-lg transition-all ${
-                    selectedYear === year
-                      ? "bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-md shadow-red-600/30"
-                      : "text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white"
-                  }`}
+            {/* Right Subtitle */}
+            <div className="md:max-w-md lg:max-w-lg text-left md:text-right">
+              <p className="text-sm sm:text-base text-slate-600 dark:text-gray-400 leading-relaxed font-normal">
+                Live commit telemetry, daily coding streaks, and production repositories synchronized directly from{" "}
+                <Link
+                  href={githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-emerald-600 dark:text-emerald-400 hover:underline font-semibold"
                 >
-                  {year}
-                </button>
-              ))}
+                  @AnitKushwaha700
+                </Link>
+                .
+              </p>
             </div>
           </div>
+
+          {/* 3 Metric Summary Cards — Compact, Proportionate & Harmonized */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-5 w-full">
+            {/* Card 1: Total Contributions */}
+            <div className="relative bg-white/95 dark:bg-[#0e121e]/90 border border-slate-200/90 dark:border-gray-800/90 rounded-2xl sm:rounded-3xl p-4 sm:p-5 flex items-center gap-3.5 sm:gap-4 shadow-sm hover:border-emerald-500/40 transition-all w-full min-w-0">
+              <div className="p-2.5 sm:p-3 rounded-2xl bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200/80 dark:border-emerald-500/20 text-emerald-600 dark:text-emerald-400 shrink-0 shadow-xs">
+                <GitCommit className="w-5 h-5 sm:w-6 sm:h-6" />
+              </div>
+              <div className="min-w-0">
+                <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white truncate">
+                  {displayedTotal}
+                </div>
+                <p className="text-[11px] sm:text-xs text-slate-600 dark:text-gray-400 font-medium truncate">
+                  Contributions in {selectedYear === "last" ? "the last year" : selectedYear}
+                </p>
+              </div>
+            </div>
+
+            {/* Card 2: Current Streak */}
+            <div className="relative bg-white/95 dark:bg-[#0e121e]/90 border border-slate-200/90 dark:border-gray-800/90 rounded-2xl sm:rounded-3xl p-4 sm:p-5 flex items-center gap-3.5 sm:gap-4 shadow-sm hover:border-teal-500/40 transition-all w-full min-w-0">
+              <div className="p-2.5 sm:p-3 rounded-2xl bg-teal-50 dark:bg-teal-500/10 border border-teal-200/80 dark:border-teal-500/20 text-teal-600 dark:text-teal-400 shrink-0 shadow-xs">
+                <Flame className="w-5 h-5 sm:w-6 sm:h-6" />
+              </div>
+              <div className="min-w-0">
+                <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white flex items-center gap-1.5">
+                  <span>{displayedCurrentStreak}</span>
+                  <span className="text-xs sm:text-sm font-semibold text-slate-600 dark:text-gray-400">Days</span>
+                </div>
+                <p className="text-[11px] sm:text-xs text-slate-600 dark:text-gray-400 font-medium truncate">Active Daily Streak</p>
+              </div>
+            </div>
+
+            {/* Card 3: Longest Streak */}
+            <div className="relative bg-white/95 dark:bg-[#0e121e]/90 border border-slate-200/90 dark:border-gray-800/90 rounded-2xl sm:rounded-3xl p-4 sm:p-5 flex items-center gap-3.5 sm:gap-4 shadow-sm hover:border-cyan-500/40 transition-all w-full min-w-0">
+              <div className="p-2.5 sm:p-3 rounded-2xl bg-cyan-50 dark:bg-cyan-500/10 border border-cyan-200/80 dark:border-cyan-500/20 text-cyan-600 dark:text-cyan-400 shrink-0 shadow-xs">
+                <Trophy className="w-5 h-5 sm:w-6 sm:h-6" />
+              </div>
+              <div className="min-w-0">
+                <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white flex items-center gap-1.5">
+                  <span>{displayedLongestStreak}</span>
+                  <span className="text-xs sm:text-sm font-semibold text-slate-600 dark:text-gray-400">Days</span>
+                </div>
+                <p className="text-[11px] sm:text-xs text-slate-600 dark:text-gray-400 font-medium truncate">Longest Recorded Streak</p>
+              </div>
+            </div>
+          </div>
+
+          {/* GitHub Heatmap Calendar Container */}
+          <div className="bg-white/95 dark:bg-[#0e121e]/90 border border-slate-200/90 dark:border-gray-800/90 rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-md dark:shadow-2xl relative w-full overflow-hidden">
+            {/* Top Bar: Title + Year Selector Buttons */}
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-3.5 sm:pb-4 border-b border-slate-200/80 dark:border-gray-800/70 gap-3 sm:gap-4 w-full">
+              <div>
+                <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-gray-100 flex items-center gap-2">
+                  <Calendar className="w-4 h-4 text-emerald-500 dark:text-emerald-400 shrink-0" />
+                  <span>
+                    {displayedTotal} contributions in{" "}
+                    {selectedYear === "last" ? "the last year" : selectedYear}
+                  </span>
+                </h3>
+                <p className="text-[11px] sm:text-xs text-slate-600 dark:text-gray-400 mt-0.5">
+                  Activity synchronized directly with GitHub profile
+                </p>
+              </div>
+
+              {/* Year Selector Buttons: Harmonized Emerald Theme */}
+              <div className="flex items-center gap-1 bg-slate-100 dark:bg-[#111827] p-1 rounded-xl border border-slate-200 dark:border-gray-800 w-full sm:w-auto justify-center">
+                {["2026", "2025", "2024"].map((year) => (
+                  <button
+                    key={year}
+                    onClick={() => handleYearChange(year)}
+                    className={`flex-1 sm:flex-none px-3 py-1 text-xs font-semibold rounded-lg transition-all ${
+                      selectedYear === year
+                        ? "bg-emerald-600 text-white shadow-md shadow-emerald-600/30"
+                        : "text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white"
+                    }`}
+                  >
+                    {year}
+                  </button>
+                ))}
+              </div>
+            </div>
 
           {/* Mobile Swipe Hint */}
           <div className="flex sm:hidden items-center justify-center gap-1.5 text-[11px] text-gray-400 my-2 select-none">
@@ -558,7 +567,7 @@ export default function GithubSection({
               href={`${githubUrl}?tab=repositories`}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs sm:text-sm text-red-600 dark:text-red-400 hover:text-red-500 font-medium inline-flex items-center gap-1 transition-colors"
+              className="text-xs sm:text-sm text-emerald-600 dark:text-emerald-400 hover:text-emerald-500 font-medium inline-flex items-center gap-1 transition-colors"
             >
               <span>View All</span>
               <ExternalLink className="w-3.5 h-3.5" />
@@ -572,17 +581,17 @@ export default function GithubSection({
                 href={repo.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group relative bg-white/95 dark:bg-[#0d121f]/90 border border-slate-200 dark:border-gray-800/80 rounded-xl p-3.5 sm:p-4 flex flex-col justify-between hover:border-red-500/50 hover:shadow-md dark:hover:shadow-[0_0_20px_rgba(239,68,68,0.12)] transition-all duration-300 active:scale-[0.99]"
+                className="group relative bg-white/95 dark:bg-[#0e121e]/90 border border-slate-200/90 dark:border-gray-800/90 rounded-2xl p-4 sm:p-5 flex flex-col justify-between hover:border-emerald-500/50 hover:shadow-md dark:hover:shadow-[0_0_20px_rgba(16,185,129,0.12)] transition-all duration-300 active:scale-[0.99]"
               >
                 <div>
                   <div className="flex flex-wrap sm:flex-nowrap items-start sm:items-center justify-between gap-2 mb-1.5">
-                    <div className="flex items-center gap-2 font-bold text-sm sm:text-base text-slate-900 dark:text-gray-100 group-hover:text-red-500 dark:group-hover:text-red-400 transition-colors truncate min-w-0">
-                      <BookMarked className="w-4 h-4 text-slate-400 dark:text-gray-400 group-hover:text-red-500 dark:group-hover:text-red-400 shrink-0" />
+                    <div className="flex items-center gap-2 font-bold text-sm sm:text-base text-slate-900 dark:text-gray-100 group-hover:text-emerald-500 dark:group-hover:text-emerald-400 transition-colors truncate min-w-0">
+                      <BookMarked className="w-4 h-4 text-slate-400 dark:text-gray-400 group-hover:text-emerald-500 dark:group-hover:text-emerald-400 shrink-0" />
                       <span className="truncate">{repo.fullName || repo.name}</span>
                     </div>
                     <div className="flex items-center gap-1.5 shrink-0 ml-auto sm:ml-0">
                       {repo.tag && (
-                        <span className="px-2 py-0.5 text-[10px] font-semibold text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-500/10 border border-rose-200/80 dark:border-rose-500/20 rounded-full">
+                        <span className="px-2 py-0.5 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200/80 dark:border-emerald-500/20 rounded-full">
                           {repo.tag}
                         </span>
                       )}
@@ -628,6 +637,7 @@ export default function GithubSection({
           </div>
         </div>
       </motion.div>
-    </section>
-  );
+    </div>
+  </section>
+);
 }

@@ -187,13 +187,12 @@ export default function Hero({ settings }: HeroProps) {
                 {/* Primary Button */}
                 <Link
                   href="#projects"
-                  className="group relative inline-flex items-center gap-2 px-6 sm:px-7 py-3 rounded-xl bg-gradient-to-r from-red-600 via-rose-600 to-amber-600 text-white font-semibold text-sm sm:text-base shadow-lg shadow-red-600/30 hover:shadow-red-500/50 hover:scale-105 active:scale-95 transition-all overflow-hidden"
+                  className="group relative inline-flex items-center gap-2 px-6 sm:px-7 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-sm sm:text-base shadow-lg shadow-emerald-600/30 hover:shadow-emerald-500/40 hover:scale-105 active:scale-95 transition-all overflow-hidden"
                 >
                   <span className="relative z-10 flex items-center gap-2">
                     {hero.primaryButtonText || "Explore Projects"}
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-red-500 via-rose-500 to-amber-500 opacity-0 group-hover:opacity-100 transition-opacity" />
                 </Link>
 
                 {/* Secondary Button */}
@@ -214,7 +213,7 @@ export default function Hero({ settings }: HeroProps) {
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label="GitHub Profile"
-                        className="p-3 rounded-xl bg-slate-100/90 dark:bg-white/[0.03] hover:bg-slate-200/90 dark:hover:bg-white/[0.08] border border-slate-300 dark:border-gray-800 hover:border-red-500/40 text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white transition-all hover:scale-110 active:scale-95"
+                        className="p-3 rounded-xl bg-slate-100/90 dark:bg-white/[0.03] hover:bg-slate-200/90 dark:hover:bg-white/[0.08] border border-slate-300 dark:border-gray-800 hover:border-emerald-500/40 text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white transition-all hover:scale-110 active:scale-95"
                       >
                         <FaGithub className="w-4 h-4" />
                       </a>
@@ -225,7 +224,7 @@ export default function Hero({ settings }: HeroProps) {
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label="LinkedIn Profile"
-                        className="p-3 rounded-xl bg-slate-100/90 dark:bg-white/[0.03] hover:bg-slate-200/90 dark:hover:bg-white/[0.08] border border-slate-300 dark:border-gray-800 hover:border-rose-500/40 text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white transition-all hover:scale-110 active:scale-95"
+                        className="p-3 rounded-xl bg-slate-100/90 dark:bg-white/[0.03] hover:bg-slate-200/90 dark:hover:bg-white/[0.08] border border-slate-300 dark:border-gray-800 hover:border-emerald-500/40 text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white transition-all hover:scale-110 active:scale-95"
                       >
                         <FaLinkedin className="w-4 h-4" />
                       </a>
