@@ -398,70 +398,70 @@ export default function Hero({ settings }: HeroProps) {
                   </div>
                 </div>
 
-                {/* 4. Bottom-Only Smoke Pool (Wrapping strictly around the bottom base of the image, ZERO smoke on center/chest) */}
+                {/* 4. Bottom Horizontal Smoke Mist (Left-to-Right Across Base) */}
                 <div
-                  className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[700px] h-[22%] pointer-events-none select-none z-20"
+                  className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[115%] max-w-[820px] h-[30%] pointer-events-none select-none z-20"
                   style={{
                     maskImage:
-                      "radial-gradient(ellipse 48% 44% at 50% 60%, black 25%, rgba(0,0,0,0.8) 55%, rgba(0,0,0,0.2) 78%, transparent 98%)",
+                      "radial-gradient(ellipse 50% 48% at 50% 65%, black 35%, rgba(0,0,0,0.85) 65%, rgba(0,0,0,0.2) 85%, transparent 98%)",
                     WebkitMaskImage:
-                      "radial-gradient(ellipse 48% 44% at 50% 60%, black 25%, rgba(0,0,0,0.8) 55%, rgba(0,0,0,0.2) 78%, transparent 98%)",
+                      "radial-gradient(ellipse 50% 48% at 50% 65%, black 35%, rgba(0,0,0,0.85) 65%, rgba(0,0,0,0.2) 85%, transparent 98%)",
                   }}
                 >
-                  {/* Bottom Mist Drift 1 */}
+                  {/* Left-to-Right Sweeping Base Drift 1 */}
                   <motion.div
                     animate={{
-                      x: [-8, 8, -4, 6, -8],
-                      y: [0, -3, 2, -2, 0],
+                      x: [-12, 12, -6, 10, -12],
+                      y: [0, -4, 2, -3, 0],
                       scale: [1, 1.04, 0.98, 1.03, 1],
-                      opacity: [0.75, 0.95, 0.7, 0.9, 0.75],
+                      opacity: [0.8, 1.0, 0.75, 0.95, 0.8],
                     }}
                     transition={{
-                      duration: 10,
+                      duration: 11,
                       repeat: Infinity,
                       ease: "easeInOut",
                     }}
                     style={{
                       maskImage:
-                        "radial-gradient(ellipse 52% 44% at 50% 55%, black 28%, transparent 78%)",
+                        "radial-gradient(ellipse 55% 45% at 50% 60%, black 30%, transparent 85%)",
                       WebkitMaskImage:
-                        "radial-gradient(ellipse 52% 44% at 50% 55%, black 28%, transparent 78%)",
+                        "radial-gradient(ellipse 55% 45% at 50% 60%, black 30%, transparent 85%)",
                     }}
                     className="absolute inset-0 mix-blend-screen"
                   >
                     <Image
                       src="/hero/cyan-smoke.webp"
-                      alt="Ground-level smoke pool layer 1"
+                      alt="Bottom sweeping smoke mist left to right"
                       fill
                       sizes="(max-width: 768px) 100vw, 50vw"
                       className="object-cover object-bottom"
                     />
                   </motion.div>
 
-                  {/* Bottom Mist Drift 2 (Slower Reverse Drift) */}
+                  {/* Left-to-Right Counter Drift 2 */}
                   <motion.div
                     animate={{
-                      x: [7, -7, 4, -5, 7],
-                      y: [-2, 3, -3, 2, -2],
-                      scale: [1.03, 0.97, 1.04, 0.98, 1.03],
-                      opacity: [0.6, 0.8, 0.55, 0.75, 0.6],
+                      x: [10, -10, 6, -8, 10],
+                      y: [-3, 4, -4, 2, -3],
+                      scale: [1.03, 0.97, 1.05, 0.98, 1.03],
+                      opacity: [0.65, 0.88, 0.6, 0.82, 0.65],
                     }}
                     transition={{
-                      duration: 14,
+                      duration: 15,
                       repeat: Infinity,
                       ease: "easeInOut",
                     }}
                     style={{
                       maskImage:
-                        "radial-gradient(ellipse 48% 40% at 50% 55%, black 24%, transparent 74%)",
+                        "radial-gradient(ellipse 50% 42% at 50% 60%, black 25%, transparent 80%)",
                       WebkitMaskImage:
-                        "radial-gradient(ellipse 48% 40% at 50% 55%, black 24%, transparent 74%)",
+                        "radial-gradient(ellipse 50% 42% at 50% 60%, black 25%, transparent 80%)",
                     }}
                     className="absolute inset-0 mix-blend-screen scale-x-[-1]"
                   >
                     <Image
                       src="/hero/cyan-smoke.webp"
-                      alt="Ground-level smoke pool layer 2"
+                      alt="Bottom rolling smoke drift"
                       fill
                       sizes="(max-width: 768px) 100vw, 50vw"
                       className="object-cover object-bottom"
@@ -469,9 +469,80 @@ export default function Hero({ settings }: HeroProps) {
                   </motion.div>
                 </div>
 
-                {/* 5. Pure-CSS Radial Ground Glow */}
+                {/* 5. Right-Side Amplified Smoke Surge (Right More Smoke - Billowing Along Right Flank & Arm) */}
                 <div
-                  className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-[18%] bg-gradient-to-t from-cyan-500/18 via-teal-500/8 to-transparent blur-2xl pointer-events-none z-30"
+                  className="absolute bottom-0 -right-4 sm:-right-8 w-[62%] max-w-[480px] h-[55%] pointer-events-none select-none z-15"
+                  style={{
+                    maskImage:
+                      "radial-gradient(ellipse 48% 48% at 55% 55%, black 30%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.2) 85%, transparent 98%)",
+                    WebkitMaskImage:
+                      "radial-gradient(ellipse 48% 48% at 55% 55%, black 30%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.2) 85%, transparent 98%)",
+                  }}
+                >
+                  {/* Dense Right-Flank Plume */}
+                  <motion.div
+                    animate={{
+                      x: [4, -6, 2, -4, 4],
+                      y: [0, -8, 3, -6, 0],
+                      scale: [1, 1.06, 0.98, 1.04, 1],
+                      opacity: [0.85, 1.0, 0.8, 0.95, 0.85],
+                    }}
+                    transition={{
+                      duration: 9,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }}
+                    style={{
+                      maskImage:
+                        "radial-gradient(ellipse 50% 48% at 52% 52%, black 35%, transparent 85%)",
+                      WebkitMaskImage:
+                        "radial-gradient(ellipse 50% 48% at 52% 52%, black 35%, transparent 85%)",
+                    }}
+                    className="absolute inset-0 mix-blend-screen"
+                  >
+                    <Image
+                      src="/hero/cyan-smoke.webp"
+                      alt="Right-side billowing cyber smoke plume"
+                      fill
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                      className="object-cover object-right-bottom"
+                    />
+                  </motion.div>
+
+                  {/* Secondary Right Rising Tendrils */}
+                  <motion.div
+                    animate={{
+                      x: [-5, 5, -3, 4, -5],
+                      y: [-4, 3, -5, 2, -4],
+                      scale: [1.04, 0.96, 1.05, 0.98, 1.04],
+                      opacity: [0.7, 0.92, 0.65, 0.88, 0.7],
+                    }}
+                    transition={{
+                      duration: 13,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }}
+                    style={{
+                      maskImage:
+                        "radial-gradient(ellipse 46% 44% at 50% 50%, black 28%, transparent 80%)",
+                      WebkitMaskImage:
+                        "radial-gradient(ellipse 46% 44% at 50% 50%, black 28%, transparent 80%)",
+                    }}
+                    className="absolute inset-0 mix-blend-screen scale-x-[-1] blur-[0.5px]"
+                  >
+                    <Image
+                      src="/hero/cyan-smoke.webp"
+                      alt="Right-side billowing smoke tendrils"
+                      fill
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                      className="object-cover object-right-bottom"
+                    />
+                  </motion.div>
+                </div>
+
+                {/* 6. Pure-CSS Radial Ground Glow */}
+                <div
+                  className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-[20%] bg-gradient-to-t from-cyan-500/20 via-teal-500/10 to-transparent blur-2xl pointer-events-none z-30"
                 />
               </div>
             </motion.div>
