@@ -249,8 +249,8 @@ export default function Hero({ settings }: HeroProps) {
                 {/* 1. Underlying Cyan/Teal Atmospheric Aura Glow (Backlight) */}
                 <motion.div
                   animate={{
-                    scale: [1, 1.12, 0.96, 1.08, 1],
-                    opacity: [0.65, 0.9, 0.6, 0.85, 0.65],
+                    scale: [1, 1.15, 0.95, 1.1, 1],
+                    opacity: [0.7, 0.95, 0.65, 0.9, 0.7],
                   }}
                   transition={{
                     duration: 7,
@@ -263,12 +263,12 @@ export default function Hero({ settings }: HeroProps) {
                     WebkitMaskImage:
                       "radial-gradient(ellipse 70% 60% at 50% 50%, black 30%, transparent 75%)",
                   }}
-                  className="absolute bottom-6 left-1/2 -translate-x-1/2 w-[85%] max-w-[520px] h-[55%] rounded-full bg-gradient-to-t from-transparent via-cyan-500/30 to-teal-400/20 blur-3xl pointer-events-none z-0"
+                  className="absolute bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-[560px] h-[60%] rounded-full bg-gradient-to-t from-transparent via-cyan-500/35 to-teal-400/25 blur-3xl pointer-events-none z-0"
                 />
 
-                {/* 2. Background Volumetric Cyan Smoke Group (Behind Avatar & Shoulders) */}
+                {/* 2. Deep Volumetric Cyan Smoke (Back Side: Behind Avatar, Shoulders & Head) */}
                 <div
-                  className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[700px] h-[86%] pointer-events-none select-none z-0"
+                  className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[760px] h-[92%] pointer-events-none select-none z-0"
                   style={{
                     maskImage:
                       "radial-gradient(ellipse 48% 46% at 50% 50%, black 25%, rgba(0,0,0,0.85) 55%, rgba(0,0,0,0.3) 78%, transparent 98%)",
@@ -276,24 +276,24 @@ export default function Hero({ settings }: HeroProps) {
                       "radial-gradient(ellipse 48% 46% at 50% 50%, black 25%, rgba(0,0,0,0.85) 55%, rgba(0,0,0,0.3) 78%, transparent 98%)",
                   }}
                 >
-                  {/* Primary Rising Plume */}
+                  {/* Primary Rising Back Plume */}
                   <motion.div
                     animate={{
-                      x: [-8, 8, -5, 6, -8],
-                      y: [0, -10, -3, -7, 0],
-                      scale: [1, 1.05, 0.98, 1.04, 1],
-                      opacity: [0.9, 1.0, 0.85, 0.98, 0.9],
+                      x: [-10, 10, -6, 8, -10],
+                      y: [0, -14, -4, -10, 0],
+                      scale: [1, 1.06, 0.97, 1.05, 1],
+                      opacity: [0.92, 1.0, 0.88, 0.98, 0.92],
                     }}
                     transition={{
-                      duration: 10,
+                      duration: 11,
                       repeat: Infinity,
                       ease: "easeInOut",
                     }}
                     style={{
                       maskImage:
-                        "radial-gradient(ellipse 50% 46% at 50% 50%, black 28%, transparent 82%)",
+                        "radial-gradient(ellipse 52% 48% at 50% 48%, black 30%, transparent 84%)",
                       WebkitMaskImage:
-                        "radial-gradient(ellipse 50% 46% at 50% 50%, black 28%, transparent 82%)",
+                        "radial-gradient(ellipse 52% 48% at 50% 48%, black 30%, transparent 84%)",
                     }}
                     className="absolute inset-0 mix-blend-screen"
                   >
@@ -307,13 +307,13 @@ export default function Hero({ settings }: HeroProps) {
                     />
                   </motion.div>
 
-                  {/* Secondary Vapor Drift */}
+                  {/* Secondary Billowing Back Drift (Flipped & Offset) */}
                   <motion.div
                     animate={{
-                      x: [7, -7, 4, -5, 7],
-                      y: [-5, 4, -6, 3, -5],
-                      scale: [1.03, 0.97, 1.05, 0.98, 1.03],
-                      opacity: [0.65, 0.85, 0.6, 0.8, 0.65],
+                      x: [9, -9, 5, -7, 9],
+                      y: [-6, 5, -7, 4, -6],
+                      scale: [1.04, 0.96, 1.05, 0.98, 1.04],
+                      opacity: [0.75, 0.95, 0.7, 0.9, 0.75],
                     }}
                     transition={{
                       duration: 14,
@@ -322,9 +322,9 @@ export default function Hero({ settings }: HeroProps) {
                     }}
                     style={{
                       maskImage:
-                        "radial-gradient(ellipse 46% 42% at 50% 50%, black 22%, transparent 76%)",
+                        "radial-gradient(ellipse 48% 44% at 50% 50%, black 24%, transparent 78%)",
                       WebkitMaskImage:
-                        "radial-gradient(ellipse 46% 42% at 50% 50%, black 22%, transparent 76%)",
+                        "radial-gradient(ellipse 48% 44% at 50% 50%, black 24%, transparent 78%)",
                     }}
                     className="absolute inset-0 mix-blend-screen scale-x-[-1] blur-[0.5px]"
                   >
@@ -333,19 +333,49 @@ export default function Hero({ settings }: HeroProps) {
                       alt="Ambient cyan vapor drift"
                       fill
                       sizes="(max-width: 768px) 100vw, 50vw"
-                      className="object-cover object-bottom"
+                      className="object-cover object-center"
+                    />
+                  </motion.div>
+
+                  {/* Tertiary Expansive Shoulder Aura Wings */}
+                  <motion.div
+                    animate={{
+                      x: [-5, 5, -3, 4, -5],
+                      y: [3, -5, 2, -4, 3],
+                      scale: [0.96, 1.04, 0.98, 1.03, 0.96],
+                      opacity: [0.65, 0.85, 0.6, 0.82, 0.65],
+                    }}
+                    transition={{
+                      duration: 16,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }}
+                    style={{
+                      maskImage:
+                        "radial-gradient(ellipse 50% 45% at 50% 45%, black 22%, transparent 80%)",
+                      WebkitMaskImage:
+                        "radial-gradient(ellipse 50% 45% at 50% 45%, black 22%, transparent 80%)",
+                    }}
+                    className="absolute inset-0 mix-blend-screen blur-[1px]"
+                  >
+                    <Image
+                      src="/hero/cyan-smoke.webp"
+                      alt="Atmospheric cyan back mist"
+                      fill
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                      className="object-cover object-center"
                     />
                   </motion.div>
                 </div>
 
-                {/* 3. Profile Image with Multi-Layer Soft Torso & Silhouette Vignette (Zero Border Lines) */}
+                {/* 3. Profile Image with Multi-Layer Soft Torso & Silhouette Vignette (Clear Center & Chest) */}
                 <div
                   className="relative w-full h-full z-10 flex items-end justify-center select-none"
                   style={{
                     maskImage:
-                      "linear-gradient(to top, transparent 0%, transparent 6%, rgba(0,0,0,0.3) 18%, black 32%, black 100%)",
+                      "linear-gradient(to top, transparent 0%, transparent 5%, rgba(0,0,0,0.3) 16%, black 28%, black 100%)",
                     WebkitMaskImage:
-                      "linear-gradient(to top, transparent 0%, transparent 6%, rgba(0,0,0,0.3) 18%, black 32%, black 100%)",
+                      "linear-gradient(to top, transparent 0%, transparent 5%, rgba(0,0,0,0.3) 16%, black 28%, black 100%)",
                   }}
                 >
                   <div
@@ -368,135 +398,34 @@ export default function Hero({ settings }: HeroProps) {
                   </div>
                 </div>
 
-                {/* 4. Foreground Volumetric Smoke Group (In Front of Waist, Lower Torso & Arms) */}
+                {/* 4. Bottom-Only Smoke Pool (Wrapping strictly around the bottom base of the image, ZERO smoke on center/chest) */}
                 <div
-                  className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[640px] h-[62%] pointer-events-none select-none z-20"
+                  className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[700px] h-[22%] pointer-events-none select-none z-20"
                   style={{
                     maskImage:
-                      "radial-gradient(ellipse 48% 46% at 50% 50%, black 28%, rgba(0,0,0,0.88) 58%, rgba(0,0,0,0.3) 80%, transparent 98%)",
+                      "radial-gradient(ellipse 48% 44% at 50% 60%, black 25%, rgba(0,0,0,0.8) 55%, rgba(0,0,0,0.2) 78%, transparent 98%)",
                     WebkitMaskImage:
-                      "radial-gradient(ellipse 48% 46% at 50% 50%, black 28%, rgba(0,0,0,0.88) 58%, rgba(0,0,0,0.3) 80%, transparent 98%)",
+                      "radial-gradient(ellipse 48% 44% at 50% 60%, black 25%, rgba(0,0,0,0.8) 55%, rgba(0,0,0,0.2) 78%, transparent 98%)",
                   }}
                 >
-                  {/* Primary Foreground Rolling Cumulus Cloud */}
+                  {/* Bottom Mist Drift 1 */}
                   <motion.div
                     animate={{
-                      x: [-6, 6, -4, 5, -6],
-                      y: [0, -6, 3, -4, 0],
+                      x: [-8, 8, -4, 6, -8],
+                      y: [0, -3, 2, -2, 0],
                       scale: [1, 1.04, 0.98, 1.03, 1],
-                      opacity: [0.92, 1.0, 0.88, 0.98, 0.92],
+                      opacity: [0.75, 0.95, 0.7, 0.9, 0.75],
                     }}
                     transition={{
-                      duration: 9,
+                      duration: 10,
                       repeat: Infinity,
                       ease: "easeInOut",
                     }}
                     style={{
                       maskImage:
-                        "radial-gradient(ellipse 52% 48% at 50% 50%, black 35%, transparent 84%)",
+                        "radial-gradient(ellipse 52% 44% at 50% 55%, black 28%, transparent 78%)",
                       WebkitMaskImage:
-                        "radial-gradient(ellipse 52% 48% at 50% 50%, black 35%, transparent 84%)",
-                    }}
-                    className="absolute inset-0 mix-blend-screen"
-                  >
-                    <Image
-                      src="/hero/cyan-smoke.webp"
-                      alt="Foreground volumetric rolling smoke"
-                      fill
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                      className="object-cover object-bottom"
-                    />
-                  </motion.div>
-
-                  {/* Secondary Foreground Billowing Tendrils */}
-                  <motion.div
-                    animate={{
-                      x: [5, -5, 3, -4, 5],
-                      y: [-3, 4, -4, 2, -3],
-                      scale: [1.03, 0.97, 1.04, 0.98, 1.03],
-                      opacity: [0.75, 0.92, 0.7, 0.88, 0.75],
-                    }}
-                    transition={{
-                      duration: 12,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                    }}
-                    style={{
-                      maskImage:
-                        "radial-gradient(ellipse 48% 44% at 50% 50%, black 28%, transparent 80%)",
-                      WebkitMaskImage:
-                        "radial-gradient(ellipse 48% 44% at 50% 50%, black 28%, transparent 80%)",
-                    }}
-                    className="absolute inset-0 mix-blend-screen scale-x-[-1] blur-[0.5px]"
-                  >
-                    <Image
-                      src="/hero/cyan-smoke.webp"
-                      alt="Foreground billowing smoke tendrils"
-                      fill
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                      className="object-cover object-bottom"
-                    />
-                  </motion.div>
-
-                  {/* Tertiary Dense Front Mist Layer */}
-                  <motion.div
-                    animate={{
-                      x: [-4, 4, -2, 3, -4],
-                      y: [2, -3, 1, -2, 2],
-                      scale: [0.98, 1.03, 1.0, 1.02, 0.98],
-                      opacity: [0.65, 0.82, 0.6, 0.8, 0.65],
-                    }}
-                    transition={{
-                      duration: 15,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                    }}
-                    style={{
-                      maskImage:
-                        "radial-gradient(ellipse 44% 40% at 50% 55%, black 24%, transparent 76%)",
-                      WebkitMaskImage:
-                        "radial-gradient(ellipse 44% 40% at 50% 55%, black 24%, transparent 76%)",
-                    }}
-                    className="absolute inset-0 mix-blend-screen blur-[1px]"
-                  >
-                    <Image
-                      src="/hero/cyan-smoke.webp"
-                      alt="Dense foreground cyan mist"
-                      fill
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                      className="object-cover object-bottom"
-                    />
-                  </motion.div>
-                </div>
-
-                {/* 5. Extra Ground-Level Smoke Pool (above foreground smoke, pooling at base) */}
-                <div
-                  className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[700px] h-[36%] pointer-events-none select-none z-25"
-                  style={{
-                    maskImage:
-                      "radial-gradient(ellipse 48% 46% at 50% 50%, black 30%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.25) 80%, transparent 98%)",
-                    WebkitMaskImage:
-                      "radial-gradient(ellipse 48% 46% at 50% 50%, black 30%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.25) 80%, transparent 98%)",
-                  }}
-                >
-                  {/* Ground Smoke Layer 1 — slow creep */}
-                  <motion.div
-                    animate={{
-                      x: [-9, 9, -5, 7, -9],
-                      y: [0, -5, 3, -3, 0],
-                      scale: [1, 1.05, 0.96, 1.04, 1],
-                      opacity: [0.8, 0.98, 0.75, 0.92, 0.8],
-                    }}
-                    transition={{
-                      duration: 12,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                    }}
-                    style={{
-                      maskImage:
-                        "radial-gradient(ellipse 52% 44% at 50% 50%, black 28%, transparent 78%)",
-                      WebkitMaskImage:
-                        "radial-gradient(ellipse 52% 44% at 50% 50%, black 28%, transparent 78%)",
+                        "radial-gradient(ellipse 52% 44% at 50% 55%, black 28%, transparent 78%)",
                     }}
                     className="absolute inset-0 mix-blend-screen"
                   >
@@ -509,24 +438,24 @@ export default function Hero({ settings }: HeroProps) {
                     />
                   </motion.div>
 
-                  {/* Ground Smoke Layer 2 — slower drift */}
+                  {/* Bottom Mist Drift 2 (Slower Reverse Drift) */}
                   <motion.div
                     animate={{
-                      x: [7, -7, 4, -6, 7],
-                      y: [-3, 5, -4, 3, -3],
-                      scale: [1.04, 0.96, 1.06, 0.97, 1.04],
-                      opacity: [0.65, 0.85, 0.6, 0.8, 0.65],
+                      x: [7, -7, 4, -5, 7],
+                      y: [-2, 3, -3, 2, -2],
+                      scale: [1.03, 0.97, 1.04, 0.98, 1.03],
+                      opacity: [0.6, 0.8, 0.55, 0.75, 0.6],
                     }}
                     transition={{
-                      duration: 16,
+                      duration: 14,
                       repeat: Infinity,
                       ease: "easeInOut",
                     }}
                     style={{
                       maskImage:
-                        "radial-gradient(ellipse 48% 40% at 50% 50%, black 24%, transparent 74%)",
+                        "radial-gradient(ellipse 48% 40% at 50% 55%, black 24%, transparent 74%)",
                       WebkitMaskImage:
-                        "radial-gradient(ellipse 48% 40% at 50% 50%, black 24%, transparent 74%)",
+                        "radial-gradient(ellipse 48% 40% at 50% 55%, black 24%, transparent 74%)",
                     }}
                     className="absolute inset-0 mix-blend-screen scale-x-[-1]"
                   >
@@ -540,9 +469,9 @@ export default function Hero({ settings }: HeroProps) {
                   </motion.div>
                 </div>
 
-                {/* 6. Pure-CSS Radial Ground Glow */}
+                {/* 5. Pure-CSS Radial Ground Glow */}
                 <div
-                  className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-[24%] bg-gradient-to-t from-cyan-500/20 via-teal-500/10 to-transparent blur-2xl pointer-events-none z-30"
+                  className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-[18%] bg-gradient-to-t from-cyan-500/18 via-teal-500/8 to-transparent blur-2xl pointer-events-none z-30"
                 />
               </div>
             </motion.div>
