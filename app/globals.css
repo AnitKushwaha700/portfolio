@@ -320,3 +320,40 @@ html.light .scrollbar-thin::-webkit-scrollbar-thumb:hover {
     transform: translateX(100%);
   }
 }
+
+/* Continuous Skills Marquee Animations */
+@keyframes marquee-left {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marquee-right {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+.animate-marquee-left {
+  display: flex;
+  width: max-content;
+  animation: marquee-left 34s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-right {
+  display: flex;
+  width: max-content;
+  animation: marquee-right 34s linear infinite;
+  will-change: transform;
+}
+
+.pause-hover:hover {
+  animation-play-state: paused;
+}

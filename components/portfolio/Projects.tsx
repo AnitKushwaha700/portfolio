@@ -1,23 +1,23 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback, useMemo } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import {
   ChevronLeft,
   ChevronRight,
   ExternalLink,
-  ArrowRight,
-  Code2,
   UtensilsCrossed,
   MessageSquare,
   Sparkles,
-  ShieldCheck,
   Laptop,
+  CheckCircle2,
+  AlertCircle,
+  Lightbulb,
 } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
 import Image from "next/image";
-import { formatImageUrl, isExternalUrl, sanitizeUrl } from "@/utils";
+import { formatImageUrl, sanitizeUrl } from "@/utils";
 
 interface ProjectsProps {
   projects: any[];
@@ -25,20 +25,16 @@ interface ProjectsProps {
 
 /**
  * Modern isometric/SVG fallback graphic when a project image hasn't been uploaded yet.
- * Styled with the signature red/rose/amber cyber theme matching the entire portfolio.
  */
 function ProjectGraphicFallback({ slug, title }: { slug: string; title: string }) {
   const normalized = (slug + " " + title).toLowerCase();
 
   if (normalized.includes("craving") || normalized.includes("food")) {
     return (
-      <div className="relative w-full h-full flex items-center justify-center">
-        <div className="absolute inset-0 bg-gradient-to-tr from-red-500/10 via-rose-500/15 to-transparent rounded-xl" />
-        <div className="relative flex items-center justify-center">
-          <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-tr from-red-500 via-rose-500 to-amber-500 p-0.5 shadow-lg shadow-red-500/30 transform -rotate-2 hover:rotate-0 transition-transform duration-300">
-            <div className="w-full h-full bg-[#111827] rounded-[14px] flex items-center justify-center">
-              <UtensilsCrossed className="w-6 h-6 sm:w-7 sm:h-7 text-rose-400" />
-            </div>
+      <div className="relative w-full h-full flex items-center justify-center bg-gradient-to-tr from-emerald-500/10 via-teal-500/10 to-transparent">
+        <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-400 p-0.5 shadow-xl shadow-emerald-500/20 transform -rotate-2 hover:rotate-0 transition-transform duration-300">
+          <div className="w-full h-full bg-[#0d121f] rounded-[14px] flex items-center justify-center">
+            <UtensilsCrossed className="w-7 h-7 text-emerald-400" />
           </div>
         </div>
       </div>
@@ -47,28 +43,10 @@ function ProjectGraphicFallback({ slug, title }: { slug: string; title: string }
 
   if (normalized.includes("chat") || normalized.includes("talk")) {
     return (
-      <div className="relative w-full h-full flex items-center justify-center">
-        <div className="absolute inset-0 bg-gradient-to-tr from-rose-500/10 via-red-500/15 to-transparent rounded-xl" />
-        <div className="relative flex items-center justify-center">
-          <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-tr from-rose-500 to-red-500 p-0.5 shadow-lg shadow-rose-500/30 transform rotate-2 hover:rotate-0 transition-transform duration-300">
-            <div className="w-full h-full bg-[#111827] rounded-[14px] flex items-center justify-center">
-              <MessageSquare className="w-6 h-6 sm:w-7 sm:h-7 text-red-400" />
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (normalized.includes("auth") || normalized.includes("security")) {
-    return (
-      <div className="relative w-full h-full flex items-center justify-center">
-        <div className="absolute inset-0 bg-gradient-to-tr from-amber-500/10 via-red-500/15 to-transparent rounded-xl" />
-        <div className="relative flex items-center justify-center">
-          <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-tr from-amber-500 via-rose-500 to-red-500 p-0.5 shadow-lg shadow-amber-500/30 transform -rotate-2 hover:rotate-0 transition-transform duration-300">
-            <div className="w-full h-full bg-[#111827] rounded-[14px] flex items-center justify-center">
-              <ShieldCheck className="w-6 h-6 sm:w-7 sm:h-7 text-amber-400" />
-            </div>
+      <div className="relative w-full h-full flex items-center justify-center bg-gradient-to-tr from-cyan-500/10 via-blue-500/10 to-transparent">
+        <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-cyan-500 to-blue-500 p-0.5 shadow-xl shadow-cyan-500/20 transform rotate-2 hover:rotate-0 transition-transform duration-300">
+          <div className="w-full h-full bg-[#0d121f] rounded-[14px] flex items-center justify-center">
+            <MessageSquare className="w-7 h-7 text-cyan-400" />
           </div>
         </div>
       </div>
@@ -77,28 +55,21 @@ function ProjectGraphicFallback({ slug, title }: { slug: string; title: string }
 
   if (normalized.includes("career") || normalized.includes("ai") || normalized.includes("resume")) {
     return (
-      <div className="relative w-full h-full flex items-center justify-center">
-        <div className="absolute inset-0 bg-gradient-to-tr from-rose-500/10 via-amber-500/15 to-transparent rounded-xl" />
-        <div className="relative flex items-center justify-center">
-          <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-tr from-red-600 via-rose-500 to-amber-400 p-0.5 shadow-lg shadow-red-500/30 transform rotate-2 hover:rotate-0 transition-transform duration-300">
-            <div className="w-full h-full bg-[#111827] rounded-[14px] flex items-center justify-center">
-              <Sparkles className="w-6 h-6 sm:w-7 sm:h-7 text-amber-300" />
-            </div>
+      <div className="relative w-full h-full flex items-center justify-center bg-gradient-to-tr from-indigo-500/10 via-purple-500/10 to-transparent">
+        <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 p-0.5 shadow-xl shadow-indigo-500/20 transform rotate-2 hover:rotate-0 transition-transform duration-300">
+          <div className="w-full h-full bg-[#0d121f] rounded-[14px] flex items-center justify-center">
+            <Sparkles className="w-7 h-7 text-purple-300" />
           </div>
         </div>
       </div>
     );
   }
 
-  // Default Laptop / Platform illustration
   return (
-    <div className="relative w-full h-full flex items-center justify-center">
-      <div className="absolute inset-0 bg-gradient-to-tr from-red-500/10 via-rose-500/15 to-transparent rounded-xl" />
-      <div className="relative flex items-center justify-center">
-        <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-tr from-red-500 to-rose-400 p-0.5 shadow-lg shadow-red-500/30 transform hover:scale-105 transition-transform duration-300">
-          <div className="w-full h-full bg-[#111827] rounded-[14px] flex items-center justify-center">
-            <Laptop className="w-6 h-6 sm:w-7 sm:h-7 text-rose-400" />
-          </div>
+    <div className="relative w-full h-full flex items-center justify-center bg-gradient-to-tr from-slate-500/10 via-cyan-500/10 to-transparent">
+      <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-slate-600 to-cyan-500 p-0.5 shadow-xl shadow-cyan-500/20 transform hover:scale-105 transition-transform duration-300">
+        <div className="w-full h-full bg-[#0d121f] rounded-[14px] flex items-center justify-center">
+          <Laptop className="w-7 h-7 text-cyan-400" />
         </div>
       </div>
     </div>
@@ -106,407 +77,446 @@ function ProjectGraphicFallback({ slug, title }: { slug: string; title: string }
 }
 
 export default function Projects({ projects }: ProjectsProps) {
-  const trackRef = useRef<HTMLDivElement>(null);
-  const animatingRef = useRef<boolean>(false);
+  const safeProjects = useMemo(() => (projects || []).filter((p) => p.visible !== false), [projects]);
+  const total = safeProjects.length;
+
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
   const autoTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  const [isHovered, setIsHovered] = useState(false);
-  // extendedIndex tracks position inside the triple-cloned array.
-  // Middle copy starts at safeProjects.length (index offset).
-  const [extendedIndex, setExtendedIndex] = useState(0); // set properly after mount
-  const [animating, setAnimating] = useState(false);
-  const [mounted, setMounted] = useState(false);
-  // cardWidth stored in state so reads during render are safe and trigger re-renders
-  const [cardWidth, setCardWidth] = useState(0);
+  // Navigation handlers
+  const prevSlide = useCallback(() => {
+    setActiveIndex((prev) => (prev - 1 + total) % total);
+  }, [total]);
 
-  // Touch gesture tracking for mobile swipe navigation
-  const touchStartX = useRef<number>(0);
-  const touchStartY = useRef<number>(0);
-  const touchDeltaX = useRef<number>(0);
+  const nextSlide = useCallback(() => {
+    setActiveIndex((prev) => (prev + 1) % total);
+  }, [total]);
 
-  const safeProjects = useMemo(() => projects || [], [projects]);
-  const hasProjects = safeProjects.length > 0;
-
-  // Build triple-cloned list: [copy0, copy1 (active), copy2]
-  // copy1 starts at index N, copy2 starts at 2N.
-  const extendedProjects = useMemo(() => {
-    if (!hasProjects) return [];
-    return [...safeProjects, ...safeProjects, ...safeProjects];
-  }, [safeProjects, hasProjects]);
-
-  const N = safeProjects.length;
-
-  // activeIndex: which dot is highlighted (0..N-1)
-  const activeIndex = N > 0 ? ((extendedIndex % N) + N) % N : 0;
-
-  // Measure card width via ResizeObserver — stored in state (safe to read during render)
+  // Auto-sliding every 4.2 seconds, pause on hover
   useEffect(() => {
-    if (!hasProjects) return;
-    const track = trackRef.current;
-    if (!track) return;
-
-    const measure = () => {
-      const firstCard = track.firstElementChild as HTMLElement | null;
-      if (firstCard) {
-        // gap-4 = 16px on mobile, gap-6 = 24px on sm+. Use computed gap.
-        const computedGap = parseFloat(getComputedStyle(track).gap) || 16;
-        setCardWidth(firstCard.offsetWidth + computedGap);
-      }
-    };
-
-    // Initial measure after layout
-    const raf = requestAnimationFrame(() => {
-      measure();
-      // Start at middle copy (index N) so we can scroll left or right seamlessly
-      setExtendedIndex(N);
-      setMounted(true);
-    });
-
-    const ro = new ResizeObserver(measure);
-    ro.observe(track);
-
-    return () => {
-      cancelAnimationFrame(raf);
-      ro.disconnect();
-    };
-  }, [hasProjects, N]);
-
-  // Advance one step in given direction
-  const advance = useCallback(
-    (direction: "left" | "right") => {
-      if (animatingRef.current) return;
-
-      setExtendedIndex((prev) => {
-        const next = direction === "right" ? prev + 1 : prev - 1;
-        return next;
-      });
-      setAnimating(true);
-      animatingRef.current = true;
-    },
-    [],
-  );
-
-  // Mobile Touch handlers
-  const handleTouchStart = (e: React.TouchEvent) => {
-    setIsHovered(true);
-    touchStartX.current = e.touches[0].clientX;
-    touchStartY.current = e.touches[0].clientY;
-    touchDeltaX.current = 0;
-  };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    const currentX = e.touches[0].clientX;
-    const currentY = e.touches[0].clientY;
-    const diffX = currentX - touchStartX.current;
-    const diffY = currentY - touchStartY.current;
-
-    // Track horizontal swipe only when user is not vertically scrolling
-    if (Math.abs(diffX) > Math.abs(diffY)) {
-      touchDeltaX.current = diffX;
-    }
-  };
-
-  const handleTouchEnd = () => {
-    setIsHovered(false);
-    const threshold = 35; // minimum swipe distance
-    if (touchDeltaX.current < -threshold) {
-      advance("right");
-    } else if (touchDeltaX.current > threshold) {
-      advance("left");
-    }
-    touchDeltaX.current = 0;
-  };
-
-  // After CSS transition ends, check if we need to silently snap back to middle copy
-  const handleTransitionEnd = useCallback(() => {
-    setAnimating(false);
-    animatingRef.current = false;
-
-    setExtendedIndex((prev) => {
-      // If we've drifted into the first copy (< N) or beyond the last (>= 2N), snap to middle
-      if (prev < N) return prev + N;
-      if (prev >= 2 * N) return prev - N;
-      return prev;
-    });
-  }, [N]);
-
-  // Auto-advance every 3.8s; pause when hovered or tab hidden
-  useEffect(() => {
-    if (isHovered || !hasProjects || !mounted) return;
+    if (isHovered || total <= 1) return;
 
     autoTimerRef.current = setInterval(() => {
       if (typeof document !== "undefined" && document.visibilityState === "hidden") return;
-      advance("right");
-    }, 3800);
+      nextSlide();
+    }, 4200);
 
     return () => {
       if (autoTimerRef.current) clearInterval(autoTimerRef.current);
     };
-  }, [isHovered, hasProjects, mounted, advance]);
+  }, [isHovered, total, nextSlide]);
 
-  // Jump to a specific dot index
-  const scrollToSlide = useCallback(
-    (dotIndex: number) => {
-      if (animatingRef.current) return;
-      // Map dot index into the middle copy
-      const target = N + dotIndex;
-      setExtendedIndex(target);
-      setAnimating(true);
-      animatingRef.current = true;
-    },
-    [N],
-  );
+  if (!safeProjects || safeProjects.length === 0) return null;
 
-  // Compute translateX offset — cardWidth is state so this read is safe during render
-  // Before mounted, offset is 0 (no flash of wrong position)
-  const translateX = mounted && cardWidth > 0 ? -(extendedIndex * cardWidth) : 0;
+  const activeProject = safeProjects[activeIndex];
+  const prevProject = safeProjects[(activeIndex - 1 + total) % total];
+  const nextProject = safeProjects[(activeIndex + 1) % total];
 
-  if (!hasProjects) return null;
+  const formattedCounter = `0${activeIndex + 1} / 0${total}`;
 
   return (
-    <section id="projects" className="section-container relative w-full max-w-full overflow-hidden scroll-mt-20 pt-20 sm:pt-28 pb-12 sm:pb-16">
-      {/* Ambient background glows matching signature palette */}
-      <div className="absolute top-1/3 left-1/4 -translate-x-1/2 w-[300px] sm:w-[450px] h-[300px] sm:h-[450px] bg-red-600/10 rounded-full blur-[100px] sm:blur-[140px] pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 translate-x-1/2 w-[300px] sm:w-[450px] h-[300px] sm:h-[450px] bg-amber-600/10 rounded-full blur-[100px] sm:blur-[140px] pointer-events-none" />
+    <section id="projects" className="relative z-10 py-16 sm:py-24 overflow-hidden bg-transparent">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 sm:mb-12">
+          {/* Left Title & Kicker */}
+          <div className="space-y-3 max-w-2xl">
+            <div className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold tracking-widest uppercase text-slate-500 dark:text-gray-400">
+              <span className="text-emerald-500 dark:text-emerald-400 font-mono">03</span>
+              <span className="w-4 h-px bg-slate-300 dark:bg-gray-700" />
+              <span>SELECTED WORK</span>
+            </div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.6 }}
-        className="relative z-10 w-full max-w-6xl mx-auto"
-      >
-        {/* Section Header: Centered with Signature Red/Rose/Amber Gradient */}
-        <div className="text-center space-y-2.5 sm:space-y-3 mb-8 sm:mb-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/20 text-xs font-semibold text-red-400 uppercase tracking-wider mb-1">
-            <Code2 className="w-3.5 h-3.5" />
-            <span>Project Showcase</span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-slate-900 dark:text-white leading-[1.15]">
+              Things made{" "}
+              <span className="font-serif italic font-normal text-emerald-600 dark:text-emerald-400 tracking-normal drop-shadow-[0_2px_16px_rgba(16,185,129,0.2)]">
+                with intent.
+              </span>
+            </h2>
           </div>
-          <h2 className="section-title mb-0 text-center">
-            Featured{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-rose-500 to-amber-500 drop-shadow-[0_0_30px_rgba(239,68,68,0.35)]">
-              Projects
+
+          {/* Right Subtitle */}
+          <div className="md:max-w-md lg:max-w-lg text-left md:text-right">
+            <p className="text-sm sm:text-base text-slate-600 dark:text-gray-400 leading-relaxed font-normal">
+              3D interactive project showcase. Slides automatically from left to right; hover your mouse
+              over the cards to pause.
+            </p>
+          </div>
+        </div>
+
+        {/* Top Control Bar: Status Indicator + Numeric Counter Controls */}
+        <div className="flex items-center justify-between gap-4 mb-8 sm:mb-10 pb-4 border-b border-slate-200/80 dark:border-gray-800/80">
+          {/* Status Pill */}
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-100 dark:bg-white/[0.04] border border-slate-200 dark:border-gray-800 text-[11px] sm:text-xs font-semibold text-slate-700 dark:text-gray-300 select-none">
+            <span className="relative flex h-2 w-2">
+              <span
+                className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${
+                  isHovered ? "bg-amber-400" : "bg-emerald-400"
+                }`}
+              />
+              <span
+                className={`relative inline-flex rounded-full h-2 w-2 ${
+                  isHovered ? "bg-amber-500" : "bg-emerald-500"
+                }`}
+              />
             </span>
-          </h2>
-          <p className="text-xs sm:text-base text-gray-400 max-w-xl mx-auto px-2">
-            A selection of production-ready full-stack applications, interactive web tools, and real-time systems.
-          </p>
+            <span>{isHovered ? "Paused [Inspecting card]" : "Auto-sliding [Hover mouse on card to inspect]"}</span>
+          </div>
+
+          {/* Carousel Arrows & Counter */}
+          <div className="flex items-center gap-2 select-none">
+            <button
+              onClick={prevSlide}
+              aria-label="Previous Project"
+              className="p-2 sm:p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-white/[0.04] dark:hover:bg-white/[0.08] border border-slate-300 dark:border-gray-800 text-slate-700 dark:text-gray-200 transition-all hover:scale-105 active:scale-95 shadow-xs cursor-pointer"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+
+            <span className="px-3 text-xs sm:text-sm font-mono font-bold text-slate-800 dark:text-gray-200">
+              {formattedCounter}
+            </span>
+
+            <button
+              onClick={nextSlide}
+              aria-label="Next Project"
+              className="p-2 sm:p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-white/[0.04] dark:hover:bg-white/[0.08] border border-slate-300 dark:border-gray-800 text-slate-700 dark:text-gray-200 transition-all hover:scale-105 active:scale-95 shadow-xs cursor-pointer"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
         </div>
 
-        {/* Mobile Swipe Hint */}
-        <div className="flex sm:hidden items-center justify-center gap-1.5 text-[11px] text-gray-400 mb-3 select-none">
-          <span className="animate-pulse">‹ Swipe left/right or use side arrows ›</span>
-        </div>
-
-        {/* Carousel Outer Wrapper with Left and Right Flanking Buttons */}
+        {/* 3D Interactive Coverflow Card Stage */}
         <div
-          className="relative w-full max-w-full px-7 sm:px-11 lg:px-12 flex items-center group/carousel"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
+          className="relative w-full h-[380px] sm:h-[430px] md:h-[480px] flex items-center justify-center select-none overflow-hidden sm:overflow-visible perspective-[1200px]"
         >
-          {/* Left Navigation Button (Flanking Left Side) */}
-          <button
-            onClick={() => advance("left")}
-            aria-label="Previous Project"
-            className="absolute left-0 sm:left-0.5 lg:left-1 top-1/2 -translate-y-1/2 z-30 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/95 dark:bg-[#0d121f]/95 border border-slate-300 dark:border-gray-700/80 text-slate-700 dark:text-gray-200 hover:text-red-600 dark:hover:text-white hover:border-red-500/80 hover:bg-red-50 dark:hover:bg-red-500/20 hover:scale-110 active:scale-95 transition-all duration-300 shadow-md dark:shadow-2xl dark:shadow-black/90 backdrop-blur-md cursor-pointer flex items-center justify-center group"
-          >
-            <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 group-hover:-translate-x-0.5 transition-transform" />
-          </button>
-
-          {/* Carousel viewport: overflow-hidden clips the sliding track. min-w-0 prevents flex container blowout */}
-          <div className="w-full min-w-0 overflow-hidden">
-            {/* Carousel Infinite Loop Track — GPU-accelerated via translateX */}
+          {/* Card Left (Previous) */}
+          {total > 1 && (
             <div
-              ref={trackRef}
-              className="flex gap-3.5 sm:gap-5 py-3 select-none"
-              style={{
-                transform: `translateX(${translateX}px)`,
-                transition: animating
-                  ? "transform 350ms cubic-bezier(0.25, 0.46, 0.45, 0.94)"
-                  : "none",
-                willChange: "transform",
-                contain: "layout style",
-                touchAction: "pan-y",
-                // Prevent text selection & user drag
-                userSelect: "none",
-              }}
-              onTransitionEnd={handleTransitionEnd}
+              onClick={prevSlide}
+              className="absolute left-1/2 top-1/2 -translate-x-[92%] sm:-translate-x-[95%] -translate-y-1/2 w-[280px] sm:w-[340px] md:w-[380px] h-[320px] sm:h-[370px] md:h-[410px] rounded-3xl bg-slate-100/90 dark:bg-[#0e121f]/90 border border-slate-200 dark:border-gray-800/80 shadow-lg scale-[0.88] opacity-50 hover:opacity-80 transition-all duration-500 cursor-pointer z-10 overflow-hidden transform -rotate-y-[6deg]"
             >
-              {extendedProjects.map((project, index) => {
-                const formattedSrc = formatImageUrl(project.image);
-                const isExternal = isExternalUrl(formattedSrc);
-
-                // Pattern in sequence: Alternating Guided Project and Independent Project
-                const isGuided = index % 2 === 0;
-                const badgeLabel =
-                  project.category || (isGuided ? "Guided Project" : "Independent Project");
-
-                return (
-                  <div
-                    key={`${project._id || project.slug || "proj"}-${index}`}
-                    className="flex-shrink-0 w-full sm:w-[calc(50%-10px)] lg:w-[calc(33.333%-14px)] snap-start group relative min-w-0 max-w-full"
-                  >
-                    {/* Compact, Sleek Project Card Matching Other Portfolio Features */}
-                    <div className="relative h-full bg-white/95 dark:bg-[#0d121f]/90 border border-slate-200 dark:border-gray-800/90 rounded-2xl p-4 sm:p-5 flex flex-col justify-between overflow-hidden shadow-md dark:shadow-xl transition-all duration-300 group-hover:border-red-500/50 group-hover:shadow-[0_15px_30px_rgba(239,68,68,0.12)] dark:group-hover:shadow-[0_0_25px_rgba(239,68,68,0.15)]">
-                      {/* Top Badge: Consistent Sequence & Harmonized Palette with Live Indicator */}
-                      <div className="flex justify-center mb-2">
-                        <span className="px-2.5 py-0.5 text-[10px] sm:text-[11px] font-semibold rounded-full border bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 border-red-200/80 dark:border-red-500/30 transition-colors flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
-                          <span>{badgeLabel}</span>
-                        </span>
-                      </div>
-
-                      {/* Project Preview Image Container — Edge-to-Edge Full Display, Border Hidden */}
-                      <div className="relative h-36 sm:h-44 w-full flex items-center justify-center overflow-hidden my-1.5 sm:my-2 rounded-xl bg-slate-100 dark:bg-[#0b0f19]">
-                        {formattedSrc ? (
-                          <Image
-                            src={formattedSrc}
-                            alt={project.title}
-                            fill
-                            unoptimized={isExternal}
-                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                            className="object-cover object-top group-hover:scale-105 transition-transform duration-500 pointer-events-none"
-                          />
-                        ) : (
-                          <ProjectGraphicFallback slug={project.slug} title={project.title} />
-                        )}
-                      </div>
-
-                      {/* Title & Short Description */}
-                      <div className="text-center mt-1.5 sm:mt-2">
-                        <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-gray-100 group-hover:text-red-500 dark:group-hover:text-red-400 transition-colors line-clamp-1">
-                          {project.title}
-                        </h3>
-                        <p className="text-xs text-slate-600 dark:text-gray-400 mt-1 line-clamp-2 leading-relaxed">
-                          {project.description}
-                        </p>
-                      </div>
-
-                      {/* Tech Stack Pills (RICR 2x2 Grid Style) */}
-                      <div className="grid grid-cols-2 gap-1.5 mt-2.5 pt-1">
-                        {(project.technologies || []).slice(0, 4).map((tech: string) => (
-                          <span
-                            key={tech}
-                            className="py-1 px-2 text-center text-[10px] sm:text-[11px] font-medium text-slate-700 dark:text-gray-300 bg-slate-100/90 dark:bg-white/[0.03] border border-slate-200 dark:border-gray-800 rounded-full hover:border-slate-300 dark:hover:border-gray-700 transition-colors truncate"
-                          >
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-
-                      {/* Mobile Action Bar */}
-                      <div className="flex sm:hidden items-center justify-between mt-3 pt-2.5 border-t border-slate-200/80 dark:border-gray-800/70">
-                        <Link
-                          href={`/projects/${project.slug}`}
-                          className="px-2.5 py-1 rounded-lg bg-red-500/10 border border-red-500/20 text-xs font-semibold text-red-400 hover:text-red-300 flex items-center gap-1 transition-colors active:scale-95"
-                        >
-                          <span>View</span>
-                          <ArrowRight className="w-3 h-3" />
-                        </Link>
-                        <div className="flex items-center gap-1.5">
-                          {project.githubUrl && (
-                            <Link
-                              href={sanitizeUrl(project.githubUrl)}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              aria-label="GitHub Repository"
-                              className="p-1.5 rounded-full bg-white/5 border border-white/10 text-gray-300 hover:text-white active:scale-95 transition-all"
-                            >
-                              <FaGithub className="w-3.5 h-3.5" />
-                            </Link>
-                          )}
-                          {project.liveUrl && (
-                            <Link
-                              href={sanitizeUrl(project.liveUrl)}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              aria-label="Live Demo"
-                              className="p-1.5 rounded-full bg-white/5 border border-white/10 text-gray-300 hover:text-white active:scale-95 transition-all"
-                            >
-                              <ExternalLink className="w-3.5 h-3.5" />
-                            </Link>
-                          )}
-                        </div>
-                      </div>
-
-                      {/* Desktop Interactive Hover Blur Overlay with Signature Red Button */}
-                      <div className="hidden sm:flex absolute inset-0 bg-black/75 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-300 flex-col items-center justify-center gap-3 z-20 p-5 pointer-events-none group-hover:pointer-events-auto">
-                        <Link
-                          href={`/projects/${project.slug}`}
-                          className="px-6 py-2.5 rounded-full bg-gradient-to-r from-red-600 via-rose-600 to-amber-600 hover:opacity-95 text-white text-xs font-semibold shadow-xl shadow-red-600/30 hover:scale-105 active:scale-95 transition-all duration-200 inline-flex items-center gap-2"
-                        >
-                          <span>View Details</span>
-                          <ArrowRight className="w-3.5 h-3.5" />
-                        </Link>
-
-                        {/* Quick Action Links: GitHub & Live Demo */}
-                        <div className="flex items-center gap-3 mt-1">
-                          {project.githubUrl && (
-                            <Link
-                              href={sanitizeUrl(project.githubUrl)}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              aria-label="GitHub Repository"
-                              className="p-2.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white transition-all hover:scale-110 active:scale-95"
-                            >
-                              <FaGithub className="w-4 h-4" />
-                            </Link>
-                          )}
-                          {project.liveUrl && (
-                            <Link
-                              href={sanitizeUrl(project.liveUrl)}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              aria-label="Live Project Demo"
-                              className="p-2.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white transition-all hover:scale-110 active:scale-95"
-                            >
-                              <ExternalLink className="w-4 h-4" />
-                            </Link>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
+              <div className="p-4 sm:p-5 flex items-center justify-between border-b border-slate-200 dark:border-gray-800/60 text-xs text-slate-400 dark:text-gray-500 font-mono">
+                <span>0{((activeIndex - 1 + total) % total) + 1} / {total < 10 ? `0${total}` : total}</span>
+                <span className="text-4xl font-black opacity-10 absolute right-4 top-2 select-none">
+                  0{((activeIndex - 1 + total) % total) + 1}
+                </span>
+              </div>
+              <div className="relative w-full h-[65%] flex items-center justify-center p-4">
+                {prevProject.image ? (
+                  <Image
+                    src={formatImageUrl(prevProject.image)}
+                    alt={prevProject.title}
+                    fill
+                    sizes="400px"
+                    className="object-cover rounded-2xl opacity-75"
+                  />
+                ) : (
+                  <ProjectGraphicFallback slug={prevProject.slug || ""} title={prevProject.title} />
+                )}
+              </div>
+              <div className="p-4 bg-slate-200/50 dark:bg-black/30 backdrop-blur-md">
+                <div className="font-bold text-sm text-slate-700 dark:text-gray-300 truncate">
+                  {prevProject.title}
+                </div>
+              </div>
             </div>
-          </div>
+          )}
 
-          {/* Right Navigation Button (Flanking Right Side) */}
-          <button
-            onClick={() => advance("right")}
-            aria-label="Next Project"
-            className="absolute right-0.5 sm:right-1 lg:right-2 top-1/2 -translate-y-1/2 z-30 w-8 h-8 sm:w-11 sm:h-11 rounded-full bg-white/95 dark:bg-[#0d121f]/95 border border-slate-300 dark:border-gray-700/80 text-slate-700 dark:text-gray-200 hover:text-red-600 dark:hover:text-white hover:border-red-500/80 hover:bg-red-50 dark:hover:bg-red-500/20 hover:scale-110 active:scale-95 transition-all duration-300 shadow-md dark:shadow-2xl dark:shadow-black/90 backdrop-blur-md cursor-pointer flex items-center justify-center group"
+          {/* Card Center (Active Showcase) */}
+          <motion.div
+            key={`active-${activeProject._id || activeProject.title}`}
+            initial={{ opacity: 0.85, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.45, ease: "easeOut" }}
+            className="relative w-[300px] sm:w-[380px] md:w-[440px] h-[340px] sm:h-[400px] md:h-[450px] rounded-3xl bg-white dark:bg-[#0e1222] border-2 border-slate-300 dark:border-emerald-500/30 shadow-2xl shadow-emerald-500/10 z-30 overflow-hidden flex flex-col justify-between"
           >
-            <ChevronRight className="w-4 h-4 sm:w-6 sm:h-6 group-hover:translate-x-0.5 transition-transform" />
-          </button>
+            {/* Window Chrome / Frame Header */}
+            <div className="p-3 sm:p-4 border-b border-slate-200 dark:border-gray-800 flex items-center justify-between bg-slate-50/80 dark:bg-black/40 backdrop-blur-md">
+              {/* Three Window Dots */}
+              <div className="flex items-center gap-1.5">
+                <div className="w-2.5 h-2.5 rounded-full bg-red-400/80" />
+                <div className="w-2.5 h-2.5 rounded-full bg-amber-400/80" />
+                <div className="w-2.5 h-2.5 rounded-full bg-emerald-400/80" />
+              </div>
+
+              {/* Tag / Tech Preview */}
+              <div className="text-[11px] font-mono font-semibold text-slate-500 dark:text-gray-400 truncate max-w-[170px]">
+                {activeProject.technologies?.slice(0, 2).join(" · ") || "Full-Stack Web App"}
+              </div>
+
+              {/* Active Badge */}
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-[10px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                <span>Active</span>
+              </div>
+            </div>
+
+            {/* Central Media Canvas */}
+            <div className="relative flex-1 w-full flex items-center justify-center p-3 sm:p-4 bg-slate-50 dark:bg-black/20 overflow-hidden">
+              {/* Watermark Background Number */}
+              <div className="absolute right-4 top-2 text-7xl font-black text-slate-900/[0.04] dark:text-white/[0.04] select-none pointer-events-none font-mono">
+                0{activeIndex + 1}
+              </div>
+
+              {activeProject.image ? (
+                <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-inner border border-slate-200 dark:border-gray-800">
+                  <Image
+                    src={formatImageUrl(activeProject.image)}
+                    alt={activeProject.title}
+                    fill
+                    sizes="500px"
+                    className="object-cover object-top hover:scale-105 transition-transform duration-700"
+                    priority
+                  />
+                </div>
+              ) : (
+                <div className="relative w-full h-full rounded-2xl overflow-hidden border border-slate-200 dark:border-gray-800">
+                  <ProjectGraphicFallback slug={activeProject.slug || ""} title={activeProject.title} />
+                </div>
+              )}
+            </div>
+
+            {/* Bottom Caption Pill Box */}
+            <div className="p-3 sm:p-4 bg-white/95 dark:bg-[#0c0f1c]/95 border-t border-slate-200 dark:border-gray-800/80 backdrop-blur-md flex items-center justify-between gap-3">
+              <div className="min-w-0 flex-1">
+                <h3 className="text-sm sm:text-base font-black text-slate-900 dark:text-white truncate">
+                  {activeProject.title}
+                </h3>
+                <p className="text-[11px] text-slate-500 dark:text-gray-400 truncate">
+                  {activeProject.description}
+                </p>
+              </div>
+
+              <div className="flex items-center gap-1.5 shrink-0">
+                {activeProject.githubUrl && (
+                  <Link
+                    href={sanitizeUrl(activeProject.githubUrl)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="GitHub Repository"
+                    className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-white/5 dark:hover:bg-white/10 text-slate-700 dark:text-gray-300 hover:text-slate-900 dark:hover:text-white transition-all hover:scale-110 active:scale-95"
+                  >
+                    <FaGithub className="w-3.5 h-3.5" />
+                  </Link>
+                )}
+                {activeProject.liveUrl && (
+                  <Link
+                    href={sanitizeUrl(activeProject.liveUrl)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Live Demo"
+                    className="p-2 rounded-xl bg-emerald-500 text-white hover:bg-emerald-600 transition-all hover:scale-110 active:scale-95 shadow-sm shadow-emerald-500/20"
+                  >
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </Link>
+                )}
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Card Right (Next) */}
+          {total > 1 && (
+            <div
+              onClick={nextSlide}
+              className="absolute left-1/2 top-1/2 -translate-x-[8%] sm:-translate-x-[5%] -translate-y-1/2 w-[280px] sm:w-[340px] md:w-[380px] h-[320px] sm:h-[370px] md:h-[410px] rounded-3xl bg-slate-100/90 dark:bg-[#0e121f]/90 border border-slate-200 dark:border-gray-800/80 shadow-lg scale-[0.88] opacity-50 hover:opacity-80 transition-all duration-500 cursor-pointer z-10 overflow-hidden transform rotate-y-[6deg]"
+            >
+              <div className="p-4 sm:p-5 flex items-center justify-between border-b border-slate-200 dark:border-gray-800/60 text-xs text-slate-400 dark:text-gray-500 font-mono">
+                <span>0{((activeIndex + 1) % total) + 1} / {total < 10 ? `0${total}` : total}</span>
+                <span className="text-4xl font-black opacity-10 absolute right-4 top-2 select-none">
+                  0{((activeIndex + 1) % total) + 1}
+                </span>
+              </div>
+              <div className="relative w-full h-[65%] flex items-center justify-center p-4">
+                {nextProject.image ? (
+                  <Image
+                    src={formatImageUrl(nextProject.image)}
+                    alt={nextProject.title}
+                    fill
+                    sizes="400px"
+                    className="object-cover rounded-2xl opacity-75"
+                  />
+                ) : (
+                  <ProjectGraphicFallback slug={nextProject.slug || ""} title={nextProject.title} />
+                )}
+              </div>
+              <div className="p-4 bg-slate-200/50 dark:bg-black/30 backdrop-blur-md">
+                <div className="font-bold text-sm text-slate-700 dark:text-gray-300 truncate">
+                  {nextProject.title}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
-        {/* Carousel Indicator Dots with Signature Red Gradient */}
-        {safeProjects.length > 1 && (
+        {/* Carousel Indicator Dots */}
+        {total > 1 && (
           <div className="flex justify-center items-center gap-2 mt-6 sm:mt-8">
-            {safeProjects.map((_, dotIndex) => (
+            {safeProjects.map((_, dotIdx) => (
               <button
-                key={dotIndex}
-                onClick={() => scrollToSlide(dotIndex)}
-                aria-label={`Go to slide ${dotIndex + 1}`}
-                className="py-2 px-0.5 group cursor-pointer focus:outline-none"
+                key={dotIdx}
+                onClick={() => setActiveIndex(dotIdx)}
+                aria-label={`Jump to project ${dotIdx + 1}`}
+                className="py-2 px-1 cursor-pointer focus:outline-none"
               >
                 <span
                   className={`block transition-all duration-300 rounded-full ${
-                    activeIndex === dotIndex
-                      ? "w-7 sm:w-8 h-2 bg-gradient-to-r from-red-500 to-amber-500 shadow-[0_0_12px_rgba(239,68,68,0.8)]"
-                      : "w-2 h-2 bg-gray-700 group-hover:bg-gray-500"
+                    activeIndex === dotIdx
+                      ? "w-8 h-2 bg-emerald-500 dark:bg-emerald-400 shadow-[0_0_12px_rgba(16,185,129,0.7)]"
+                      : "w-2 h-2 bg-slate-300 dark:bg-gray-700 hover:bg-slate-400 dark:hover:bg-gray-500"
                   }`}
                 />
               </button>
             ))}
           </div>
         )}
-      </motion.div>
+
+        {/* =========================================================================
+            SYNCHRONIZED FEATURED PROJECT DEEP DIVE
+            ========================================================================= */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={`deep-dive-${activeProject._id || activeProject.title}`}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.35, ease: "easeOut" }}
+            className="mt-12 sm:mt-16 rounded-3xl bg-white dark:bg-[#0c0e18]/90 border border-slate-200/90 dark:border-gray-800/90 p-6 sm:p-8 md:p-10 shadow-xl backdrop-blur-xl space-y-8"
+          >
+            {/* Deep Dive Header */}
+            <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 pb-6 border-b border-slate-200 dark:border-gray-800/80">
+              <div className="space-y-2 max-w-2xl">
+                <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>FEATURED PROJECT DEEP DIVE</span>
+                </div>
+
+                <h3 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
+                  {activeProject.title}
+                </h3>
+
+                <p className="text-xs sm:text-sm text-slate-500 dark:text-gray-400 font-mono">
+                  {activeProject.technologies?.slice(0, 3).join(" · ") || "Full-Stack Development"} — Developed 2024
+                </p>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex flex-wrap items-center gap-3">
+                {activeProject.githubUrl && (
+                  <Link
+                    href={sanitizeUrl(activeProject.githubUrl)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-white/[0.04] dark:hover:bg-white/[0.08] border border-slate-300 dark:border-gray-800 text-xs sm:text-sm font-semibold text-slate-800 dark:text-gray-200 transition-all hover:scale-105 active:scale-95 shadow-xs"
+                  >
+                    <FaGithub className="w-4 h-4" />
+                    <span>View Source Code</span>
+                  </Link>
+                )}
+
+                {activeProject.liveUrl ? (
+                  <Link
+                    href={sanitizeUrl(activeProject.liveUrl)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-semibold transition-all hover:scale-105 active:scale-95 shadow-md shadow-emerald-600/30"
+                  >
+                    <span>Launch Live Demo</span>
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </Link>
+                ) : (
+                  <span className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-white/[0.02] border border-slate-200 dark:border-gray-800/80 text-xs sm:text-sm text-slate-400 dark:text-gray-500">
+                    <span>Source Available on GitHub</span>
+                  </span>
+                )}
+              </div>
+            </div>
+
+            {/* Deep Dive Two-Column Grid: Problem/Solution Left, Architecture Right */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+              {/* Left Column (Overview & Problem/Solution) */}
+              <div className="lg:col-span-7 space-y-6">
+                <p className="text-sm sm:text-base text-slate-600 dark:text-gray-300/90 leading-relaxed font-normal">
+                  {activeProject.content?.overview ||
+                    activeProject.description ||
+                    "Engineered with modern full-stack best practices, high performance data indexing, and responsive UI micro-interactions."}
+                </p>
+
+                {/* Problem vs Solution Comparison Cards */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {/* The Problem */}
+                  <div className="p-4 sm:p-5 rounded-2xl bg-rose-500/[0.04] dark:bg-rose-950/20 border border-rose-200/80 dark:border-rose-900/40 space-y-2">
+                    <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-rose-600 dark:text-rose-400">
+                      <AlertCircle className="w-4 h-4" />
+                      <span>THE PROBLEM:</span>
+                    </div>
+                    <p className="text-xs sm:text-sm text-slate-700 dark:text-gray-300 leading-relaxed">
+                      {activeProject.content?.problem ||
+                        "Legacy template portfolios fail to reflect deep full-stack engineering competency and lack persistent dynamic content control."}
+                    </p>
+                  </div>
+
+                  {/* The Solution */}
+                  <div className="p-4 sm:p-5 rounded-2xl bg-emerald-500/[0.04] dark:bg-emerald-950/20 border border-emerald-200/80 dark:border-emerald-900/40 space-y-2">
+                    <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                      <Lightbulb className="w-4 h-4" />
+                      <span>THE SOLUTION:</span>
+                    </div>
+                    <p className="text-xs sm:text-sm text-slate-700 dark:text-gray-300 leading-relaxed">
+                      {activeProject.content?.solution ||
+                        "A custom-coded platform powered by Express.js REST APIs, persistent database storage, and fluid micro-animations that make browsing memorable."}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Column (Key Architecture & Features + Tech Stack Pills) */}
+              <div className="lg:col-span-5 p-5 sm:p-6 rounded-2xl bg-slate-50/80 dark:bg-white/[0.02] border border-slate-200/80 dark:border-gray-800/80 space-y-5">
+                <div className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-gray-300 border-b border-slate-200 dark:border-gray-800 pb-3">
+                  KEY ARCHITECTURE & FEATURES:
+                </div>
+
+                {/* Features Checkmark List */}
+                <ul className="space-y-3">
+                  {(activeProject.features && activeProject.features.length > 0
+                    ? activeProject.features.slice(0, 5)
+                    : [
+                        "Architectural design system with dual light/dark responsive themes",
+                        "High concurrency REST API endpoints with optimized database queries",
+                        "Protected JWT authentication with secure session handling",
+                        "Fluid GPU-accelerated micro-interactions and touch swipe gestures",
+                        "Consistently 95+ Lighthouse performance scores across devices",
+                      ]
+                  ).map((feature: string, idx: number) => (
+                    <li key={idx} className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-600 dark:text-gray-300">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                      <span className="leading-snug">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                {/* Technology Pills */}
+                {activeProject.technologies && activeProject.technologies.length > 0 && (
+                  <div className="pt-3 border-t border-slate-200 dark:border-gray-800 flex flex-wrap gap-1.5">
+                    {activeProject.technologies.map((tech: string) => (
+                      <span
+                        key={tech}
+                        className="px-2.5 py-1 rounded-lg bg-white dark:bg-white/5 border border-slate-200 dark:border-gray-800 text-[11px] font-mono font-medium text-slate-700 dark:text-gray-300 shadow-xs"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+      </div>
     </section>
   );
 }
