@@ -221,54 +221,7 @@ export default function Hero3DCanvas() {
     const sparkPoints = new THREE.Points(sparkGeom, sparkMat);
     vortexGroup.add(sparkPoints);
 
-    // --- 2. Floating 3D Tech Orbs for Skills Section ---
-    const techOrbsGroup = new THREE.Group();
-    vortexGroup.add(techOrbsGroup);
-
-    const orbColors = [
-      0x00f0ff, // React Cyan
-      0x22c55e, // Node Green
-      0x10b981, // MongoDB Emerald
-      0x3b82f6, // TypeScript Blue
-      0xff2a5f, // Next.js / Cyber Crimson
-      0xa855f7, // Redux Purple
-      0xf59e0b, // JavaScript Amber
-      0xffffff, // Ambient White Core
-    ];
-
-    const orbCount = orbColors.length;
-    const orbMeshes: THREE.Mesh[] = [];
-    const orbGeom = new THREE.SphereGeometry(0.18, 16, 16);
-    const orbMaterials: THREE.MeshBasicMaterial[] = [];
-    const orbOrbitParams: {
-      baseRadius: number;
-      baseAngle: number;
-      speed: number;
-      inclination: number;
-      phase: number;
-    }[] = [];
-
-    for (let i = 0; i < orbCount; i++) {
-      const mat = new THREE.MeshBasicMaterial({
-        color: orbColors[i],
-        transparent: true,
-        opacity: 0.25,
-      });
-      orbMaterials.push(mat);
-      const mesh = new THREE.Mesh(orbGeom, mat);
-      techOrbsGroup.add(mesh);
-      orbMeshes.push(mesh);
-
-      orbOrbitParams.push({
-        baseRadius: 3.3 + (i % 3) * 0.6,
-        baseAngle: (i / orbCount) * Math.PI * 2,
-        speed: (0.45 + (i % 4) * 0.15) * (i % 2 === 0 ? 1 : -1),
-        inclination: ((i % 3) - 1) * 0.42,
-        phase: i * 1.4,
-      });
-    }
-
-    // --- 3. Background Constellation & Star Mesh Network ---
+    // --- 2. Background Constellation & Star Mesh Network ---
     const constellationGroup = new THREE.Group();
     masterGroup.add(constellationGroup);
 
@@ -393,27 +346,13 @@ export default function Hero3DCanvas() {
 
     window.addEventListener("resize", handleResize);
 
-    // --- 4. Tab Visibility Pause (Save 100% CPU/GPU when minimized or hidden) ---
-    let isTabVisible =
-      typeof document !== "undefined" ? !document.hidden : true;
-    const handleVisibilityChange = () => {
-      isTabVisible = typeof document !== "undefined" ? !document.hidden : true;
-      if (isTabVisible) {
-        lastTime = performance.now();
-      }
-    };
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-
-    // --- 5. Animation Loop ---
+    // --- 4. Animation Loop ---
     let animationFrameId: number;
     let lastTime = performance.now();
     const startTime = performance.now();
 
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
-
-      // Skip render calculations when tab is hidden
-      if (!isTabVisible) return;
 
       const now = performance.now();
       const delta = Math.min((now - lastTime) / 1000, 0.1);
@@ -449,72 +388,6 @@ export default function Hero3DCanvas() {
         );
       }
       sparkPosAttr.needsUpdate = true;
-
-      // --- SECTION-SPECIFIC 3D SCROLL SEQUENCES ---
-      // 1. Skills section factor (0.28 -> 0.62)
-      const skillsFactor = Math.min(
-        1,
-        Math.max(
-          0,
-          scrollProgress < 0.38
-            ? (scrollProgress - 0.22) / 0.16
-            : scrollProgress > 0.62
-            ? 1 - (scrollProgress - 0.62) / 0.14
-            : 1,
-        ),
-      );
-
-      // 2. Contact section factor (0.80 -> 1.0)
-      const contactFactor = Math.min(
-        1,
-        Math.max(0, (scrollProgress - 0.78) / 0.2),
-      );
-
-      // 3. Orbiting 3D Tech Orbs for Skills
-      const orbSpinMultiplier = 1 + skillsFactor * 1.8;
-      for (let i = 0; i < orbCount; i++) {
-        const p = orbOrbitParams[i];
-        const angle = p.baseAngle + time * p.speed * orbSpinMultiplier;
-        const radius = p.baseRadius * (1 + skillsFactor * 0.35);
-
-        const ox = Math.cos(angle) * radius;
-        const oy = Math.sin(angle) * radius * Math.cos(p.inclination);
-        const oz =
-          Math.sin(angle) * radius * Math.sin(p.inclination) +
-          Math.sin(time * 2 + p.phase) * 0.3;
-
-        orbMeshes[i].position.set(ox, oy, oz);
-        orbMaterials[i].opacity = 0.2 + skillsFactor * 0.75;
-      }
-
-      // 4. Scroll-Driven Camera Z Trajectory (About fly-through, Contact expansion)
-      let desiredCamZ = 11.0;
-      if (scrollProgress > 0.12 && scrollProgress <= 0.38) {
-        // About Section: Camera moves forward through 3D space
-        const aboutT = (scrollProgress - 0.12) / 0.26;
-        desiredCamZ = 11.0 - aboutT * 3.6; // Swoops in to 7.4
-      } else if (scrollProgress > 0.38 && scrollProgress <= 0.62) {
-        // Skills Section: Floating orbs orbit in view
-        desiredCamZ = 8.6;
-      } else if (scrollProgress > 0.62 && scrollProgress <= 0.8) {
-        // Projects Section
-        desiredCamZ = 10.2;
-      } else if (scrollProgress > 0.8) {
-        // Contact / CTA Section: 3D background zooms/expands
-        const contactT = (scrollProgress - 0.8) / 0.2;
-        desiredCamZ = 10.2 - contactT * 4.0; // Zooms in to 6.2
-      }
-
-      // Smooth camera position lerp
-      camera.position.z += (desiredCamZ - camera.position.z) * 0.06;
-
-      // Contact/CTA Background Expand: vortex scales up smoothly
-      const scaleBase = isMobile ? 0.78 : 1.18;
-      const targetScale = scaleBase * (1 + contactFactor * 0.65);
-      vortexGroup.scale.lerp(
-        new THREE.Vector3(targetScale, targetScale, targetScale),
-        0.08,
-      );
 
       // Scroll-driven synchronized 3D rotation
       if (!prefersReducedMotion) {
@@ -610,7 +483,6 @@ export default function Hero3DCanvas() {
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("portfolio-theme-change", handleThemeChange);
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
 
       try {
         const glContext = renderer.getContext();
@@ -641,8 +513,6 @@ export default function Hero3DCanvas() {
       nodeMat.dispose();
       lineGeom.dispose();
       lineMat.dispose();
-      orbGeom.dispose();
-      orbMaterials.forEach((m) => m.dispose());
     };
   }, []);
 

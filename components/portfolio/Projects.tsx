@@ -18,7 +18,6 @@ import {
 import { FaGithub } from "react-icons/fa";
 import Image from "next/image";
 import { formatImageUrl, isExternalUrl, sanitizeUrl } from "@/utils";
-import ProjectCard3D from "./ProjectCard3D";
 
 interface ProjectsProps {
   projects: any[];
@@ -350,106 +349,105 @@ export default function Projects({ projects }: ProjectsProps) {
                     key={`${project._id || project.slug || "proj"}-${index}`}
                     className="flex-shrink-0 w-full sm:w-[calc(50%-10px)] lg:w-[calc(33.333%-14px)] snap-start group relative min-w-0 max-w-full"
                   >
-                    {/* Compact, Sleek 3D Tilt Project Card with Layered Depth */}
-                    <ProjectCard3D>
-                      <div className="relative h-full bg-white/95 dark:bg-[#0d121f]/90 border border-slate-200 dark:border-gray-800/90 rounded-2xl p-4 sm:p-5 flex flex-col justify-between overflow-hidden shadow-md dark:shadow-xl transition-all duration-300 group-hover:border-red-500/50 group-hover:shadow-[0_15px_30px_rgba(239,68,68,0.12)] dark:group-hover:shadow-[0_0_25px_rgba(239,68,68,0.15)] [transform-style:preserve-3d]">
-                        {/* Top Badge: Floating Layer at translateZ(30px) */}
-                        <div className="flex justify-center mb-2 [transform:translateZ(30px)]">
-                          <span className="px-2.5 py-0.5 text-[10px] sm:text-[11px] font-semibold rounded-full border bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 border-red-200/80 dark:border-red-500/30 transition-colors flex items-center gap-1.5">
-                            <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
-                            <span>{badgeLabel}</span>
-                          </span>
-                        </div>
+                    {/* Compact, Sleek Project Card Matching Other Portfolio Features */}
+                    <div className="relative h-full bg-white/95 dark:bg-[#0d121f]/90 border border-slate-200 dark:border-gray-800/90 rounded-2xl p-4 sm:p-5 flex flex-col justify-between overflow-hidden shadow-md dark:shadow-xl transition-all duration-300 group-hover:border-red-500/50 group-hover:shadow-[0_15px_30px_rgba(239,68,68,0.12)] dark:group-hover:shadow-[0_0_25px_rgba(239,68,68,0.15)]">
+                      {/* Top Badge: Consistent Sequence & Harmonized Palette with Live Indicator */}
+                      <div className="flex justify-center mb-2">
+                        <span className="px-2.5 py-0.5 text-[10px] sm:text-[11px] font-semibold rounded-full border bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 border-red-200/80 dark:border-red-500/30 transition-colors flex items-center gap-1.5">
+                          <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
+                          <span>{badgeLabel}</span>
+                        </span>
+                      </div>
 
-                        {/* Project Preview Image Container: Floating Layer at translateZ(22px) */}
-                        <div className="relative h-36 sm:h-44 w-full flex items-center justify-center overflow-hidden my-1.5 sm:my-2 rounded-xl bg-slate-100 dark:bg-[#0b0f19] [transform:translateZ(22px)] shadow-md">
-                          {formattedSrc ? (
-                            <Image
-                              src={formattedSrc}
-                              alt={project.title}
-                              fill
-                              unoptimized={isExternal}
-                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                              className="object-cover object-top group-hover:scale-105 transition-transform duration-500 pointer-events-none"
-                            />
-                          ) : (
-                            <ProjectGraphicFallback slug={project.slug} title={project.title} />
+                      {/* Project Preview Image Container — Edge-to-Edge Full Display, Border Hidden */}
+                      <div className="relative h-36 sm:h-44 w-full flex items-center justify-center overflow-hidden my-1.5 sm:my-2 rounded-xl bg-slate-100 dark:bg-[#0b0f19]">
+                        {formattedSrc ? (
+                          <Image
+                            src={formattedSrc}
+                            alt={project.title}
+                            fill
+                            unoptimized={isExternal}
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            className="object-cover object-top group-hover:scale-105 transition-transform duration-500 pointer-events-none"
+                          />
+                        ) : (
+                          <ProjectGraphicFallback slug={project.slug} title={project.title} />
+                        )}
+                      </div>
+
+                      {/* Title & Short Description */}
+                      <div className="text-center mt-1.5 sm:mt-2">
+                        <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-gray-100 group-hover:text-red-500 dark:group-hover:text-red-400 transition-colors line-clamp-1">
+                          {project.title}
+                        </h3>
+                        <p className="text-xs text-slate-600 dark:text-gray-400 mt-1 line-clamp-2 leading-relaxed">
+                          {project.description}
+                        </p>
+                      </div>
+
+                      {/* Tech Stack Pills (RICR 2x2 Grid Style) */}
+                      <div className="grid grid-cols-2 gap-1.5 mt-2.5 pt-1">
+                        {(project.technologies || []).slice(0, 4).map((tech: string) => (
+                          <span
+                            key={tech}
+                            className="py-1 px-2 text-center text-[10px] sm:text-[11px] font-medium text-slate-700 dark:text-gray-300 bg-slate-100/90 dark:bg-white/[0.03] border border-slate-200 dark:border-gray-800 rounded-full hover:border-slate-300 dark:hover:border-gray-700 transition-colors truncate"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+
+                      {/* Mobile Action Bar */}
+                      <div className="flex sm:hidden items-center justify-between mt-3 pt-2.5 border-t border-slate-200/80 dark:border-gray-800/70">
+                        <Link
+                          href={`/projects/${project.slug}`}
+                          className="px-2.5 py-1 rounded-lg bg-red-500/10 border border-red-500/20 text-xs font-semibold text-red-400 hover:text-red-300 flex items-center gap-1 transition-colors active:scale-95"
+                        >
+                          <span>View</span>
+                          <ArrowRight className="w-3 h-3" />
+                        </Link>
+                        <div className="flex items-center gap-1.5">
+                          {project.githubUrl && (
+                            <Link
+                              href={sanitizeUrl(project.githubUrl)}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              aria-label="GitHub Repository"
+                              className="p-1.5 rounded-full bg-white/5 border border-white/10 text-gray-300 hover:text-white active:scale-95 transition-all"
+                            >
+                              <FaGithub className="w-3.5 h-3.5" />
+                            </Link>
+                          )}
+                          {project.liveUrl && (
+                            <Link
+                              href={sanitizeUrl(project.liveUrl)}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              aria-label="Live Demo"
+                              className="p-1.5 rounded-full bg-white/5 border border-white/10 text-gray-300 hover:text-white active:scale-95 transition-all"
+                            >
+                              <ExternalLink className="w-3.5 h-3.5" />
+                            </Link>
                           )}
                         </div>
+                      </div>
 
-                        {/* Title & Short Description: Floating Layer at translateZ(14px) */}
-                        <div className="text-center mt-1.5 sm:mt-2 [transform:translateZ(14px)]">
-                          <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-gray-100 group-hover:text-red-500 dark:group-hover:text-red-400 transition-colors line-clamp-1">
-                            {project.title}
-                          </h3>
-                          <p className="text-xs text-slate-600 dark:text-gray-400 mt-1 line-clamp-2 leading-relaxed">
-                            {project.description}
-                          </p>
-                        </div>
+                      {/* Desktop Interactive Hover Blur Overlay with Signature Red Button */}
+                      <div className="hidden sm:flex absolute inset-0 bg-black/75 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-300 flex-col items-center justify-center gap-3 z-20 p-5 pointer-events-none group-hover:pointer-events-auto">
+                        <Link
+                          href={`/projects/${project.slug}`}
+                          className="px-6 py-2.5 rounded-full bg-gradient-to-r from-red-600 via-rose-600 to-amber-600 hover:opacity-95 text-white text-xs font-semibold shadow-xl shadow-red-600/30 hover:scale-105 active:scale-95 transition-all duration-200 inline-flex items-center gap-2"
+                        >
+                          <span>View Details</span>
+                          <ArrowRight className="w-3.5 h-3.5" />
+                        </Link>
 
-                        {/* Tech Stack Pills (RICR 2x2 Grid Style) */}
-                        <div className="grid grid-cols-2 gap-1.5 mt-2.5 pt-1 [transform:translateZ(16px)]">
-                          {(project.technologies || []).slice(0, 4).map((tech: string) => (
-                            <span
-                              key={tech}
-                              className="py-1 px-2 text-center text-[10px] sm:text-[11px] font-medium text-slate-700 dark:text-gray-300 bg-slate-100/90 dark:bg-white/[0.03] border border-slate-200 dark:border-gray-800 rounded-full hover:border-slate-300 dark:hover:border-gray-700 transition-colors truncate"
-                            >
-                              {tech}
-                            </span>
-                          ))}
-                        </div>
-
-                        {/* Mobile Action Bar */}
-                        <div className="flex sm:hidden items-center justify-between mt-3 pt-2.5 border-t border-slate-200/80 dark:border-gray-800/70 [transform:translateZ(20px)]">
-                          <Link
-                            href={`/projects/${project.slug}`}
-                            className="px-2.5 py-1 rounded-lg bg-red-500/10 border border-red-500/20 text-xs font-semibold text-red-400 hover:text-red-300 flex items-center gap-1 transition-colors active:scale-95"
-                          >
-                            <span>View</span>
-                            <ArrowRight className="w-3 h-3" />
-                          </Link>
-                          <div className="flex items-center gap-1.5">
-                            {project.githubUrl && (
-                              <Link
-                                href={sanitizeUrl(project.githubUrl)}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                aria-label="GitHub Repository"
-                                className="p-1.5 rounded-full bg-white/5 border border-white/10 text-gray-300 hover:text-white active:scale-95 transition-all"
-                              >
-                                <FaGithub className="w-3.5 h-3.5" />
-                              </Link>
-                            )}
-                            {project.liveUrl && (
-                              <Link
-                                href={sanitizeUrl(project.liveUrl)}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                aria-label="Live Demo"
-                                className="p-1.5 rounded-full bg-white/5 border border-white/10 text-gray-300 hover:text-white active:scale-95 transition-all"
-                              >
-                                <ExternalLink className="w-3.5 h-3.5" />
-                              </Link>
-                            )}
-                          </div>
-                        </div>
-
-                        {/* Desktop Interactive Hover Blur Overlay with Signature Red Button */}
-                        <div className="hidden sm:flex absolute inset-0 bg-black/75 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-300 flex-col items-center justify-center gap-3 z-20 p-5 pointer-events-none group-hover:pointer-events-auto [transform:translateZ(32px)]">
-                          <Link
-                            href={`/projects/${project.slug}`}
-                            className="px-6 py-2.5 rounded-full bg-gradient-to-r from-red-600 via-rose-600 to-amber-600 hover:opacity-95 text-white text-xs font-semibold shadow-xl shadow-red-600/30 hover:scale-105 active:scale-95 transition-all duration-200 inline-flex items-center gap-2"
-                          >
-                            <span>View Details</span>
-                            <ArrowRight className="w-3.5 h-3.5" />
-                          </Link>
-
-                          {/* Quick Action Links: GitHub & Live Demo */}
-                          <div className="flex items-center gap-3 mt-1">
-                            {project.githubUrl && (
-                              <Link
-                                href={sanitizeUrl(project.githubUrl)}
-                                target="_blank"
+                        {/* Quick Action Links: GitHub & Live Demo */}
+                        <div className="flex items-center gap-3 mt-1">
+                          {project.githubUrl && (
+                            <Link
+                              href={sanitizeUrl(project.githubUrl)}
+                              target="_blank"
                               rel="noopener noreferrer"
                               aria-label="GitHub Repository"
                               className="p-2.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white transition-all hover:scale-110 active:scale-95"
@@ -471,7 +469,6 @@ export default function Projects({ projects }: ProjectsProps) {
                         </div>
                       </div>
                     </div>
-                  </ProjectCard3D>
                   </div>
                 );
               })}

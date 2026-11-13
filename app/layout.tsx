@@ -4,7 +4,6 @@ import { Suspense } from "react";
 import "./globals.css";
 import InstallPrompt from "@/components/pwa/InstallPrompt";
 import TopProgressBar from "@/components/ui/TopProgressBar";
-import ScrollProgressIndicator from "@/components/ui/ScrollProgressIndicator";
 import InitialPageLoader from "@/components/ui/InitialPageLoader";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 
@@ -80,7 +79,6 @@ export default function RootLayout({
       </head>
       <body className="flex min-h-dvh flex-col bg-background text-foreground overflow-x-hidden max-w-full transition-colors duration-300">
         <ThemeProvider>
-          <ScrollProgressIndicator />
           <Suspense fallback={null}>
             <TopProgressBar />
           </Suspense>
