@@ -48,7 +48,6 @@ const getClientSnapshot = (): Theme => {
   try {
     const saved = localStorage.getItem("portfolio-theme") as Theme | null;
     if (saved === "light" || saved === "dark") return saved;
-    if (document.documentElement.classList.contains("light")) return "light";
   } catch {
     // fallback
   }

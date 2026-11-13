@@ -271,9 +271,9 @@ export default function Hero({ settings }: HeroProps) {
                   className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[650px] h-[82%] pointer-events-none select-none z-0"
                   style={{
                     maskImage:
-                      "linear-gradient(to top, transparent 0%, transparent 6%, rgba(0,0,0,0.6) 16%, black 28%, black 85%, transparent 100%)",
+                      "radial-gradient(ellipse 48% 46% at 50% 50%, black 20%, rgba(0,0,0,0.85) 50%, rgba(0,0,0,0.3) 75%, transparent 98%)",
                     WebkitMaskImage:
-                      "linear-gradient(to top, transparent 0%, transparent 6%, rgba(0,0,0,0.6) 16%, black 28%, black 85%, transparent 100%)",
+                      "radial-gradient(ellipse 48% 46% at 50% 50%, black 20%, rgba(0,0,0,0.85) 50%, rgba(0,0,0,0.3) 75%, transparent 98%)",
                   }}
                 >
                   {/* Primary Rising Plume */}
@@ -291,20 +291,19 @@ export default function Hero({ settings }: HeroProps) {
                     }}
                     style={{
                       maskImage:
-                        "radial-gradient(ellipse 52% 48% at 50% 50%, black 25%, transparent 80%)",
+                        "radial-gradient(ellipse 50% 46% at 50% 50%, black 25%, transparent 80%)",
                       WebkitMaskImage:
-                        "radial-gradient(ellipse 52% 48% at 50% 50%, black 25%, transparent 80%)",
+                        "radial-gradient(ellipse 50% 46% at 50% 50%, black 25%, transparent 80%)",
                     }}
-                    className="absolute inset-0 mix-blend-screen filter brightness-[120%] contrast-[115%]"
+                    className="absolute inset-0 mix-blend-screen"
                   >
                     <Image
-                      src="/hero/cyan-volumetric-smoke.jpg"
+                      src="/hero/cyan-volumetric-smoke.webp"
                       alt="Volumetric cyan background smoke"
                       fill
                       sizes="(max-width: 768px) 100vw, 50vw"
                       className="object-cover object-center"
                       priority
-                      unoptimized
                     />
                   </motion.div>
 
@@ -323,19 +322,18 @@ export default function Hero({ settings }: HeroProps) {
                     }}
                     style={{
                       maskImage:
-                        "radial-gradient(ellipse 48% 44% at 50% 50%, black 20%, transparent 75%)",
+                        "radial-gradient(ellipse 46% 42% at 50% 50%, black 20%, transparent 75%)",
                       WebkitMaskImage:
-                        "radial-gradient(ellipse 48% 44% at 50% 50%, black 20%, transparent 75%)",
+                        "radial-gradient(ellipse 46% 42% at 50% 50%, black 20%, transparent 75%)",
                     }}
-                    className="absolute inset-0 mix-blend-screen filter brightness-[115%] scale-x-[-1] blur-[1px]"
+                    className="absolute inset-0 mix-blend-screen scale-x-[-1] blur-[0.5px]"
                   >
                     <Image
-                      src="/hero/cyan-smoke-foreground.jpg"
+                      src="/hero/cyan-smoke-foreground.webp"
                       alt="Ambient cyan vapor drift"
                       fill
                       sizes="(max-width: 768px) 100vw, 50vw"
                       className="object-cover object-bottom"
-                      unoptimized
                     />
                   </motion.div>
                 </div>
@@ -345,18 +343,18 @@ export default function Hero({ settings }: HeroProps) {
                   className="relative w-full h-full z-10 flex items-end justify-center select-none"
                   style={{
                     maskImage:
-                      "linear-gradient(to top, transparent 0%, transparent 10%, rgba(0,0,0,0.3) 22%, black 36%, black 100%)",
+                      "linear-gradient(to top, transparent 0%, transparent 6%, rgba(0,0,0,0.3) 18%, black 32%, black 100%)",
                     WebkitMaskImage:
-                      "linear-gradient(to top, transparent 0%, transparent 10%, rgba(0,0,0,0.3) 22%, black 36%, black 100%)",
+                      "linear-gradient(to top, transparent 0%, transparent 6%, rgba(0,0,0,0.3) 18%, black 32%, black 100%)",
                   }}
                 >
                   <div
                     className="relative w-full h-full flex items-end justify-center"
                     style={{
                       maskImage:
-                        "linear-gradient(to right, transparent 0%, transparent 4%, black 10%, black 90%, transparent 96%, transparent 100%)",
+                        "radial-gradient(ellipse 47% 50% at 50% 48%, black 45%, rgba(0,0,0,0.85) 68%, rgba(0,0,0,0.2) 88%, transparent 98%)",
                       WebkitMaskImage:
-                        "linear-gradient(to right, transparent 0%, transparent 4%, black 10%, black 90%, transparent 96%, transparent 100%)",
+                        "radial-gradient(ellipse 47% 50% at 50% 48%, black 45%, rgba(0,0,0,0.85) 68%, rgba(0,0,0,0.2) 88%, transparent 98%)",
                     }}
                   >
                     <Image
@@ -375,9 +373,9 @@ export default function Hero({ settings }: HeroProps) {
                   className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[580px] h-[55%] pointer-events-none select-none z-20"
                   style={{
                     maskImage:
-                      "linear-gradient(to top, transparent 0%, transparent 8%, rgba(0,0,0,0.5) 20%, black 36%, black 80%, transparent 100%)",
+                      "radial-gradient(ellipse 48% 46% at 50% 50%, black 25%, rgba(0,0,0,0.85) 55%, rgba(0,0,0,0.3) 78%, transparent 98%)",
                     WebkitMaskImage:
-                      "linear-gradient(to top, transparent 0%, transparent 8%, rgba(0,0,0,0.5) 20%, black 36%, black 80%, transparent 100%)",
+                      "radial-gradient(ellipse 48% 46% at 50% 50%, black 25%, rgba(0,0,0,0.85) 55%, rgba(0,0,0,0.3) 78%, transparent 98%)",
                   }}
                 >
                   {/* Primary Foreground Rolling Cumulus Cloud */}
@@ -395,19 +393,18 @@ export default function Hero({ settings }: HeroProps) {
                     }}
                     style={{
                       maskImage:
-                        "radial-gradient(ellipse 52% 48% at 50% 50%, black 35%, transparent 85%)",
+                        "radial-gradient(ellipse 50% 46% at 50% 50%, black 30%, transparent 82%)",
                       WebkitMaskImage:
-                        "radial-gradient(ellipse 52% 48% at 50% 50%, black 35%, transparent 85%)",
+                        "radial-gradient(ellipse 50% 46% at 50% 50%, black 30%, transparent 82%)",
                     }}
-                    className="absolute inset-0 mix-blend-screen filter brightness-[125%] contrast-[120%]"
+                    className="absolute inset-0 mix-blend-screen"
                   >
                     <Image
-                      src="/hero/cyan-smoke-foreground.jpg"
+                      src="/hero/cyan-smoke-foreground.webp"
                       alt="Foreground volumetric rolling smoke"
                       fill
                       sizes="(max-width: 768px) 100vw, 50vw"
                       className="object-cover object-bottom"
-                      unoptimized
                     />
                   </motion.div>
 
@@ -426,19 +423,18 @@ export default function Hero({ settings }: HeroProps) {
                     }}
                     style={{
                       maskImage:
-                        "radial-gradient(ellipse 48% 44% at 50% 50%, black 25%, transparent 80%)",
+                        "radial-gradient(ellipse 46% 42% at 50% 50%, black 25%, transparent 78%)",
                       WebkitMaskImage:
-                        "radial-gradient(ellipse 48% 44% at 50% 50%, black 25%, transparent 80%)",
+                        "radial-gradient(ellipse 46% 42% at 50% 50%, black 25%, transparent 78%)",
                     }}
-                    className="absolute inset-0 mix-blend-screen filter brightness-[120%] contrast-[115%] scale-x-[-1] blur-[0.8px]"
+                    className="absolute inset-0 mix-blend-screen scale-x-[-1] blur-[0.5px]"
                   >
                     <Image
-                      src="/hero/cyan-volumetric-smoke.jpg"
+                      src="/hero/cyan-volumetric-smoke.webp"
                       alt="Foreground billowing smoke tendrils"
                       fill
                       sizes="(max-width: 768px) 100vw, 50vw"
                       className="object-cover object-bottom"
-                      unoptimized
                     />
                   </motion.div>
                 </div>
@@ -448,9 +444,9 @@ export default function Hero({ settings }: HeroProps) {
                   className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[650px] h-[30%] pointer-events-none select-none z-25"
                   style={{
                     maskImage:
-                      "linear-gradient(to top, transparent 0%, transparent 6%, rgba(0,0,0,0.4) 18%, black 38%, black 70%, transparent 100%)",
+                      "radial-gradient(ellipse 48% 46% at 50% 50%, black 25%, rgba(0,0,0,0.8) 55%, rgba(0,0,0,0.25) 78%, transparent 98%)",
                     WebkitMaskImage:
-                      "linear-gradient(to top, transparent 0%, transparent 6%, rgba(0,0,0,0.4) 18%, black 38%, black 70%, transparent 100%)",
+                      "radial-gradient(ellipse 48% 46% at 50% 50%, black 25%, rgba(0,0,0,0.8) 55%, rgba(0,0,0,0.25) 78%, transparent 98%)",
                   }}
                 >
                   {/* Ground Smoke Layer 1 — slow creep */}
@@ -468,19 +464,18 @@ export default function Hero({ settings }: HeroProps) {
                     }}
                     style={{
                       maskImage:
-                        "radial-gradient(ellipse 55% 45% at 50% 50%, black 25%, transparent 75%)",
+                        "radial-gradient(ellipse 52% 44% at 50% 50%, black 25%, transparent 75%)",
                       WebkitMaskImage:
-                        "radial-gradient(ellipse 55% 45% at 50% 50%, black 25%, transparent 75%)",
+                        "radial-gradient(ellipse 52% 44% at 50% 50%, black 25%, transparent 75%)",
                     }}
-                    className="absolute inset-0 mix-blend-screen filter brightness-[115%]"
+                    className="absolute inset-0 mix-blend-screen"
                   >
                     <Image
-                      src="/hero/cyan-smoke-foreground.jpg"
+                      src="/hero/cyan-smoke-foreground.webp"
                       alt="Ground-level smoke pool layer 1"
                       fill
                       sizes="(max-width: 768px) 100vw, 50vw"
                       className="object-cover object-bottom"
-                      unoptimized
                     />
                   </motion.div>
 
@@ -499,19 +494,18 @@ export default function Hero({ settings }: HeroProps) {
                     }}
                     style={{
                       maskImage:
-                        "radial-gradient(ellipse 52% 42% at 50% 50%, black 20%, transparent 72%)",
+                        "radial-gradient(ellipse 48% 40% at 50% 50%, black 20%, transparent 72%)",
                       WebkitMaskImage:
-                        "radial-gradient(ellipse 52% 42% at 50% 50%, black 20%, transparent 72%)",
+                        "radial-gradient(ellipse 48% 40% at 50% 50%, black 20%, transparent 72%)",
                     }}
-                    className="absolute inset-0 mix-blend-screen filter brightness-[115%] scale-x-[-1]"
+                    className="absolute inset-0 mix-blend-screen scale-x-[-1]"
                   >
                     <Image
-                      src="/hero/cyan-volumetric-smoke.jpg"
+                      src="/hero/cyan-volumetric-smoke.webp"
                       alt="Ground-level smoke pool layer 2"
                       fill
                       sizes="(max-width: 768px) 100vw, 50vw"
                       className="object-cover object-bottom"
-                      unoptimized
                     />
                   </motion.div>
                 </div>

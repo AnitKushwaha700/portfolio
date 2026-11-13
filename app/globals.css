@@ -11,18 +11,19 @@
 }
 
 @layer base {
-  :root {
-    --background: #f8fafc;
-    --foreground: #0f172a;
-    --card-bg: rgba(255, 255, 255, 0.9);
-    --text-muted: #64748b;
-  }
-
-  html.dark, :root:has(.dark) {
+  :root,
+  html.dark {
     --background: #07070d;
     --foreground: #F9FAFB;
     --card-bg: rgba(13, 14, 25, 0.8);
     --text-muted: #9CA3AF;
+  }
+
+  html.light {
+    --background: #f8fafc;
+    --foreground: #0f172a;
+    --card-bg: rgba(255, 255, 255, 0.92);
+    --text-muted: #64748b;
   }
   
   html {
