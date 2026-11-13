@@ -368,23 +368,23 @@ export default function Hero({ settings }: HeroProps) {
                   </motion.div>
                 </div>
 
-                {/* 3. Profile Image with Multi-Layer Soft Torso & Silhouette Vignette (Clear Center & Chest) */}
+                {/* 3. Profile Image — Crisp & Clear Silhouette (Z-20: Unobstructed Torso & Chest) */}
                 <div
-                  className="relative w-full h-full z-10 flex items-end justify-center select-none"
+                  className="relative w-full h-full z-20 flex items-end justify-center select-none"
                   style={{
                     maskImage:
-                      "linear-gradient(to top, transparent 0%, transparent 5%, rgba(0,0,0,0.3) 16%, black 28%, black 100%)",
+                      "linear-gradient(to top, transparent 0%, transparent 3%, rgba(0,0,0,0.4) 12%, black 22%, black 100%)",
                     WebkitMaskImage:
-                      "linear-gradient(to top, transparent 0%, transparent 5%, rgba(0,0,0,0.3) 16%, black 28%, black 100%)",
+                      "linear-gradient(to top, transparent 0%, transparent 3%, rgba(0,0,0,0.4) 12%, black 22%, black 100%)",
                   }}
                 >
                   <div
                     className="relative w-full h-full flex items-end justify-center"
                     style={{
                       maskImage:
-                        "radial-gradient(ellipse 47% 50% at 50% 48%, black 45%, rgba(0,0,0,0.85) 68%, rgba(0,0,0,0.2) 88%, transparent 98%)",
+                        "radial-gradient(ellipse 48% 52% at 50% 48%, black 50%, rgba(0,0,0,0.88) 72%, rgba(0,0,0,0.2) 90%, transparent 99%)",
                       WebkitMaskImage:
-                        "radial-gradient(ellipse 47% 50% at 50% 48%, black 45%, rgba(0,0,0,0.85) 68%, rgba(0,0,0,0.2) 88%, transparent 98%)",
+                        "radial-gradient(ellipse 48% 52% at 50% 48%, black 50%, rgba(0,0,0,0.88) 72%, rgba(0,0,0,0.2) 90%, transparent 99%)",
                     }}
                   >
                     <Image
@@ -398,23 +398,23 @@ export default function Hero({ settings }: HeroProps) {
                   </div>
                 </div>
 
-                {/* 4. Bottom Horizontal Smoke Mist (Left-to-Right Across Base) */}
+                {/* 4. Bottom Horizontal Smoke Mist (Left-to-Right Around Base Behind Avatar) */}
                 <div
-                  className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[115%] max-w-[820px] h-[30%] pointer-events-none select-none z-20"
+                  className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[130%] max-w-[920px] h-[36%] pointer-events-none select-none z-10"
                   style={{
                     maskImage:
-                      "radial-gradient(ellipse 50% 48% at 50% 65%, black 35%, rgba(0,0,0,0.85) 65%, rgba(0,0,0,0.2) 85%, transparent 98%)",
+                      "radial-gradient(ellipse 52% 46% at 50% 68%, black 35%, rgba(0,0,0,0.85) 65%, rgba(0,0,0,0.2) 85%, transparent 98%)",
                     WebkitMaskImage:
-                      "radial-gradient(ellipse 50% 48% at 50% 65%, black 35%, rgba(0,0,0,0.85) 65%, rgba(0,0,0,0.2) 85%, transparent 98%)",
+                      "radial-gradient(ellipse 52% 46% at 50% 68%, black 35%, rgba(0,0,0,0.85) 65%, rgba(0,0,0,0.2) 85%, transparent 98%)",
                   }}
                 >
                   {/* Left-to-Right Sweeping Base Drift 1 */}
                   <motion.div
                     animate={{
-                      x: [-12, 12, -6, 10, -12],
-                      y: [0, -4, 2, -3, 0],
-                      scale: [1, 1.04, 0.98, 1.03, 1],
-                      opacity: [0.8, 1.0, 0.75, 0.95, 0.8],
+                      x: [-14, 14, -8, 12, -14],
+                      y: [0, -5, 2, -4, 0],
+                      scale: [1, 1.05, 0.97, 1.04, 1],
+                      opacity: [0.85, 1.0, 0.8, 0.96, 0.85],
                     }}
                     transition={{
                       duration: 11,
@@ -423,9 +423,9 @@ export default function Hero({ settings }: HeroProps) {
                     }}
                     style={{
                       maskImage:
-                        "radial-gradient(ellipse 55% 45% at 50% 60%, black 30%, transparent 85%)",
+                        "radial-gradient(ellipse 58% 45% at 50% 62%, black 32%, transparent 88%)",
                       WebkitMaskImage:
-                        "radial-gradient(ellipse 55% 45% at 50% 60%, black 30%, transparent 85%)",
+                        "radial-gradient(ellipse 58% 45% at 50% 62%, black 32%, transparent 88%)",
                     }}
                     className="absolute inset-0 mix-blend-screen"
                   >
@@ -441,10 +441,10 @@ export default function Hero({ settings }: HeroProps) {
                   {/* Left-to-Right Counter Drift 2 */}
                   <motion.div
                     animate={{
-                      x: [10, -10, 6, -8, 10],
+                      x: [12, -12, 7, -9, 12],
                       y: [-3, 4, -4, 2, -3],
-                      scale: [1.03, 0.97, 1.05, 0.98, 1.03],
-                      opacity: [0.65, 0.88, 0.6, 0.82, 0.65],
+                      scale: [1.04, 0.96, 1.05, 0.98, 1.04],
+                      opacity: [0.7, 0.92, 0.65, 0.86, 0.7],
                     }}
                     transition={{
                       duration: 15,
@@ -453,9 +453,9 @@ export default function Hero({ settings }: HeroProps) {
                     }}
                     style={{
                       maskImage:
-                        "radial-gradient(ellipse 50% 42% at 50% 60%, black 25%, transparent 80%)",
+                        "radial-gradient(ellipse 52% 42% at 50% 62%, black 28%, transparent 82%)",
                       WebkitMaskImage:
-                        "radial-gradient(ellipse 50% 42% at 50% 60%, black 25%, transparent 80%)",
+                        "radial-gradient(ellipse 52% 42% at 50% 62%, black 28%, transparent 82%)",
                     }}
                     className="absolute inset-0 mix-blend-screen scale-x-[-1]"
                   >
@@ -469,23 +469,23 @@ export default function Hero({ settings }: HeroProps) {
                   </motion.div>
                 </div>
 
-                {/* 5. Right-Side Amplified Smoke Surge (Right More Smoke - Billowing Along Right Flank & Arm) */}
+                {/* 5. Right-Side Amplified Smoke Surge (Right More Smoke - Billowing Along Right Flank & Arm Behind Avatar) */}
                 <div
-                  className="absolute bottom-0 -right-4 sm:-right-8 w-[62%] max-w-[480px] h-[55%] pointer-events-none select-none z-15"
+                  className="absolute bottom-0 -right-8 sm:-right-16 w-[70%] max-w-[540px] h-[75%] pointer-events-none select-none z-10"
                   style={{
                     maskImage:
-                      "radial-gradient(ellipse 48% 48% at 55% 55%, black 30%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.2) 85%, transparent 98%)",
+                      "radial-gradient(ellipse 50% 50% at 58% 52%, black 32%, rgba(0,0,0,0.85) 64%, rgba(0,0,0,0.2) 88%, transparent 99%)",
                     WebkitMaskImage:
-                      "radial-gradient(ellipse 48% 48% at 55% 55%, black 30%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.2) 85%, transparent 98%)",
+                      "radial-gradient(ellipse 50% 50% at 58% 52%, black 32%, rgba(0,0,0,0.85) 64%, rgba(0,0,0,0.2) 88%, transparent 99%)",
                   }}
                 >
                   {/* Dense Right-Flank Plume */}
                   <motion.div
                     animate={{
-                      x: [4, -6, 2, -4, 4],
-                      y: [0, -8, 3, -6, 0],
-                      scale: [1, 1.06, 0.98, 1.04, 1],
-                      opacity: [0.85, 1.0, 0.8, 0.95, 0.85],
+                      x: [6, -8, 3, -6, 6],
+                      y: [0, -10, 4, -7, 0],
+                      scale: [1, 1.08, 0.97, 1.05, 1],
+                      opacity: [0.9, 1.0, 0.85, 0.98, 0.9],
                     }}
                     transition={{
                       duration: 9,
@@ -494,9 +494,9 @@ export default function Hero({ settings }: HeroProps) {
                     }}
                     style={{
                       maskImage:
-                        "radial-gradient(ellipse 50% 48% at 52% 52%, black 35%, transparent 85%)",
+                        "radial-gradient(ellipse 52% 50% at 54% 50%, black 38%, transparent 88%)",
                       WebkitMaskImage:
-                        "radial-gradient(ellipse 50% 48% at 52% 52%, black 35%, transparent 85%)",
+                        "radial-gradient(ellipse 52% 50% at 54% 50%, black 38%, transparent 88%)",
                     }}
                     className="absolute inset-0 mix-blend-screen"
                   >
@@ -512,10 +512,10 @@ export default function Hero({ settings }: HeroProps) {
                   {/* Secondary Right Rising Tendrils */}
                   <motion.div
                     animate={{
-                      x: [-5, 5, -3, 4, -5],
-                      y: [-4, 3, -5, 2, -4],
-                      scale: [1.04, 0.96, 1.05, 0.98, 1.04],
-                      opacity: [0.7, 0.92, 0.65, 0.88, 0.7],
+                      x: [-6, 7, -4, 5, -6],
+                      y: [-5, 4, -6, 3, -5],
+                      scale: [1.05, 0.95, 1.06, 0.97, 1.05],
+                      opacity: [0.75, 0.95, 0.7, 0.92, 0.75],
                     }}
                     transition={{
                       duration: 13,
@@ -524,9 +524,9 @@ export default function Hero({ settings }: HeroProps) {
                     }}
                     style={{
                       maskImage:
-                        "radial-gradient(ellipse 46% 44% at 50% 50%, black 28%, transparent 80%)",
+                        "radial-gradient(ellipse 48% 46% at 52% 48%, black 30%, transparent 82%)",
                       WebkitMaskImage:
-                        "radial-gradient(ellipse 46% 44% at 50% 50%, black 28%, transparent 80%)",
+                        "radial-gradient(ellipse 48% 46% at 52% 48%, black 30%, transparent 82%)",
                     }}
                     className="absolute inset-0 mix-blend-screen scale-x-[-1] blur-[0.5px]"
                   >
@@ -540,9 +540,9 @@ export default function Hero({ settings }: HeroProps) {
                   </motion.div>
                 </div>
 
-                {/* 6. Pure-CSS Radial Ground Glow */}
+                {/* 6. Pure-CSS Radial Ground Glow (Behind Avatar) */}
                 <div
-                  className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-[20%] bg-gradient-to-t from-cyan-500/20 via-teal-500/10 to-transparent blur-2xl pointer-events-none z-30"
+                  className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-[20%] bg-gradient-to-t from-cyan-500/20 via-teal-500/10 to-transparent blur-2xl pointer-events-none z-5"
                 />
               </div>
             </motion.div>
