@@ -110,10 +110,10 @@ export default async function Home() {
       )}
       {sectionVisibility.about && <About settings={settings} />}
       {sectionVisibility.skills && <Skills skills={skills} />}
-      {sectionVisibility.projects && <Projects projects={projects} />}
       {sectionVisibility.experience && (
         <ExperienceSection experiences={experiences} />
       )}
+      {sectionVisibility.projects && <Projects projects={projects} />}
       {(sectionVisibility.github ?? true) && (
         <GithubSection githubUrl={settings?.social?.github} />
       )}

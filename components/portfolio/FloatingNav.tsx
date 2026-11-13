@@ -24,13 +24,13 @@ const navItems: NavItem[] = [
   { id: "hero", label: "Home", href: "#hero", icon: Home },
   { id: "about", label: "About", href: "#about", icon: User },
   { id: "skills", label: "Skills", href: "#skills", icon: Code2 },
-  { id: "projects", label: "Projects", href: "#projects", icon: LayoutGrid },
   {
     id: "experience",
     label: "Experience",
     href: "#experience",
     icon: Briefcase,
   },
+  { id: "projects", label: "Projects", href: "#projects", icon: LayoutGrid },
   { id: "github", label: "GitHub", href: "#github", icon: FaGithub },
   { id: "hackathons", label: "Hackathons", href: "#hackathons", icon: Trophy },
   { id: "education", label: "Education", href: "#education", icon: GraduationCap },
@@ -98,7 +98,7 @@ export default function FloatingNav() {
             onClick={(e) => handleNavClick(e, item.id)}
             className={`group relative p-2.5 rounded-full transition-all duration-300 cursor-pointer ${
               isActive
-                ? "bg-emerald-600 text-white shadow-md shadow-emerald-600/40 scale-110"
+                ? "bg-gradient-to-tr from-red-600 via-rose-600 to-amber-600 text-white shadow-md shadow-red-600/40 scale-110"
                 : "text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5"
             }`}
             aria-label={item.label}
