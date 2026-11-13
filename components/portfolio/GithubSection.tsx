@@ -509,13 +509,15 @@ export default function GithubSection({
             {/* Floating Tooltip with Formatted Weekday */}
             {hoveredDay && (
               <div
-                className="fixed z-50 pointer-events-none -translate-x-1/2 -translate-y-full px-2.5 py-1.5 rounded-lg bg-gray-900 border border-gray-700 text-white text-[11px] font-medium shadow-2xl whitespace-nowrap"
-                style={{ left: hoveredDay.x, top: hoveredDay.y }}
+                className="github-tooltip fixed z-50 pointer-events-none -translate-x-1/2 -translate-y-full px-2.5 py-1.5 rounded-lg bg-gray-900 border border-gray-700 text-white text-[11px] font-medium shadow-2xl whitespace-nowrap"
+                style={{ left: hoveredDay.x, top: hoveredDay.y, color: '#ffffff', backgroundColor: '#0f172a' }}
               >
-                <span className="font-bold text-red-400">
+                <span className="font-bold text-red-400" style={{ color: '#f87171' }}>
                   {hoveredDay.count} {hoveredDay.count === 1 ? "contribution" : "contributions"}
                 </span>{" "}
-                on {formatTooltipDate(hoveredDay.date)}
+                <span className="tooltip-date text-white" style={{ color: '#ffffff' }}>
+                  on {formatTooltipDate(hoveredDay.date)}
+                </span>
               </div>
             )}
           </div>

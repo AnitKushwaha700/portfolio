@@ -383,14 +383,14 @@ export default function Hero({ settings }: HeroProps) {
                     alt={hero.name}
                     fill
                     sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-contain object-bottom select-none pointer-events-none"
+                    className="object-contain object-bottom select-none pointer-events-none filter brightness-[1.14] contrast-[1.02] saturate-[1.03] dark:brightness-100 dark:contrast-100 dark:saturate-100 transition-all duration-300"
                     priority
                   />
                 </div>
 
-                {/* 4. Bottom Horizontal Smoke Mist (Left-to-Right Across Base, strictly below chest) */}
+                {/* 4. Bottom Horizontal Smoke Mist (Left-to-Right Across Base, strictly below chest - Active in Dark Mode) */}
                 <div
-                  className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[115%] max-w-[840px] h-[12%] sm:h-[14%] pointer-events-none select-none z-20"
+                  className="hidden dark:block absolute bottom-0 left-1/2 -translate-x-1/2 w-[115%] max-w-[840px] h-[12%] sm:h-[14%] pointer-events-none select-none z-20"
                   style={{
                     maskImage:
                       "linear-gradient(to top, black 20%, rgba(0,0,0,0.5) 65%, transparent 100%)",
@@ -447,9 +447,9 @@ export default function Hero({ settings }: HeroProps) {
                   </motion.div>
                 </div>
 
-                {/* 5. Right-Side Amplified Ground Mist (More Smoke on the Right Base) */}
+                {/* 5. Right-Side Amplified Ground Mist (More Smoke on the Right Base - Active in Dark Mode) */}
                 <div
-                  className="absolute bottom-0 right-0 sm:-right-4 w-[45%] max-w-[340px] h-[22%] pointer-events-none select-none z-20"
+                  className="hidden dark:block absolute bottom-0 right-0 sm:-right-4 w-[45%] max-w-[340px] h-[22%] pointer-events-none select-none z-20"
                   style={{
                     maskImage:
                       "radial-gradient(ellipse 60% 60% at 70% 70%, black 30%, rgba(0,0,0,0.6) 70%, transparent 100%)",
@@ -481,9 +481,14 @@ export default function Hero({ settings }: HeroProps) {
                   </motion.div>
                 </div>
 
-                {/* 6. Pure-CSS Radial Ground Glow */}
+                {/* 6. Pure-CSS Radial Ground Glow (Dark Mode Only) */}
                 <div
-                  className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-[20%] bg-gradient-to-t from-cyan-500/20 via-teal-500/10 to-transparent blur-2xl pointer-events-none z-30"
+                  className="hidden dark:block absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-[20%] bg-gradient-to-t from-cyan-500/20 via-teal-500/10 to-transparent blur-2xl pointer-events-none z-30"
+                />
+
+                {/* 7. Light Mode Seamless White Base Fade (Feathers jacket base cleanly into white background with zero cutoff line or dark haze) */}
+                <div
+                  className="absolute bottom-0 left-0 right-0 h-28 sm:h-36 bg-gradient-to-t from-white via-white/85 to-transparent pointer-events-none z-25 dark:hidden"
                 />
               </div>
             </motion.div>

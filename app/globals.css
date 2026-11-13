@@ -158,9 +158,17 @@ html.light .text-gray-400 {
 }
 
 /* Card internal white text that is not a badge or button */
-html.light .card .text-white:not([class*="bg-red"]):not([class*="bg-gradient"]):not(.badge):not([class*="from-red"]):not(button.bg-red-600):not(a.bg-red-600),
-html.light .section-container .text-white:not([class*="bg-red"]):not([class*="bg-gradient"]):not(button.bg-red-600):not(a.bg-red-600) {
+html.light .card .text-white:not([class*="bg-red"]):not([class*="bg-gradient"]):not(.badge):not([class*="from-red"]):not(button.bg-red-600):not(a.bg-red-600):not([class*="bg-gray-900"]):not([class*="bg-slate-900"]):not(.github-tooltip),
+html.light .section-container .text-white:not([class*="bg-red"]):not([class*="bg-gradient"]):not(button.bg-red-600):not(a.bg-red-600):not([class*="bg-gray-900"]):not([class*="bg-slate-900"]):not(.github-tooltip) {
   color: #0f172a !important;
+}
+
+/* Tooltip dark containers maintain crisp white text in both light and dark themes */
+html.light .github-tooltip,
+html.light .github-tooltip span.tooltip-date,
+html.light [class*="bg-gray-900"] .tooltip-date,
+html.light [class*="bg-slate-900"] .tooltip-date {
+  color: #ffffff !important;
 }
 
 /* Gradient / Accent button text remains crisp white */
