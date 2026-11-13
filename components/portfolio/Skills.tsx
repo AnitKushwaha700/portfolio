@@ -129,8 +129,10 @@ export default function Skills({ skills }: SkillsProps) {
                     className="group relative flex items-center gap-3 px-4 py-2.5 sm:px-5 sm:py-3 rounded-2xl bg-white/95 dark:bg-[#0e121e]/90 hover:bg-white dark:hover:bg-[#141b2c] border border-slate-200/90 dark:border-gray-800/90 hover:border-red-500/50 dark:hover:border-red-500/50 shadow-sm hover:shadow-md dark:shadow-none transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer select-none"
                   >
                     <div
-                      className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl flex items-center justify-center transition-transform group-hover:scale-110"
-                      style={{ color: meta.color }}
+                      className={`w-7 h-7 sm:w-8 sm:h-8 rounded-xl flex items-center justify-center transition-transform group-hover:scale-110 ${
+                        meta.className || ""
+                      }`}
+                      style={meta.className ? undefined : { color: meta.color }}
                     >
                       <IconComponent className="w-5 h-5 sm:w-6 sm:h-6" />
                     </div>
@@ -159,8 +161,10 @@ export default function Skills({ skills }: SkillsProps) {
                     className="group relative flex items-center gap-3 px-4 py-2.5 sm:px-5 sm:py-3 rounded-2xl bg-white/95 dark:bg-[#0e121e]/90 hover:bg-white dark:hover:bg-[#141b2c] border border-slate-200/90 dark:border-gray-800/90 hover:border-rose-500/50 dark:hover:border-rose-500/50 shadow-sm hover:shadow-md dark:shadow-none transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer select-none"
                   >
                     <div
-                      className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl flex items-center justify-center transition-transform group-hover:scale-110"
-                      style={{ color: meta.color }}
+                      className={`w-7 h-7 sm:w-8 sm:h-8 rounded-xl flex items-center justify-center transition-transform group-hover:scale-110 ${
+                        meta.className || ""
+                      }`}
+                      style={meta.className ? undefined : { color: meta.color }}
                     >
                       <IconComponent className="w-5 h-5 sm:w-6 sm:h-6" />
                     </div>
@@ -259,8 +263,10 @@ export default function Skills({ skills }: SkillsProps) {
                       className="p-3.5 rounded-2xl bg-slate-50 dark:bg-white/[0.03] border border-slate-200 dark:border-gray-800 flex items-center gap-3 hover:border-red-500/40 transition-all hover:scale-[1.02]"
                     >
                       <div
-                        className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0"
-                        style={{ color: meta.color }}
+                        className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${
+                          meta.className || ""
+                        }`}
+                        style={meta.className ? undefined : { color: meta.color }}
                       >
                         <Icon className="w-5 h-5" />
                       </div>

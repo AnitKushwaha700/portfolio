@@ -28,6 +28,7 @@ import { Code2 } from "lucide-react";
 export interface SkillMeta {
   icon: React.ComponentType<{ className?: string }>;
   color: string;
+  className?: string;
   bgColor?: string;
 }
 
@@ -42,7 +43,11 @@ export function getSkillMeta(skillName: string): SkillMeta {
     return { icon: SiReact, color: "#61DAFB" };
   }
   if (norm.includes("next")) {
-    return { icon: SiNextdotjs, color: "#94a3b8" };
+    return {
+      icon: SiNextdotjs,
+      color: "currentColor",
+      className: "text-slate-900 dark:text-white",
+    };
   }
   if (norm.includes("typescript") || norm === "ts") {
     return { icon: SiTypescript, color: "#3178C6" };
@@ -68,7 +73,11 @@ export function getSkillMeta(skillName: string): SkillMeta {
     return { icon: SiNodedotjs, color: "#22C55E" };
   }
   if (norm.includes("express")) {
-    return { icon: SiExpress, color: "#94A3B8" };
+    return {
+      icon: SiExpress,
+      color: "currentColor",
+      className: "text-slate-900 dark:text-slate-200",
+    };
   }
   if (norm.includes("mongo")) {
     return { icon: SiMongodb, color: "#10B981" };
@@ -104,7 +113,11 @@ export function getSkillMeta(skillName: string): SkillMeta {
 
   // Tools & Dev Environment
   if (norm.includes("github")) {
-    return { icon: SiGithub, color: "#F9FAFB" };
+    return {
+      icon: SiGithub,
+      color: "currentColor",
+      className: "text-slate-900 dark:text-white",
+    };
   }
   if (norm.includes("git")) {
     return { icon: SiGit, color: "#F05032" };
