@@ -214,9 +214,9 @@ export default function Hero({ settings }: HeroProps) {
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label="GitHub Profile"
-                        className="p-3 rounded-xl bg-slate-100/90 dark:bg-white/[0.03] hover:bg-slate-200/90 dark:hover:bg-white/[0.08] border border-slate-300 dark:border-gray-800 hover:border-red-500/40 text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white transition-all hover:scale-110 active:scale-95"
+                        className="p-3 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-white/[0.03] dark:hover:bg-white/[0.08] border border-slate-300 dark:border-gray-800 hover:border-red-500/40 text-slate-900 dark:text-white transition-all hover:scale-110 active:scale-95 flex items-center justify-center cursor-pointer"
                       >
-                        <FaGithub className="w-4 h-4" />
+                        <FaGithub className="w-4 h-4 text-slate-900 dark:text-white" />
                       </a>
                     )}
                     {social.linkedin && (
@@ -225,9 +225,9 @@ export default function Hero({ settings }: HeroProps) {
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label="LinkedIn Profile"
-                        className="p-3 rounded-xl bg-slate-100/90 dark:bg-white/[0.03] hover:bg-slate-200/90 dark:hover:bg-white/[0.08] border border-slate-300 dark:border-gray-800 hover:border-rose-500/40 text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white transition-all hover:scale-110 active:scale-95"
+                        className="p-3 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-white/[0.03] dark:hover:bg-white/[0.08] border border-slate-300 dark:border-gray-800 hover:border-blue-500/40 text-[#0A66C2] transition-all hover:scale-110 active:scale-95 flex items-center justify-center cursor-pointer"
                       >
-                        <FaLinkedin className="w-4 h-4" />
+                        <FaLinkedin className="w-4 h-4 text-[#0A66C2]" />
                       </a>
                     )}
                   </div>
@@ -368,14 +368,14 @@ export default function Hero({ settings }: HeroProps) {
                   </motion.div>
                 </div>
 
-                {/* 3. Profile Image — 100% Solid & Crisp with Subtle Feathered Base (Zero Smoke Over Chest/Center) */}
+                {/* 3. Profile Image — 100% Solid & Crisp with Smooth Natural Feathered Base */}
                 <div
                   className="relative w-full h-full z-10 flex items-end justify-center select-none"
                   style={{
                     maskImage:
-                      "linear-gradient(to top, transparent 0%, rgba(0,0,0,0.6) 4%, black 8%, black 100%)",
+                      "linear-gradient(to top, transparent 0%, rgba(0,0,0,0.05) 5%, rgba(0,0,0,0.35) 14%, rgba(0,0,0,0.85) 24%, black 32%, black 100%)",
                     WebkitMaskImage:
-                      "linear-gradient(to top, transparent 0%, rgba(0,0,0,0.6) 4%, black 8%, black 100%)",
+                      "linear-gradient(to top, transparent 0%, rgba(0,0,0,0.05) 5%, rgba(0,0,0,0.35) 14%, rgba(0,0,0,0.85) 24%, black 32%, black 100%)",
                   }}
                 >
                   <Image
@@ -383,7 +383,7 @@ export default function Hero({ settings }: HeroProps) {
                     alt={hero.name}
                     fill
                     sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-contain object-bottom select-none pointer-events-none filter brightness-[1.14] contrast-[1.02] saturate-[1.03] dark:brightness-100 dark:contrast-100 dark:saturate-100 transition-all duration-300"
+                    className="object-contain object-bottom select-none pointer-events-none transition-all duration-300"
                     priority
                   />
                 </div>
@@ -486,9 +486,9 @@ export default function Hero({ settings }: HeroProps) {
                   className="hidden dark:block absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-[20%] bg-gradient-to-t from-cyan-500/20 via-teal-500/10 to-transparent blur-2xl pointer-events-none z-30"
                 />
 
-                {/* 7. Light Mode Seamless White Base Fade (Feathers jacket base cleanly into white background with zero cutoff line or dark haze) */}
+                {/* 7. Light Mode Seamless Slate-50 Base Fade (Feathers jacket base cleanly into #f8fafc light background with zero cutoff line or white patch) */}
                 <div
-                  className="absolute bottom-0 left-0 right-0 h-28 sm:h-36 bg-gradient-to-t from-white via-white/85 to-transparent pointer-events-none z-25 dark:hidden"
+                  className="absolute -bottom-1 left-0 right-0 h-32 sm:h-44 bg-gradient-to-t from-[#f8fafc] via-[#f8fafc]/85 to-transparent pointer-events-none z-25 dark:hidden"
                 />
               </div>
             </motion.div>

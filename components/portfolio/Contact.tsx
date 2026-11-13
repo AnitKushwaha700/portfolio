@@ -18,13 +18,13 @@ export default function Contact({ settings }: ContactProps) {
   const { copied, copy } = useCopyToClipboard();
 
   const email = settings?.social?.email || "kushwahaanitak@gmail.com";
-  const phone = settings?.social?.phone || "";
+  const phone = settings?.social?.phone || "+91 8989791426";
   const github = settings?.social?.github
     ? sanitizeUrl(settings.social.github)
-    : "";
+    : "https://github.com/AnitKushwaha700";
   const linkedin = settings?.social?.linkedin
     ? sanitizeUrl(settings.social.linkedin)
-    : "";
+    : "https://www.linkedin.com/in/l-anit-kushwaha-l-7651462bb";
 
   return (
     <section id="contact" className="section-container relative z-10 py-24">
@@ -120,16 +120,17 @@ export default function Contact({ settings }: ContactProps) {
             </a>
 
             {/* Social Connect Icons */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3">
               {github && (
                 <a
                   href={github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-3.5 rounded-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-gray-800 text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white hover:border-red-500/50 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all duration-300 hover:scale-110 active:scale-95"
+                  className="p-3 sm:p-3.5 rounded-2xl bg-slate-100 hover:bg-slate-200 dark:bg-white/5 dark:hover:bg-white/10 border border-slate-300 dark:border-gray-800 text-slate-900 dark:text-white hover:border-red-500/50 hover:text-red-500 dark:hover:text-red-400 shadow-sm transition-all duration-300 hover:scale-110 active:scale-95 flex items-center justify-center cursor-pointer"
                   aria-label="GitHub Profile"
+                  title="GitHub Profile"
                 >
-                  <FaGithub className="w-4 h-4" />
+                  <FaGithub className="w-5 h-5 text-slate-900 dark:text-white" />
                 </a>
               )}
               {linkedin && (
@@ -137,10 +138,11 @@ export default function Contact({ settings }: ContactProps) {
                   href={linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-3.5 rounded-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-gray-800 text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white hover:border-red-500/50 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all duration-300 hover:scale-110 active:scale-95"
+                  className="p-3 sm:p-3.5 rounded-2xl bg-slate-100 hover:bg-slate-200 dark:bg-white/5 dark:hover:bg-white/10 border border-slate-300 dark:border-gray-800 text-[#0A66C2] dark:text-[#0A66C2] hover:border-blue-500/50 shadow-sm transition-all duration-300 hover:scale-110 active:scale-95 flex items-center justify-center cursor-pointer"
                   aria-label="LinkedIn Profile"
+                  title="LinkedIn Profile"
                 >
-                  <FaLinkedin className="w-4 h-4" />
+                  <FaLinkedin className="w-5 h-5 text-[#0A66C2]" />
                 </a>
               )}
             </div>
