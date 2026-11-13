@@ -510,13 +510,13 @@ export default function GithubSection({
             {hoveredDay && (
               <div
                 role="tooltip"
-                className="fixed z-50 pointer-events-none -translate-x-1/2 -translate-y-full px-2.5 py-1.5 rounded-lg bg-gray-900 border border-gray-700 text-white text-[11px] font-medium shadow-2xl whitespace-nowrap tooltip"
-                style={{ left: hoveredDay.x, top: hoveredDay.y, color: "#ffffff" }}
+                className="github-tooltip tooltip fixed z-50 pointer-events-none -translate-x-1/2 -translate-y-full px-2.5 py-1.5 rounded-lg bg-gray-900 border border-gray-700 text-slate-100 text-[11px] font-medium shadow-2xl whitespace-nowrap"
+                style={{ left: hoveredDay.x, top: hoveredDay.y }}
               >
-                <span className="font-bold text-red-400" style={{ color: "#f87171" }}>
+                <span className="font-bold text-red-400">
                   {hoveredDay.count} {hoveredDay.count === 1 ? "contribution" : "contributions"}
                 </span>{" "}
-                <span className="text-white font-medium" style={{ color: "#ffffff" }}>
+                <span className="github-tooltip-date font-medium text-slate-100">
                   on {formatTooltipDate(hoveredDay.date)}
                 </span>
               </div>

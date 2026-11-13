@@ -223,7 +223,7 @@ export default function ProjectMetricsChart({
                       if (active && payload && payload.length) {
                         const data = payload[0].payload;
                         return (
-                          <div className="bg-[#111827] border border-gray-700/80 rounded-xl p-3 shadow-xl backdrop-blur-md">
+                          <div role="tooltip" className="bg-[#111827] border border-gray-700/80 rounded-xl p-3 shadow-xl backdrop-blur-md tooltip">
                             <div className="flex items-center gap-2 mb-1">
                               <span
                                 className="w-2.5 h-2.5 rounded-full"
@@ -233,7 +233,7 @@ export default function ProjectMetricsChart({
                                 {data.name}
                               </span>
                             </div>
-                            <p className="text-sm font-semibold text-white">
+                            <p className="text-sm font-semibold text-slate-100">
                               {data.value}% of Architecture
                             </p>
                             <p className="text-[11px] text-gray-400 mt-1">
@@ -329,11 +329,11 @@ export default function ProjectMetricsChart({
                       if (active && payload && payload.length) {
                         const data = payload[0].payload;
                         return (
-                          <div className="bg-[#111827] border border-indigo-500/30 rounded-xl p-2.5 shadow-xl text-xs">
+                          <div role="tooltip" className="bg-[#111827] border border-indigo-500/30 rounded-xl p-2.5 shadow-xl text-xs tooltip">
                             <span className="font-bold text-indigo-300">
                               {data.subject}:
                             </span>{" "}
-                            <span className="text-white font-mono font-bold">
+                            <span className="text-slate-100 font-mono font-bold">
                               {data.score} / 100
                             </span>
                           </div>

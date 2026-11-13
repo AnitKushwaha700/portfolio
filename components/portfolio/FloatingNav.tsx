@@ -106,7 +106,7 @@ export default function FloatingNav() {
             <Icon className="w-4 h-4 transition-transform group-hover:scale-110" />
 
             {/* Hover Tooltip */}
-            <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2 px-2.5 py-1 text-[11px] font-medium tracking-wide text-white bg-slate-900/95 border border-slate-700 rounded-md whitespace-nowrap opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-200 shadow-xl">
+            <span role="tooltip" className="tooltip absolute right-full mr-3 top-1/2 -translate-y-1/2 px-2.5 py-1 text-[11px] font-medium tracking-wide text-slate-100 bg-slate-900/95 border border-slate-700 rounded-md whitespace-nowrap opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-200 shadow-xl">
               {item.label}
             </span>
           </a>
