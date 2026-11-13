@@ -253,32 +253,15 @@ html.light #experience div[class*="border-[#0B0F19]"] {
 
 /* Contact section email copy / direct buttons */
 html.light #contact button[class*="bg-[#141624]"],
-html.light #contact a[class*="bg-[#141624]"],
-html.light #contact .card button,
-html.light #contact .card a:not([class*="bg-red-600"]) {
+html.light #contact a[class*="bg-[#141624]"] {
   background-color: #f1f5f9 !important;
-  border-color: #cbd5e1 !important;
+  border-color: #e2e8f0 !important;
   color: #0f172a !important;
 }
 html.light #contact button[class*="bg-[#141624]"]:hover,
-html.light #contact a[class*="bg-[#141624]"]:hover,
-html.light #contact .card button:hover,
-html.light #contact .card a:not([class*="bg-red-600"]):hover {
+html.light #contact a[class*="bg-[#141624]"]:hover {
   background-color: #e2e8f0 !important;
   border-color: rgba(239, 68, 68, 0.5) !important;
-}
-
-/* Contact icons preservation in Light Theme */
-html.light #contact svg.text-red-600,
-html.light #contact .text-red-600 svg,
-html.light #contact div[class*="text-red-600"] svg {
-  color: #dc2626 !important;
-}
-html.light #contact a[aria-label="GitHub Profile"] svg {
-  color: #0f172a !important;
-}
-html.light #contact a[aria-label="LinkedIn Profile"] svg {
-  color: #0a66c2 !important;
 }
 
 /* Footer in Light Mode */
