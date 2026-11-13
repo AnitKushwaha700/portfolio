@@ -30,7 +30,7 @@ declare global {
 
 /**
  * Automatically sanitizes MongoDB connection URIs:
- * 1. Safely percent-encodes special characters in passwords (such as '@' in 'Anikett@7869').
+ * 1. Safely percent-encodes special characters in passwords (such as '@' in 'p@ssword').
  * 2. Ensures a database name and standard options (?retryWrites=true&w=majority) are present if missing.
  */
 function sanitizeMongoUri(uri: string): string {

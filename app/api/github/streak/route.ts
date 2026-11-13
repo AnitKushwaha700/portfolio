@@ -62,10 +62,30 @@ function calculateStreaks(contributions: ContributionDay[]) {
   };
 }
 
+const GITHUB_USERNAME_REGEX = /^[a-zA-Z0-9](?:[a-zA-Z0-9]|-(?=[a-zA-Z0-9])){0,38}$/;
+const GITHUB_YEAR_REGEX = /^(last|\d{4})$/;
+
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
-  const username = searchParams.get("username") || "AnitKushwaha700";
-  const year = searchParams.get("year") || "last";
+  const rawUsername = searchParams.get("username")?.trim() || "AnitKushwaha700";
+  const rawYear = searchParams.get("year")?.trim() || "last";
+
+  if (!GITHUB_USERNAME_REGEX.test(rawUsername)) {
+    return NextResponse.json(
+      { error: "Invalid GitHub username format" },
+      { status: 400 },
+    );
+  }
+
+  if (!GITHUB_YEAR_REGEX.test(rawYear)) {
+    return NextResponse.json(
+      { error: "Invalid year parameter. Must be 'last' or a 4-digit year." },
+      { status: 400 },
+    );
+  }
+
+  const username = rawUsername;
+  const year = rawYear;
 
   try {
     const apiUrl = `https://github-contributions-api.jogruber.de/v4/${encodeURIComponent(
