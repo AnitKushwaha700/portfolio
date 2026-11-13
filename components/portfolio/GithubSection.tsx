@@ -509,13 +509,14 @@ export default function GithubSection({
             {/* Floating Tooltip with Formatted Weekday */}
             {hoveredDay && (
               <div
-                className="github-tooltip fixed z-50 pointer-events-none -translate-x-1/2 -translate-y-full px-2.5 py-1.5 rounded-lg bg-gray-900 border border-gray-700 text-white text-[11px] font-medium shadow-2xl whitespace-nowrap"
-                style={{ left: hoveredDay.x, top: hoveredDay.y, color: '#ffffff', backgroundColor: '#0f172a' }}
+                role="tooltip"
+                className="fixed z-50 pointer-events-none -translate-x-1/2 -translate-y-full px-2.5 py-1.5 rounded-lg bg-gray-900 border border-gray-700 text-white text-[11px] font-medium shadow-2xl whitespace-nowrap tooltip"
+                style={{ left: hoveredDay.x, top: hoveredDay.y, color: "#ffffff" }}
               >
-                <span className="font-bold text-red-400" style={{ color: '#f87171' }}>
+                <span className="font-bold text-red-400" style={{ color: "#f87171" }}>
                   {hoveredDay.count} {hoveredDay.count === 1 ? "contribution" : "contributions"}
                 </span>{" "}
-                <span className="tooltip-date text-white" style={{ color: '#ffffff' }}>
+                <span className="text-white font-medium" style={{ color: "#ffffff" }}>
                   on {formatTooltipDate(hoveredDay.date)}
                 </span>
               </div>
@@ -523,17 +524,17 @@ export default function GithubSection({
           </div>
 
           {/* Bottom Bar: Help Link & Legend */}
-          <div className="flex flex-col sm:flex-row items-center justify-between pt-3 sm:pt-3.5 border-t border-gray-800/60 text-[11px] sm:text-xs text-gray-400 gap-2 sm:gap-3">
+          <div className="flex flex-col sm:flex-row items-center justify-between pt-3 sm:pt-3.5 border-t border-slate-200/80 dark:border-gray-800/60 text-[11px] sm:text-xs text-slate-600 dark:text-gray-400 gap-2 sm:gap-3">
             <Link
               href="https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-github-profile/managing-contribution-settings-on-your-profile"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-red-400 transition-colors text-center sm:text-left"
+              className="hover:text-red-500 dark:hover:text-red-400 transition-colors text-center sm:text-left"
             >
               Learn how we count contributions
             </Link>
 
-            <div className="flex items-center gap-1.5 text-[11px] sm:text-xs text-gray-400">
+            <div className="flex items-center gap-1.5 text-[11px] sm:text-xs text-slate-600 dark:text-gray-400">
               <span>Less</span>
               {[0, 1, 2, 3, 4].map((lvl) => (
                 <div
