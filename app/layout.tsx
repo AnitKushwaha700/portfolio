@@ -4,7 +4,6 @@ import { Suspense } from "react";
 import "./globals.css";
 import InstallPrompt from "@/components/pwa/InstallPrompt";
 import TopProgressBar from "@/components/ui/TopProgressBar";
-import InitialPageLoader from "@/components/ui/InitialPageLoader";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 
 const inter = Inter({
@@ -82,7 +81,6 @@ export default function RootLayout({
           <Suspense fallback={null}>
             <TopProgressBar />
           </Suspense>
-          <InitialPageLoader />
           <main className="flex-1 w-full max-w-full relative overflow-x-hidden">{children}</main>
           <InstallPrompt />
         </ThemeProvider>
