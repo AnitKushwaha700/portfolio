@@ -82,7 +82,11 @@ const PortfolioSettingsSchema: Schema = new Schema(
         default:
           "Build full-stack web applications using JavaScript, TypeScript, React.js, Next.js, Node.js and modern backend technologies.",
       },
-      profileImage: { type: String, default: "/profile/profile.jpg" },
+      profileImage: {
+        type: String,
+        default:
+          "https://res.cloudinary.com/jh3ku9oj/image/upload/v1793375810/digital_portfolio/profile_1793375802441.png",
+      },
       resumeUrl: { type: String, default: "#" },
       showButtons: { type: Boolean, default: true },
       showProfileImage: { type: Boolean, default: true },

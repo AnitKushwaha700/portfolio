@@ -26,7 +26,8 @@ export default function ImageUploadModal({
 }: ImageUploadModalProps) {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>(
-    currentImage || "/profile/profile.jpg",
+    currentImage ||
+    "https://res.cloudinary.com/jh3ku9oj/image/upload/v1793375810/digital_portfolio/profile_1793375802441.png",
   );
   const [customUrl, setCustomUrl] = useState("");
   const [isUploading, setIsUploading] = useState(false);
