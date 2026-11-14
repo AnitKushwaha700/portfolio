@@ -108,7 +108,14 @@ export default async function Home() {
           projects={projects}
         />
       )}
-      {sectionVisibility.about && <About settings={settings} />}
+      {sectionVisibility.about && (
+        <About
+          settings={settings}
+          projects={projects}
+          skills={skills}
+          experiences={experiences}
+        />
+      )}
       {sectionVisibility.skills && <Skills skills={skills} />}
       {sectionVisibility.experience && (
         <ExperienceSection experiences={experiences} />

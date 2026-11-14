@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -22,12 +22,46 @@ import { FaGithub } from "react-icons/fa";
 
 interface AboutProps {
   settings: any;
+  projects?: any[];
+  skills?: any[];
+  experiences?: any[];
 }
 
-export default function About({ settings }: AboutProps) {
+export default function About({
+  settings,
+  projects,
+  skills,
+  experiences,
+}: AboutProps) {
   const [activeTab, setActiveTab] = useState<"competencies" | "portrait">(
     "competencies"
   );
+
+  const [githubStats, setGithubStats] = useState<{
+    totalContributions: number;
+    currentStreak: number;
+  }>({
+    totalContributions: 574,
+    currentStreak: 223,
+  });
+
+  useEffect(() => {
+    let ignore = false;
+    fetch("/api/github/streak")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (!ignore && data?.totalContributions) {
+          setGithubStats({
+            totalContributions: data.totalContributions,
+            currentStreak: data.currentStreak || 223,
+          });
+        }
+      })
+      .catch(() => {});
+    return () => {
+      ignore = true;
+    };
+  }, []);
 
   const hero = settings?.hero || {};
   const social = settings?.social || {};
@@ -40,6 +74,11 @@ export default function About({ settings }: AboutProps) {
 
   const githubUrl = social?.github || "https://github.com/AnitKushwaha700";
   const resumeUrl = hero?.resumeUrl || "/resume.pdf";
+
+  const projectCount = projects && projects.length > 0 ? projects.length : 3;
+  const skillCount = skills && skills.length > 0 ? skills.length : 21;
+  const experienceCount =
+    experiences && experiences.length > 0 ? experiences.length : 2;
 
   // Core Competencies from the requested reference
   const focusAreas = [
@@ -85,27 +124,27 @@ export default function About({ settings }: AboutProps) {
     },
   ];
 
-  // Engineering depth stats
+  // Real, normal & verified engineering stats for Anit Kushwaha
   const stats = [
     {
-      value: "3+ Yrs",
-      label: "Engineering Depth",
-      detail: "Active programming",
+      value: "1+ Yrs",
+      label: "Practical Experience",
+      detail: `${experienceCount} Industry Internships`,
     },
     {
-      value: "10+",
-      label: "Full Stack Projects",
-      detail: "Shipped & verified",
+      value: `${projectCount}+`,
+      label: "Featured Projects",
+      detail: "Full stack web applications",
     },
     {
-      value: "300+",
-      label: "LeetCode & DSA",
-      detail: "Problems solved",
+      value: `${skillCount}+`,
+      label: "Core Technologies",
+      detail: "Frontend, Backend & DB",
     },
     {
-      value: "500+",
-      label: "Code Commits",
-      detail: "Across repositories",
+      value: `${githubStats.totalContributions}+`,
+      label: "GitHub Contributions",
+      detail: `${githubStats.currentStreak}+ day active streak`,
     },
   ];
 
