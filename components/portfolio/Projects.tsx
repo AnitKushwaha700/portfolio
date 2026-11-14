@@ -117,10 +117,10 @@ export default function Projects({ projects }: ProjectsProps) {
   const formattedCounter = `0${activeIndex + 1} / 0${total}`;
 
   return (
-    <section id="projects" className="relative z-10 py-16 sm:py-24 overflow-hidden bg-transparent">
+    <section id="projects" className="relative z-10 py-20 sm:py-28 overflow-hidden bg-transparent">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header: Matching Portfolio's Signature Centered Pattern */}
-        <div className="text-center space-y-2.5 sm:space-y-3 mb-8 sm:mb-10">
+        <div className="text-center space-y-2.5 sm:space-y-3 mb-10 sm:mb-14">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/20 text-xs font-semibold text-red-400 uppercase tracking-wider mb-1">
             <Code2 className="w-3.5 h-3.5" />
             <span>Project Showcase</span>
@@ -140,7 +140,7 @@ export default function Projects({ projects }: ProjectsProps) {
         </div>
 
         {/* Top Control Bar: Status Indicator + Numeric Counter Controls */}
-        <div className="flex items-center justify-between gap-4 mb-8 sm:mb-10 pb-4 border-b border-slate-200/80 dark:border-gray-800/80">
+        <div className="flex items-center justify-between gap-4 mb-10 sm:mb-14 pb-4 border-b border-slate-200/80 dark:border-gray-800/80">
           {/* Status Pill */}
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-100 dark:bg-white/[0.04] border border-slate-200 dark:border-gray-800 text-[11px] sm:text-xs font-semibold text-slate-700 dark:text-gray-300 select-none">
             <span className="relative flex h-2 w-2">
@@ -182,17 +182,17 @@ export default function Projects({ projects }: ProjectsProps) {
           </div>
         </div>
 
-        {/* 3D Interactive Coverflow Card Stage */}
+        {/* 3D Interactive Coverflow Card Stage with Extra Gaps */}
         <div
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
-          className="relative w-full h-[380px] sm:h-[430px] md:h-[480px] flex items-center justify-center select-none overflow-hidden sm:overflow-visible perspective-[1200px]"
+          className="relative w-full h-[390px] sm:h-[440px] md:h-[490px] flex items-center justify-center select-none overflow-hidden sm:overflow-visible perspective-[1200px]"
         >
-          {/* Card Left (Previous) */}
+          {/* Card Left (Previous) - Extra gap from active center card */}
           {total > 1 && (
             <div
               onClick={prevSlide}
-              className="absolute left-1/2 top-1/2 -translate-x-[92%] sm:-translate-x-[95%] -translate-y-1/2 w-[280px] sm:w-[340px] md:w-[380px] h-[320px] sm:h-[370px] md:h-[410px] rounded-3xl bg-slate-100/90 dark:bg-[#0e121f]/90 border border-slate-200 dark:border-gray-800/80 shadow-lg scale-[0.88] opacity-50 hover:opacity-80 transition-all duration-500 cursor-pointer z-10 overflow-hidden transform -rotate-y-[6deg]"
+              className="absolute left-1/2 top-1/2 -translate-x-[115%] sm:-translate-x-[135%] md:-translate-x-[155%] lg:-translate-x-[165%] -translate-y-1/2 w-[280px] sm:w-[340px] md:w-[380px] h-[320px] sm:h-[370px] md:h-[410px] rounded-3xl bg-slate-100/90 dark:bg-[#0e121f]/90 border border-slate-200 dark:border-gray-800/80 shadow-lg scale-[0.88] opacity-50 hover:opacity-80 transition-all duration-500 cursor-pointer z-10 overflow-hidden transform -rotate-y-[6deg]"
             >
               <div className="p-4 sm:p-5 flex items-center justify-between border-b border-slate-200 dark:border-gray-800/60 text-xs text-slate-400 dark:text-gray-500 font-mono">
                 <span>0{((activeIndex - 1 + total) % total) + 1} / {total < 10 ? `0${total}` : total}</span>
@@ -313,11 +313,11 @@ export default function Projects({ projects }: ProjectsProps) {
             </div>
           </motion.div>
 
-          {/* Card Right (Next) */}
+          {/* Card Right (Next) - Extra gap from active center card */}
           {total > 1 && (
             <div
               onClick={nextSlide}
-              className="absolute left-1/2 top-1/2 -translate-x-[8%] sm:-translate-x-[5%] -translate-y-1/2 w-[280px] sm:w-[340px] md:w-[380px] h-[320px] sm:h-[370px] md:h-[410px] rounded-3xl bg-slate-100/90 dark:bg-[#0e121f]/90 border border-slate-200 dark:border-gray-800/80 shadow-lg scale-[0.88] opacity-50 hover:opacity-80 transition-all duration-500 cursor-pointer z-10 overflow-hidden transform rotate-y-[6deg]"
+              className="absolute left-1/2 top-1/2 translate-x-[15%] sm:translate-x-[35%] md:translate-x-[55%] lg:translate-x-[65%] -translate-y-1/2 w-[280px] sm:w-[340px] md:w-[380px] h-[320px] sm:h-[370px] md:h-[410px] rounded-3xl bg-slate-100/90 dark:bg-[#0e121f]/90 border border-slate-200 dark:border-gray-800/80 shadow-lg scale-[0.88] opacity-50 hover:opacity-80 transition-all duration-500 cursor-pointer z-10 overflow-hidden transform rotate-y-[6deg]"
             >
               <div className="p-4 sm:p-5 flex items-center justify-between border-b border-slate-200 dark:border-gray-800/60 text-xs text-slate-400 dark:text-gray-500 font-mono">
                 <span>0{((activeIndex + 1) % total) + 1} / {total < 10 ? `0${total}` : total}</span>
@@ -349,7 +349,7 @@ export default function Projects({ projects }: ProjectsProps) {
 
         {/* Carousel Indicator Dots */}
         {total > 1 && (
-          <div className="flex justify-center items-center gap-2 mt-6 sm:mt-8">
+          <div className="flex justify-center items-center gap-2 mt-8 sm:mt-12">
             {safeProjects.map((_, dotIdx) => (
               <button
                 key={dotIdx}
@@ -379,7 +379,7 @@ export default function Projects({ projects }: ProjectsProps) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.35, ease: "easeOut" }}
-            className="mt-12 sm:mt-16 rounded-3xl bg-white dark:bg-[#0c0e18]/90 border border-slate-200/90 dark:border-gray-800/90 p-6 sm:p-8 md:p-10 shadow-xl backdrop-blur-xl space-y-8"
+            className="mt-16 sm:mt-24 rounded-3xl bg-white dark:bg-[#0c0e18]/90 border border-slate-200/90 dark:border-gray-800/90 p-6 sm:p-8 md:p-10 shadow-xl backdrop-blur-xl space-y-8"
           >
             {/* Deep Dive Header */}
             <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 pb-6 border-b border-slate-200 dark:border-gray-800/80">
