@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import { Suspense } from "react";
 import "./globals.css";
-import InstallPrompt from "@/components/pwa/InstallPrompt";
 import TopProgressBar from "@/components/ui/TopProgressBar";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 
@@ -82,7 +81,6 @@ export default function RootLayout({
             <TopProgressBar />
           </Suspense>
           <main className="flex-1 w-full max-w-full relative overflow-x-hidden">{children}</main>
-          <InstallPrompt />
         </ThemeProvider>
       </body>
     </html>

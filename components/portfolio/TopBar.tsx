@@ -42,7 +42,7 @@ export default function TopBar({ name, resumeUrl, social }: TopBarProps) {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-40 px-3 sm:px-10 lg:px-14 py-2.5 sm:py-6 flex items-center justify-between pointer-events-none w-full max-w-full">
+    <header className="fixed top-0 left-0 right-0 z-40 px-4 sm:px-10 lg:px-14 py-3 sm:py-4 flex items-center justify-between w-full max-w-full bg-white/85 dark:bg-[#07070d]/85 backdrop-blur-md border-b border-slate-200/80 dark:border-gray-800/80 transition-colors duration-300">
       {/* Brand Name on top-left, dynamically controlled by Admin */}
       <div className="pointer-events-auto shrink-0">
         <Link
