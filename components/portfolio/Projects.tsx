@@ -108,6 +108,59 @@ export default function Projects({ projects }: ProjectsProps) {
     };
   }, [isHovered, total, nextSlide]);
 
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const getCardStyle = useCallback(
+    (index: number) => {
+      let diff = index - activeIndex;
+      const half = total / 2;
+      if (diff > half) diff -= total;
+      if (diff < -half) diff += total;
+
+      const isActive = diff === 0;
+      const distance = Math.abs(diff);
+
+      // Exact gap offset matching reference screenshot (165px mobile, 255px desktop)
+      const xOffset = diff * (isMobile ? 165 : 255);
+
+      const scale = isActive
+        ? isMobile ? 1.05 : 1.15
+        : distance === 1
+        ? isMobile ? 0.82 : 0.88
+        : 0.72;
+
+      const opacity = isActive
+        ? 1
+        : distance === 1
+        ? 0.75
+        : distance === 2
+        ? 0.35
+        : 0;
+
+      const filter = isActive ? "grayscale(0%)" : "grayscale(85%) contrast(95%)";
+      const zIndex = 30 - distance * 10;
+      const pointerEvents = distance > 2 ? ("none" as const) : ("auto" as const);
+
+      return {
+        transform: `translate3d(calc(-50% + ${xOffset}px), -50%, 0) scale(${scale})`,
+        opacity,
+        filter,
+        zIndex,
+        pointerEvents,
+      };
+    },
+    [activeIndex, total, isMobile]
+  );
+
   if (!safeProjects || safeProjects.length === 0) return null;
 
   const activeProject = safeProjects[activeIndex];
@@ -140,7 +193,7 @@ export default function Projects({ projects }: ProjectsProps) {
         </div>
 
         {/* Top Control Bar: Status Indicator + Numeric Counter Controls */}
-        <div className="flex items-center justify-between gap-4 mb-10 sm:mb-14 pb-4 border-b border-slate-200/80 dark:border-gray-800/80">
+        <div className="flex items-center justify-between gap-4 mb-8 sm:mb-10 pb-4 border-b border-slate-200/80 dark:border-gray-800/80">
           {/* Status Pill */}
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-100 dark:bg-white/[0.04] border border-slate-200 dark:border-gray-800 text-[11px] sm:text-xs font-semibold text-slate-700 dark:text-gray-300 select-none">
             <span className="relative flex h-2 w-2">
@@ -182,174 +235,141 @@ export default function Projects({ projects }: ProjectsProps) {
           </div>
         </div>
 
-        {/* 3D Interactive Coverflow Card Stage with Generous Project Gaps */}
+        {/* 3D Interactive Coverflow Card Stage with requested gap spacing */}
         <div
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
-          className="relative w-full h-[400px] sm:h-[450px] md:h-[500px] flex items-center justify-center select-none overflow-hidden sm:overflow-visible perspective-[1200px]"
+          className="relative mt-4 sm:mt-6 h-[380px] sm:h-[450px] md:h-[490px] w-full max-w-full overflow-hidden flex items-center justify-center select-none"
         >
-          {/* Card Left (Previous) - Wide gap from active center card */}
-          {total > 1 && (
-            <div
-              onClick={prevSlide}
-              className="absolute left-1/2 top-1/2 -translate-x-[120%] sm:-translate-x-[150%] md:-translate-x-[175%] lg:-translate-x-[185%] -translate-y-1/2 w-[280px] sm:w-[340px] md:w-[380px] h-[320px] sm:h-[370px] md:h-[410px] rounded-3xl bg-slate-100/90 dark:bg-[#0e121f]/90 border border-slate-200 dark:border-gray-800/80 shadow-lg scale-[0.88] opacity-50 hover:opacity-80 transition-all duration-500 cursor-pointer z-10 overflow-hidden transform -rotate-y-[6deg]"
-            >
-              <div className="p-4 sm:p-5 flex items-center justify-between border-b border-slate-200 dark:border-gray-800/60 text-xs text-slate-400 dark:text-gray-500 font-mono">
-                <span>0{((activeIndex - 1 + total) % total) + 1} / {total < 10 ? `0${total}` : total}</span>
-                <span className="text-4xl font-black opacity-10 absolute right-4 top-2 select-none">
-                  0{((activeIndex - 1 + total) % total) + 1}
-                </span>
-              </div>
-              <div className="relative w-full h-[65%] flex items-center justify-center p-4">
-                {prevProject.image ? (
-                  <Image
-                    src={formatImageUrl(prevProject.image)}
-                    alt={prevProject.title}
-                    fill
-                    sizes="400px"
-                    className="object-cover rounded-2xl opacity-75"
+          {safeProjects.map((project, idx) => {
+            const isActive = idx === activeIndex;
+            const style = getCardStyle(idx);
+            const projectNumber = String(idx + 1).padStart(2, "0");
+            const projectYear = project.year || "2024";
+
+            return (
+              <div
+                key={project._id || project.id || `project-${idx}`}
+                onClick={() => setActiveIndex(idx)}
+                style={style}
+                className="absolute left-1/2 top-1/2 w-[220px] h-[335px] sm:w-[280px] sm:h-[410px] select-none rounded-3xl border transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] cursor-pointer overflow-hidden flex flex-col justify-between shadow-2xl group border-slate-200/90 dark:border-gray-800 bg-white/95 dark:bg-[#0c0e18]/95"
+                aria-label={`Project: ${project.title}`}
+              >
+                {/* Background Grid Pattern & Ambience */}
+                <div className="absolute inset-0 size-full pointer-events-none overflow-hidden">
+                  {/* Dot Grid */}
+                  <div
+                    className="absolute inset-0 opacity-15 dark:opacity-20"
+                    style={{
+                      backgroundImage: "radial-gradient(currentColor 1px, transparent 1px)",
+                      backgroundSize: "18px 18px",
+                    }}
                   />
-                ) : (
-                  <ProjectGraphicFallback slug={prevProject.slug || ""} title={prevProject.title} />
-                )}
-              </div>
-              <div className="p-4 bg-slate-200/50 dark:bg-black/30 backdrop-blur-md">
-                <div className="font-bold text-sm text-slate-700 dark:text-gray-300 truncate">
-                  {prevProject.title}
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Card Center (Active Showcase) */}
-          <motion.div
-            key={`active-${activeProject._id || activeProject.title}`}
-            initial={{ opacity: 0.85, scale: 0.96 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.45, ease: "easeOut" }}
-            className="relative w-[300px] sm:w-[380px] md:w-[440px] h-[340px] sm:h-[400px] md:h-[450px] rounded-3xl bg-white dark:bg-[#0e1222] border-2 border-slate-300 dark:border-red-500/30 shadow-2xl shadow-red-500/10 z-30 overflow-hidden flex flex-col justify-between"
-          >
-            {/* Window Chrome / Frame Header */}
-            <div className="p-3 sm:p-4 border-b border-slate-200 dark:border-gray-800 flex items-center justify-between bg-slate-50/80 dark:bg-black/40 backdrop-blur-md">
-              {/* Three Window Dots */}
-              <div className="flex items-center gap-1.5">
-                <div className="w-2.5 h-2.5 rounded-full bg-red-400/80" />
-                <div className="w-2.5 h-2.5 rounded-full bg-amber-400/80" />
-                <div className="w-2.5 h-2.5 rounded-full bg-rose-400/80" />
-              </div>
-
-              {/* Tag / Tech Preview */}
-              <div className="text-[11px] font-mono font-semibold text-slate-500 dark:text-gray-400 truncate max-w-[170px]">
-                {activeProject.technologies?.slice(0, 2).join(" · ") || "Full-Stack Web App"}
-              </div>
-
-              {/* Active Badge */}
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-red-500/10 border border-red-500/30 text-[10px] font-bold text-red-500 dark:text-red-400 uppercase tracking-wider">
-                <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
-                <span>Active</span>
-              </div>
-            </div>
-
-            {/* Central Media Canvas */}
-            <div className="relative flex-1 w-full flex items-center justify-center p-3 sm:p-4 bg-slate-50 dark:bg-black/20 overflow-hidden">
-              {/* Watermark Background Number */}
-              <div className="absolute right-4 top-2 text-7xl font-black text-slate-900/[0.04] dark:text-white/[0.04] select-none pointer-events-none font-mono">
-                0{activeIndex + 1}
-              </div>
-
-              {activeProject.image ? (
-                <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-inner border border-slate-200 dark:border-gray-800">
-                  <Image
-                    src={formatImageUrl(activeProject.image)}
-                    alt={activeProject.title}
-                    fill
-                    sizes="500px"
-                    className="object-cover object-top hover:scale-105 transition-transform duration-700"
-                    priority
+                  {/* Top Ambient Gradient Glow */}
+                  <div
+                    className="absolute top-0 inset-x-0 h-32 opacity-25"
+                    style={{
+                      background: `linear-gradient(180deg, ${
+                        isActive ? "rgba(239, 68, 68, 0.45)" : "rgba(239, 68, 68, 0.15)"
+                      }, transparent)`,
+                    }}
                   />
-                </div>
-              ) : (
-                <div className="relative w-full h-full rounded-2xl overflow-hidden border border-slate-200 dark:border-gray-800">
-                  <ProjectGraphicFallback slug={activeProject.slug || ""} title={activeProject.title} />
-                </div>
-              )}
-            </div>
+                  {/* Watermark Number */}
+                  <div className="absolute right-4 top-3 font-serif text-7xl font-bold tracking-tight text-slate-900/[0.06] dark:text-white/[0.05] select-none">
+                    {projectNumber}
+                  </div>
 
-            {/* Bottom Caption Pill Box */}
-            <div className="p-3 sm:p-4 bg-white/95 dark:bg-[#0c0f1c]/95 border-t border-slate-200 dark:border-gray-800/80 backdrop-blur-md flex items-center justify-between gap-3">
-              <div className="min-w-0 flex-1">
-                <h3 className="text-sm sm:text-base font-black text-slate-900 dark:text-white truncate">
-                  {activeProject.title}
-                </h3>
-                <p className="text-[11px] text-slate-500 dark:text-gray-400 truncate">
-                  {activeProject.description}
-                </p>
-              </div>
+                  {/* Floating Spec Box / Image Preview */}
+                  {project.image ? (
+                    <div className="absolute inset-x-4 top-14 h-36 sm:h-44 rounded-xl overflow-hidden border border-slate-200/90 dark:border-gray-800/80 shadow-xs bg-slate-100 dark:bg-black/50">
+                      <Image
+                        src={formatImageUrl(project.image)}
+                        alt={project.title}
+                        fill
+                        sizes="320px"
+                        className="object-cover object-top hover:scale-105 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+                      <div className="absolute bottom-2 left-2 right-2 flex items-center justify-between text-white font-mono text-[9px] px-1">
+                        <span className="truncate">{project.category || "Full-Stack Web App"}</span>
+                        <span>{projectYear}</span>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="absolute inset-x-4 top-14 rounded-xl border border-slate-200/90 dark:border-gray-800/80 bg-slate-50/90 dark:bg-black/40 p-3 shadow-xs backdrop-blur-xs">
+                      <div className="flex items-center gap-1.5 border-b border-slate-200/80 dark:border-gray-800/80 pb-2">
+                        <span className="w-2 h-2 rounded-full bg-red-500/80" />
+                        <span className="w-2 h-2 rounded-full bg-rose-500/60" />
+                        <span className="w-2 h-2 rounded-full bg-amber-500/60" />
+                        <span className="ml-auto font-mono text-[9px] text-slate-500 dark:text-gray-400">
+                          {projectYear}
+                        </span>
+                      </div>
+                      <div className="mt-2 space-y-1 font-mono text-[10px]">
+                        <p className="flex items-center gap-1 text-red-500 dark:text-red-400 font-semibold truncate">
+                          <Code2 className="w-3 h-3 shrink-0" />
+                          <span>{project.category || "Full-Stack Web App"}</span>
+                        </p>
+                        <p className="truncate text-slate-600 dark:text-gray-300">
+                          {project.technologies?.slice(0, 3).join(" · ") || "React · Node.js · Express"}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                </div>
 
-              <div className="flex items-center gap-1.5 shrink-0">
-                {activeProject.githubUrl && (
-                  <Link
-                    href={sanitizeUrl(activeProject.githubUrl)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="GitHub Repository"
-                    className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-white/5 dark:hover:bg-white/10 text-slate-700 dark:text-gray-300 hover:text-slate-900 dark:hover:text-white transition-all hover:scale-110 active:scale-95"
-                  >
-                    <FaGithub className="w-3.5 h-3.5" />
-                  </Link>
-                )}
-                {activeProject.liveUrl && (
-                  <Link
-                    href={sanitizeUrl(activeProject.liveUrl)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Live Demo"
-                    className="p-2 rounded-xl bg-gradient-to-r from-red-600 via-rose-600 to-amber-600 text-white hover:opacity-90 transition-all hover:scale-110 active:scale-95 shadow-sm shadow-red-500/20"
-                  >
-                    <ExternalLink className="w-3.5 h-3.5" />
-                  </Link>
-                )}
-              </div>
-            </div>
-          </motion.div>
+                {/* Top Header Pills */}
+                <div className="relative z-10 p-3 sm:p-4 flex items-center justify-between">
+                  <span className="rounded-full border border-slate-200 dark:border-gray-800 bg-white/80 dark:bg-black/60 px-2.5 py-0.5 font-mono text-[9px] sm:text-[10px] font-semibold text-slate-800 dark:text-gray-200 backdrop-blur-md">
+                    {projectNumber} / {projectYear}
+                  </span>
 
-          {/* Card Right (Next) - Wide gap from active center card */}
-          {total > 1 && (
-            <div
-              onClick={nextSlide}
-              className="absolute left-1/2 top-1/2 translate-x-[20%] sm:translate-x-[50%] md:translate-x-[75%] lg:translate-x-[85%] -translate-y-1/2 w-[280px] sm:w-[340px] md:w-[380px] h-[320px] sm:h-[370px] md:h-[410px] rounded-3xl bg-slate-100/90 dark:bg-[#0e121f]/90 border border-slate-200 dark:border-gray-800/80 shadow-lg scale-[0.88] opacity-50 hover:opacity-80 transition-all duration-500 cursor-pointer z-10 overflow-hidden transform rotate-y-[6deg]"
-            >
-              <div className="p-4 sm:p-5 flex items-center justify-between border-b border-slate-200 dark:border-gray-800/60 text-xs text-slate-400 dark:text-gray-500 font-mono">
-                <span>0{((activeIndex + 1) % total) + 1} / {total < 10 ? `0${total}` : total}</span>
-                <span className="text-4xl font-black opacity-10 absolute right-4 top-2 select-none">
-                  0{((activeIndex + 1) % total) + 1}
-                </span>
-              </div>
-              <div className="relative w-full h-[65%] flex items-center justify-center p-4">
-                {nextProject.image ? (
-                  <Image
-                    src={formatImageUrl(nextProject.image)}
-                    alt={nextProject.title}
-                    fill
-                    sizes="400px"
-                    className="object-cover rounded-2xl opacity-75"
-                  />
-                ) : (
-                  <ProjectGraphicFallback slug={nextProject.slug || ""} title={nextProject.title} />
-                )}
-              </div>
-              <div className="p-4 bg-slate-200/50 dark:bg-black/30 backdrop-blur-md">
-                <div className="font-bold text-sm text-slate-700 dark:text-gray-300 truncate">
-                  {nextProject.title}
+                  {isActive && (
+                    <span className="inline-flex items-center gap-1.5 rounded-full border border-red-500/40 bg-red-500/10 px-2.5 py-0.5 font-mono text-[9px] sm:text-[10px] font-semibold text-red-500 dark:text-red-400 backdrop-blur-md">
+                      <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
+                      <span>Active</span>
+                    </span>
+                  )}
+                </div>
+
+                {/* Bottom Dark Capsule Pill (Matching screenshot) */}
+                <div className="relative z-10 m-3 rounded-2xl border border-white/10 bg-[#141620]/95 dark:bg-[#070913]/95 p-3.5 sm:p-4 text-white shadow-xl backdrop-blur-md space-y-2">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="min-w-0 flex-1">
+                      <h4 className="font-bold text-[13px] sm:text-[15px] text-white truncate leading-snug">
+                        {project.title}
+                      </h4>
+                      <p className="font-mono text-[10px] text-zinc-300 dark:text-gray-400 truncate mt-0.5">
+                        {project.subtitle || project.description || "Production Full-Stack Application"}
+                      </p>
+                    </div>
+                    <span className="grid size-6 shrink-0 place-items-center rounded-md bg-white/10 font-mono text-[9px] font-bold text-red-400">
+                      AK
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-1.5 overflow-hidden pt-1">
+                    {(project.technologies || ["React", "Node.js"]).slice(0, 2).map((tech: string) => (
+                      <span
+                        key={tech}
+                        className="rounded-md bg-white/10 px-2 py-0.5 font-mono text-[8px] text-zinc-200"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                    <span className="ml-auto font-mono text-[8px] text-zinc-400 truncate">
+                      {project.category?.split(" ")[0] || "Web"}
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
+            );
+          })}
         </div>
 
         {/* Carousel Indicator Dots */}
         {total > 1 && (
-          <div className="flex justify-center items-center gap-2 mt-8 sm:mt-10">
+          <div className="flex justify-center items-center gap-2 mt-6 sm:mt-8">
             {safeProjects.map((_, dotIdx) => (
               <button
                 key={dotIdx}
@@ -379,7 +399,7 @@ export default function Projects({ projects }: ProjectsProps) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.35, ease: "easeOut" }}
-            className="mt-16 sm:mt-20 rounded-3xl bg-white dark:bg-[#0c0e18]/90 border border-slate-200/90 dark:border-gray-800/90 p-6 sm:p-8 md:p-10 shadow-xl backdrop-blur-xl space-y-8"
+            className="mt-12 sm:mt-16 rounded-3xl bg-white dark:bg-[#0c0e18]/90 border border-slate-200/90 dark:border-gray-800/90 p-6 sm:p-8 md:p-10 shadow-xl backdrop-blur-xl space-y-8"
           >
             {/* Deep Dive Header */}
             <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 pb-6 border-b border-slate-200 dark:border-gray-800/80">
